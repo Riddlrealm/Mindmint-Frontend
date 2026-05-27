@@ -1,4 +1,13 @@
 import { jwtDecode } from "jwt-decode";
+import { clearSession } from "../session/clearSession";
+
+interface GoogleJwtPayload {
+  email: string;
+  name: string;
+  picture: string;
+  sub: string;
+  exp: number;
+}
 
 export interface GoogleUser {
   email: string;
@@ -15,13 +24,14 @@ export interface AuthServiceResponse {
 
 export const GoogleAuthService = {
   async handleSignIn(credential: string): Promise<AuthServiceResponse> {
+
     try {
       if (!credential) {
         return { success: false, error: "No ID token received from Google." };
       }
 
-      const decoded: any = jwtDecode(credential);
-      
+      const decoded = jwtDecode<GoogleJwtPayload>(credential);
+
       // Security Check: Is the token expired?
       const currentTime = Date.now() / 1000;
       if (decoded.exp < currentTime) {
@@ -37,6 +47,7 @@ export const GoogleAuthService = {
           id: decoded.sub
         }
       };
+
     } catch (error) {
       console.error("JWT Decode Error:", error);
       return { success: false, error: "Failed to process the login token. Please try again." };
@@ -44,7 +55,7 @@ export const GoogleAuthService = {
   },
 
   logout() {
-    localStorage.removeItem("quest_user");
+    clearSession();
     window.location.reload();
   }
 };

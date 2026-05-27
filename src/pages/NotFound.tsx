@@ -26,7 +26,7 @@ export default function NotFound() {
             className="px-6 py-3 text-sm font-semibold rounded-md cursor-pointer transition-colors bg-slate-800 text-slate-200 hover:bg-slate-700"
             onClick={() => navigate(-1)}
           >
-            ⬅️ Go Back
+            ⬅Go Back
           </button>
 
           {/* Action 2: Return Home */}
@@ -34,7 +34,7 @@ export default function NotFound() {
             className="px-6 py-3 text-sm font-semibold rounded-md cursor-pointer transition-colors bg-blue-600 text-white hover:bg-blue-500"
             onClick={() => navigate("/")}
           >
-            🏠 Return Home
+          Return Home
           </button>
         </div>
       </div>

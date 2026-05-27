@@ -16,6 +16,9 @@ import Navbar from "./components/Navbar";
 import GameplayNavbar from "./components/GameplayNavbar";
 import { routeConfig } from "./config/routes";
 
+// Import the new 404 Recovery view
+import NotFound from "./pages/NotFound";
+
 const Home = () => (
   <>
     <HeroSection />

@@ -16,6 +16,9 @@ import HowToPlay from "./components/HowToPlay";
 import { GetStarted } from "./pages/GetStarted";
 import Navbar from "./components/Navbar";
 
+// Import the new 404 Recovery view
+import NotFound from "./pages/NotFound";
+
 const Home = () => (
   <>
     <HeroSection />
@@ -43,6 +46,11 @@ function App() {
         <Route path="/settings" element={<AccountSettings />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/get-started" element={<GetStarted />} />
+
+        {/* CRITICAL FIX #83: Wildcard Route Catch-All Fallback
+          Matches any undefined routes or dead links and handles recovery 
+        */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

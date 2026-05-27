@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import arrowLeft from '../assets/arrow-left.svg';
 import ProfileForm from './ProfileForm';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { setNotificationSchedule } from '../features/preferences/preferencesSlice';
+import { DeleteAccountModal } from './modals/DeleteAccountModal';
+import { useThemeStore } from '../theme/themeStore';
+import { usePreparedView } from '../hooks/usePreparedView';
+import { SurfaceState } from './state/SurfaceState';
 
 interface ToggleProps {
-    label: string;
-    checked: boolean;
-    onChange: (checked: boolean) => void;
-    id: string;
+    label?: string;
+    checked?: boolean;
+    onChange?: (checked: boolean) => void;
+    id?: string;
 }
 
-const Toggle = ({ label, checked, onChange, id }: ToggleProps) => (
+const Toggle = ({ label, checked, onChange=() => {}, id }: ToggleProps) => (
     <div className="flex items-center justify-between py-4">
         <label htmlFor={id} className="text-[#9CA3AF] text-lg cursor-pointer select-none">
             {label}
@@ -45,43 +52,86 @@ interface ReminderState {
 }
 
 interface SettingsState {
-    theme: ThemeOption;
     notifications: NotificationState;
     reminder: ReminderState;
     volume: number;
 }
 
+const defaultSettingsState: SettingsState = {
+    notifications: { schedule: 'Daily' },
+    reminder: { day: 'Monday', time: '14:30' },
+    volume: 37,
+};
+
+const readStoredSettings = (): SettingsState => {
+    const saved = localStorage.getItem('quest_account_settings');
+
+    if (!saved) {
+        return defaultSettingsState;
+    }
+
+    const parsed = JSON.parse(saved) as Partial<SettingsState>;
+
+    return {
+        notifications: {
+            schedule: parsed.notifications?.schedule ?? defaultSettingsState.notifications.schedule,
+        },
+        reminder: {
+            day: parsed.reminder?.day ?? defaultSettingsState.reminder.day,
+            time: parsed.reminder?.time ?? defaultSettingsState.reminder.time,
+        },
+        volume: typeof parsed.volume === 'number' ? parsed.volume : defaultSettingsState.volume,
+    };
+};
+
 const AccountSettings = () => {
-    const [state, setState] = useState<SettingsState>(() => {
-        const saved = localStorage.getItem('quest_account_settings');
-        if (saved) {
-            try {
-                return JSON.parse(saved);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-        return {
-            theme: 'dark',
-            notifications: { schedule: 'Daily' },
-            reminder: { day: 'Monday', time: '14:30' },
-            volume: 37,
-        };
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const notificationSchedule = useAppSelector((s) => s.preferences.notificationSchedule);
+
+    const themePreference = useThemeStore((s) => s.preference);
+    const setThemePreference = useThemeStore((s) => s.setPreference);
+
+    const { data: preparedState, errorMessage, retry, status } = usePreparedView({
+        load: readStoredSettings,
     });
 
+    const [state, setState] = useState<SettingsState>(defaultSettingsState);
+
     const [activeTab, setActiveTab] = useState<TabOption>('Account');
+  
+    
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem('quest_account_settings', JSON.stringify(state));
-        if (state.theme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else if (state.theme === 'light') {
-            document.documentElement.classList.remove('dark');
+        if (preparedState) {
+            setState(preparedState);
         }
-    }, [state]);
+    }, [preparedState]);
+
+    useEffect(() => {
+        if (preparedState) {
+            const schedule = preparedState.notifications.schedule;
+
+            if (
+                schedule === 'Daily' ||
+                schedule === 'Weekly' ||
+                schedule === 'Monthly' ||
+                schedule === 'Never'
+            ) {
+                dispatch(setNotificationSchedule(schedule));
+            }
+        }
+    }, [dispatch, preparedState]);
+
+    useEffect(() => {
+        if (status === 'ready') {
+            localStorage.setItem('quest_account_settings', JSON.stringify(state));
+        }
+    }, [state, status]);
 
     const handleThemeChange = (newTheme: ThemeOption) => {
-        setState((prev) => ({ ...prev, theme: newTheme }));
+        setThemePreference(newTheme);
     };
 
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,8 +139,47 @@ const AccountSettings = () => {
     };
 
     const handleNotificationChange = (val: string) => {
+        if (val === 'Daily' || val === 'Weekly' || val === 'Monthly' || val === 'Never') {
+            dispatch(setNotificationSchedule(val));
+        }
+
         setState((prev) => ({ ...prev, notifications: { ...prev.notifications, schedule: val } }));
     };
+
+    if (status === 'loading') {
+        return (
+            <div className="min-h-screen bg-[#141516] text-white font-prompt p-6 md:p-12 lg:px-24">
+                <header className="mb-12">
+                    <h1 className="text-3xl md:text-4xl text-[#0A746D]">Setting</h1>
+                </header>
+                <SurfaceState
+                    status="loading"
+                    title="Loading settings"
+                    description="We’re preparing your account preferences, theme choices, and gameplay controls."
+                />
+            </div>
+        );
+    }
+
+    if (status === 'error') {
+        return (
+            <div className="min-h-screen bg-[#141516] text-white font-prompt p-6 md:p-12 lg:px-24">
+                <header className="mb-12">
+                    <h1 className="text-3xl md:text-4xl text-[#0A746D]">Setting</h1>
+                </header>
+                <SurfaceState
+                    status="error"
+                    title="Settings could not be loaded"
+                    description={
+                        errorMessage ??
+                        'We hit a problem while preparing your settings. Retry to restore this page.'
+                    }
+                    actionLabel="Retry"
+                    onAction={retry}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#141516] text-white font-prompt p-6 md:p-12 lg:px-24">
@@ -118,7 +207,7 @@ const AccountSettings = () => {
                         </nav>
                     </div>
 
-                    <button className="hidden md:flex items-center gap-2 text-[#9CA3AF] hover:text-white transition-colors group">
+                    <button onClick={() => navigate(-1)} className="hidden md:flex items-center gap-2 text-[#9CA3AF] hover:text-white transition-colors group">
                         <img src={arrowLeft} alt="arrow-left" className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
                         <span className="text-lg tracking-wide">BACK</span>
                     </button>
@@ -137,10 +226,98 @@ const AccountSettings = () => {
 
                 {/* GAME SETTING TAB (Placeholder) */}
                 {activeTab === 'Game setting' && (
-                    <section className="text-center py-20">
-                        <h2 className="text-2xl font-medium mb-6 text-[#CFFDED]">Game Settings</h2>
-                        <p className="text-[#9CA3AF]">Game specific settings will appear here.</p>
-                    </section>
+                   <section aria-labelledby="game-setting">
+                            <h2 id="notification-heading" className="text-2xl font-medium mb-6 text-[#CFFDED]">Gameplay</h2>
+
+                            <div className="space-y-2">
+                                <div className="text-[#717171] text-lg block">Preferred Game Mode</div>
+                                <div className="relative group">
+                                    <select
+                                        className="w-full bg-transparent border-b border-[#353536] text-[#9CA3AF] py-3 pr-10 appearance-none focus:outline-none focus:border-[#F9BC07] cursor-pointer"
+                                    >
+                                        <option value="classic-mode">Classic Mode</option>
+                                        <option value="Mode">Mode</option>
+                                        <option value="Mode">Mode</option>
+                                    
+                                    </select>
+                                    <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 text-[#717171] pointer-events-none group-hover:text-[#F9BC07] transition-colors" />
+                                </div>
+                            </div>
+
+                        <div className="text-[#717171] text-lg pt-4">Difficulty Level</div>
+                        <div className='pt-3 flex gap-3'>
+                            <button className="border border-[#353536] rounded-md w-full h-12 mb-5 text-[#717171]">Easy</button>
+                            <button className="border border-[#353536] bg-[#F9BC07] rounded-md w-full h-12 mb-5 text-[#141516]">Medium</button>
+                            <button className="border border-[#353536] rounded-md w-full h-12 mb-5 text-[#717171]">Hard</button>
+                        </div>
+
+                        <hr className="border-[#353536] my-7" />
+                        <div>
+                            <h2 id="notification-heading" className="text-2xl font-medium mb-4 text-[#CFFDED]">Timer</h2>
+                            <div className="text-[#717171] text-sm">Control the in-game countdown clock behaviour</div>
+
+                            <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">  Enable Countdown Timer</span>
+                                     <Toggle checked/>
+                            </div>
+                            <div className="pt-1 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Time Warning Alert (30 s remaining)</span>
+                                     <Toggle checked/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Lifelines</h2>
+                            <div className="text-[#717171] text-sm">Toggle which lifelines are available during a game session</div>
+
+                            <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Call a Friend</span>
+                                     <Toggle checked/>
+                            </div>
+                            <div className="pt-1 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">50 : 50 (remove two wrong options)</span>
+                                     <Toggle checked/>
+                            </div>
+                            <div className="pt-1 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Ask the Audience</span>
+                                     <Toggle checked/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Display</h2>
+                            <div className="text-[#717171] text-sm">Adjust how the gameplay UI behaves and looks</div>
+
+                            <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Auto-advance after correct answer</span>
+                                     <Toggle checked/>
+                            </div>
+                            <div className="pt-1 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Show answer feedback (green / red highlight)</span>
+                                     <Toggle checked={false} />
+                            </div>
+                            <div className="text-[#717171] text-lg pt-8">Animation Speed</div>
+                            <div className='pt-3 flex gap-3'>
+                                <button className="border border-[#353536] rounded-md w-full h-12 mb-5 text-[#717171]">Slow</button>
+                                <button className="border border-[#353536] bg-[#F9BC07] rounded-md w-full h-12 mb-5 text-[#141516]">Normal</button>
+                                <button className="border border-[#353536] rounded-md w-full h-12 mb-5 text-[#717171]">Fast</button>
+                        </div>
+                        </div>
+                        <div>
+                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Accessibility</h2>
+                            <div className="text-[#717171] text-sm">Make the game more comfortable to play</div>
+
+                            <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Reduce Motion</span>
+                                     <Toggle checked/>
+                            </div>
+                            <div className="pt-1 flex items-center justify-between border-b border-[#353536] pb-1">
+                                <span className="text-[#9CA3AF] text-lg">Large Text Mode</span>
+                                     <Toggle checked={false} />
+                            </div>
+                        </div>
+                        <button className="border border-[#353536] rounded-md w-full md:w-50  h-12 mt-15 text-[#717171]">Reset to Defaults</button>
+                        </section>
                 )}
 
                 {/* ACCOUNT TAB (Existing Content) */}
@@ -153,7 +330,7 @@ const AccountSettings = () => {
                                 <label className="text-[#717171] text-lg block">Notification Schedule</label>
                                 <div className="relative group">
                                     <select
-                                        value={state.notifications.schedule}
+                                        value={state.notifications.schedule || notificationSchedule}
                                         onChange={(e) => handleNotificationChange(e.target.value)}
                                         className="w-full bg-transparent border-b border-[#353536] text-[#9CA3AF] py-3 pr-10 appearance-none focus:outline-none focus:border-[#F9BC07] cursor-pointer"
                                     >
@@ -200,19 +377,19 @@ const AccountSettings = () => {
                                 <Toggle
                                     id="theme-dark"
                                     label="Dark Mode"
-                                    checked={state.theme === 'dark'}
+                                    checked={themePreference === 'dark'}
                                     onChange={() => handleThemeChange('dark')}
                                 />
                                 <Toggle
                                     id="theme-light"
                                     label="Light Mode"
-                                    checked={state.theme === 'light'}
+                                    checked={themePreference === 'light'}
                                     onChange={() => handleThemeChange('light')}
                                 />
                                 <Toggle
                                     id="theme-system"
                                     label="System Mode"
-                                    checked={state.theme === 'system'}
+                                    checked={themePreference === 'system'}
                                     onChange={() => handleThemeChange('system')}
                                 />
                             </div>
@@ -222,7 +399,7 @@ const AccountSettings = () => {
                             <h2 id="sound-heading" className="text-2xl font-medium mb-8 text-[#CFFDED]">Sound</h2>
 
                             <div className="flex items-center gap-6 pb-4">
-                                <label htmlFor="volume-slider" className="text-[#9CA3AF] text-lg min-w-[60px]">Volume</label>
+                                <label htmlFor="volume-slider" className="text-[#9CA3AF] text-lg min-w-15">Volume</label>
 
                                 <div className="relative flex-1 h-1.5 bg-[#353536] rounded-full group cursor-pointer">
                                     <div
@@ -291,17 +468,15 @@ const AccountSettings = () => {
 
                         <button
                             className="bg-[#E94B25] hover:bg-[#D43A15] text-white font-semibold py-3 px-8 rounded-md transition-colors focus:ring-2 focus:ring-[#E94B25] focus:ring-offset-2 focus:ring-offset-[#141516]"
-                            onClick={() => {
-                                if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                                    console.log('Account deletion initiated');
-                                }
-                            }}
+                            onClick={()=> setOpenModal(true)}
                         >
                             Delete
                         </button>
                     </div>
                 </>
             )}
+
+            <DeleteAccountModal setCloseModal={setOpenModal} openModal={openModal} />
         </div>
     );
 };

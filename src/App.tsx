@@ -15,6 +15,7 @@ import ToastViewport from "./components/toasts/ToastViewport";
 import Navbar from "./components/Navbar";
 import GameplayNavbar from "./components/GameplayNavbar";
 import { routeConfig } from "./config/routes";
+import NotFound from "./pages/NotFound";
 
 const Home = () => (
   <>
@@ -42,7 +43,7 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
-          {routeConfig
+           {routeConfig
             .filter((route) => route.isLazy && route.component)
             .map((route) => (
               <Route
@@ -50,14 +51,10 @@ function App() {
                 path={route.path}
                 element={<route.component />}
               />
-            ))}
+            ))} 
           <Route
             path="*"
-            element={
-              <div className="h-screen flex items-center justify-center text-white text-2xl">
-                404 — Page Not Found
-              </div>
-            }
+            element={<NotFound />}
           />
         </Routes>
       </Suspense>

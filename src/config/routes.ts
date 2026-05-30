@@ -70,5 +70,5 @@ export const getNavItems = (navType: 'landing' | 'main' | 'both' = 'both') =>
   routeConfig.filter(
     (route) =>
       route.showInNav &&
-      (navType === 'both' || route.navType === navType || route.navType === 'both')
+      (navType === 'both' || route.navType === navType)
   );

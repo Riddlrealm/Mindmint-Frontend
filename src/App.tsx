@@ -17,9 +17,6 @@ import GameplayNavbar from "./components/GameplayNavbar";
 import { routeConfig } from "./config/routes";
 import NotFound from "./pages/NotFound";
 
-// Import your custom Tailwind 404 Recovery view
-import NotFound from "./pages/NotFound";
-
 const Home = () => (
   <>
     <HeroSection />
@@ -81,19 +78,6 @@ function App() {
             fails to match any route listed above.
           */}
           <Route path="*" element={<NotFound />} />
-           {routeConfig
-            .filter((route) => route.isLazy && route.component)
-            .map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))} 
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
         </Routes>
       </Suspense>
     </>

@@ -4,7 +4,7 @@ import "./App.css";
 import ToastViewport from "./components/toasts/ToastViewport";
 import Navbar from "./components/Navbar";
 import GameplayNavbar from "./components/GameplayNavbar";
-import { routeConfig, Home } from "./config/routes";
+import { routeConfig } from "./config/routes";
 import NotFound from "./pages/NotFound";
 
 function App() {

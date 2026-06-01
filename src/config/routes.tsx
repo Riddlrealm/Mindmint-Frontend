@@ -1,4 +1,4 @@
-import React, { lazy, type ComponentType } from 'react';
+import { lazy, type ComponentType } from 'react';
 import HeroSection from "../components/HeroSection";
 import HowToPlay from "../components/HowToPlay";
 import WhyShouldYouPlaySection from "../components/why-should-you-play-section";

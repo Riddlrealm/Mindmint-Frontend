@@ -4,7 +4,7 @@ import "./App.css";
 import ToastViewport from "./components/toasts/ToastViewport";
 import Navbar from "./components/Navbar";
 import GameplayNavbar from "./components/GameplayNavbar";
-import { routeConfig } from "./config/routes";
+import { routeConfig, Home } from "./config/routes";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -39,46 +39,9 @@ function App() {
               />
             );
           })}
-          {/* Static Core Route */}
-          <Route path="/" element={<Home />} />
 
-          {/* Dynamic Lazy-Loaded Configurations with Type Guarding */}
-          {routeConfig
-            .filter((route) => route.isLazy && "component" in route)
-            .map((route) => {
-              const routeWithComponent = route as Extract<
-                (typeof routeConfig)[number],
-                { component: any }
-              >;
-              const LazyComponent = routeWithComponent.component;
-
-              return (
-                <Route
-                  key={routeWithComponent.path}
-                  path={routeWithComponent.path}
-                  element={<LazyComponent />}
-                />
-              );
-            })}
-
-          {/* CRITICAL FIX: The native universal catch-all route.
-            React Router will automatically hit this whenever 'currentPath' 
-            fails to match any route listed above.
-          */}
+          {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFound />} />
-           {routeConfig
-            .filter((route) => route.isLazy && route.component)
-            .map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))} 
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
         </Routes>
       </Suspense>
     </>

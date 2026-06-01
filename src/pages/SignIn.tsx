@@ -20,7 +20,7 @@ export default function SignInPage() {
     try {
       if (response.credential) {
         const result = await GoogleAuthService.handleSignIn(response.credential);
-        
+
         if (result.success && result.user) {
           setUser(result.user);
         } else {
@@ -39,6 +39,11 @@ export default function SignInPage() {
     setIsLoading(false);
   };
 
+  const handleSignOut = () => {
+    setUser(null);
+    GoogleAuthService.logout();
+  };
+
   return (
     <div style={containerStyle}>
       <GoogleOAuthProvider clientId={clientId}>
@@ -48,7 +53,7 @@ export default function SignInPage() {
               <img src={user.picture} alt="Profile" referrerPolicy="no-referrer" style={profileImgStyle} />
               <h2>Welcome, {user.name}</h2>
               <p style={{ color: '#666' }}>{user.email}</p>
-              <button onClick={() => setUser(null)} style={buttonStyle}>Sign Out</button>
+              <button onClick={handleSignOut} style={buttonStyle}>Sign Out</button>
             </div>
           ) : (
             <div>
@@ -62,8 +67,8 @@ export default function SignInPage() {
               )}
 
               <div style={{ opacity: isLoading ? 0.5 : 1, pointerEvents: isLoading ? 'none' : 'auto' }}>
-                <GoogleLogin 
-                  onSuccess={onSuccess} 
+                <GoogleLogin
+                  onSuccess={onSuccess}
                   onError={onError}
                   useOneTap={true}
                   use_fedcm_for_prompt={false}
@@ -80,8 +85,6 @@ export default function SignInPage() {
     </div>
   );
 }
-
-// --- Simple Inline Styles for Clarity ---
 
 const containerStyle: React.CSSProperties = {
   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',

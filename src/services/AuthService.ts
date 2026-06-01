@@ -1,4 +1,5 @@
 import { clearSession } from "../session/clearSession";
+import { setSession } from "../session/setSession";
 
 const API_BASE = import.meta.env.VITE_BACKEND_API_URL || "";
 
@@ -51,11 +52,8 @@ export const AuthService = {
         };
       }
 
-      if (data.token) {
-        localStorage.setItem("quest_token", data.token);
-      }
-      if (data.user) {
-        localStorage.setItem("quest_user", JSON.stringify(data.user));
+      if (data.token && data.user) {
+        setSession({ token: data.token, user: data.user });
       }
 
       return {

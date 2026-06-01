@@ -11,8 +11,6 @@ const LOCAL_STORAGE_KEYS = [
   'quest_notification_schedule',
 ] as const;
 
-const SESSION_STORAGE_KEYS = ['quest_token', 'quest_user'] as const;
-
 const removeKeys = (
   storage: Pick<Storage, 'removeItem'> | undefined,
   keys: readonly string[],
@@ -29,11 +27,8 @@ const removeKeys = (
 export function clearSession() {
   const localStorageRef =
     typeof window !== 'undefined' ? window.localStorage : undefined;
-  const sessionStorageRef =
-    typeof window !== 'undefined' ? window.sessionStorage : undefined;
 
   removeKeys(localStorageRef, LOCAL_STORAGE_KEYS);
-  removeKeys(sessionStorageRef, SESSION_STORAGE_KEYS);
 
   queryClient.clear();
   store.dispatch(resetPreferences());

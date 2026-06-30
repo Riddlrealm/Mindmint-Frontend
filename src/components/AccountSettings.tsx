@@ -227,7 +227,7 @@ const AccountSettings = () => {
                 {/* GAME SETTING TAB (Placeholder) */}
                 {activeTab === 'Game setting' && (
                    <section aria-labelledby="game-setting">
-                            <h2 id="notification-heading" className="text-2xl font-medium mb-6 text-[#CFFDED]">Gameplay</h2>
+                            <h2 id="gameplay-heading" className="text-2xl font-medium mb-6 text-[#CFFDED]">Gameplay</h2>
 
                             <div className="space-y-2">
                                 <div className="text-[#717171] text-lg block">Preferred Game Mode</div>
@@ -253,7 +253,7 @@ const AccountSettings = () => {
 
                         <hr className="border-[#353536] my-7" />
                         <div>
-                            <h2 id="notification-heading" className="text-2xl font-medium mb-4 text-[#CFFDED]">Timer</h2>
+                            <h2 id="timer-heading" className="text-2xl font-medium mb-4 text-[#CFFDED]">Timer</h2>
                             <div className="text-[#717171] text-sm">Control the in-game countdown clock behaviour</div>
 
                             <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
@@ -267,7 +267,7 @@ const AccountSettings = () => {
                         </div>
 
                         <div>
-                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Lifelines</h2>
+                            <h2 id="lifelines-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Lifelines</h2>
                             <div className="text-[#717171] text-sm">Toggle which lifelines are available during a game session</div>
 
                             <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
@@ -285,7 +285,7 @@ const AccountSettings = () => {
                         </div>
 
                         <div>
-                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Display</h2>
+                            <h2 id="display-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Display</h2>
                             <div className="text-[#717171] text-sm">Adjust how the gameplay UI behaves and looks</div>
 
                             <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
@@ -304,7 +304,7 @@ const AccountSettings = () => {
                         </div>
                         </div>
                         <div>
-                            <h2 id="notification-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Accessibility</h2>
+                            <h2 id="accessibility-heading" className="pt-10 text-2xl font-medium mb-4 text-[#CFFDED]">Accessibility</h2>
                             <div className="text-[#717171] text-sm">Make the game more comfortable to play</div>
 
                             <div className="pt-8 flex items-center justify-between border-b border-[#353536] pb-1">
@@ -393,7 +393,7 @@ const AccountSettings = () => {
                                     onChange={() => handleThemeChange('system')}
                                 />
                             </div>
-                        </section>
+                        section>
 
                         <section aria-labelledby="sound-heading">
                             <h2 id="sound-heading" className="text-2xl font-medium mb-8 text-[#CFFDED]">Sound</h2>

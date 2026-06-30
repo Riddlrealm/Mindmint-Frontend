@@ -73,4 +73,38 @@ export const AuthService = {
   logout() {
     clearSession();
   },
+
+  async deleteAccount(): Promise<{ success: boolean; error?: string }> {
+    try {
+      const token = localStorage.getItem("quest_token");
+      if (!token) {
+        return { success: false, error: "No token found." };
+      }
+
+      const res = await fetch(`${API_BASE}/auth/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return {
+          success: false,
+          error: data?.message || data?.error || "Failed to delete account.",
+        };
+      }
+
+      clearSession();
+      return { success: true };
+    } catch (err) {
+      console.error("AuthService.deleteAccount error:", err);
+      return {
+        success: false,
+        error: "Network error. Please check your connection and try again.",
+      };
+    }
+  },
 };

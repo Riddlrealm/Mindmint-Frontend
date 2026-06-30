@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearSession } from "../../session/clearSession";
 import { useDialogFocusTrap } from "../../hooks/useDialogFocusTrap";
+import { AuthService } from "../../services/AuthService";
+import { useToast } from "../../hooks/useToast";
 
 const MODAL_BTN_CLASS =
   "bg-transparent! cursor-pointer hover:scale-105 transition-all rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01100F]";
@@ -17,13 +18,20 @@ export function DeleteAccountModal({
 }: DeleteAccountModalProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   useDialogFocusTrap(modalRef, openModal, () => setCloseModal(false));
 
-  const handleDeleteAccount = () => {
-    clearSession();
-    setCloseModal(false);
-    navigate("/sign-in", { replace: true });
+  const handleDeleteAccount = async () => {
+    const { success, error } = await AuthService.deleteAccount();
+
+    if (success) {
+      addToast("Account deleted successfully.", "success");
+      setCloseModal(false);
+      navigate("/sign-in", { replace: true });
+    } else {
+      addToast(error || "Failed to delete account.", "error");
+    }
   };
 
   return (
@@ -49,7 +57,7 @@ export function DeleteAccountModal({
 
                 <img
                   src="/images/image-modal.svg"
-                  alt=""
+                  alt="Illustration of a person deleting an account"
                   width={221}
                   height={191}
                 />
@@ -74,7 +82,7 @@ export function DeleteAccountModal({
                   >
                     <img
                       src="/images/button-no.svg"
-                      alt="No, keep my account"
+                      alt="Cancel"
                       width={208}
                       height={68}
                     />

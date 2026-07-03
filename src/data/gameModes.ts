@@ -9,7 +9,7 @@ export interface GameModeDetail {
   instructions: string[]
 }
 
-export const SORTED_GAME_MODES: GameModeDetail[] = [
+export const gameModes: GameModeDetail[] = [
   {
     id: 'classic',
     name: 'Classic Mode',
@@ -171,5 +171,3 @@ export const SORTED_GAME_MODES: GameModeDetail[] = [
     ],
   },
 ];
-
-export const gameModes: GameModeDetail[] = SORTED_GAME_MODES;

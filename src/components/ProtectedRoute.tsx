@@ -1,7 +1,11 @@
 import { Navigate, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
+import { STORAGE_KEYS } from "../session/storageKeys";
 
-const TOKEN_KEY = "mindmint_token";
+interface ProtectedRouteProps {
+  children: ReactNode;
+  redirectTo?: string;
+}
 
 const readToken = (): string | null => {
   if (typeof window === "undefined") {
@@ -9,15 +13,10 @@ const readToken = (): string | null => {
   }
 
   return (
-    window.localStorage.getItem(TOKEN_KEY) ||
-    window.sessionStorage.getItem(TOKEN_KEY)
+    window.localStorage.getItem(STORAGE_KEYS.TOKEN) ||
+    window.sessionStorage.getItem(STORAGE_KEYS.TOKEN)
   );
 };
-
-interface ProtectedRouteProps {
-  children: ReactNode;
-  redirectTo?: string;
-}
 
 const ProtectedRoute = ({
   children,

@@ -1,25 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { STORAGE_KEYS } from '../../session/storageKeys';
 
 export type NotificationSchedule = 'Daily' | 'Weekly' | 'Monthly' | 'Never';
+
+const VALID_SCHEDULES: readonly NotificationSchedule[] = ['Daily', 'Weekly', 'Monthly', 'Never'];
 
 interface PreferencesState {
   notificationSchedule: NotificationSchedule;
 }
 
-const ACCOUNT_SETTINGS_STORAGE_KEY = 'mindmint_account_settings';
-const NOTIFICATION_SCHEDULE_STORAGE_KEY = 'mindmint_notification_schedule';
 const DEFAULT_NOTIFICATION_SCHEDULE: NotificationSchedule = 'Daily';
 
 const readScheduleFromAccountSettings = (): NotificationSchedule | null => {
-  const raw = localStorage.getItem(ACCOUNT_SETTINGS_STORAGE_KEY);
+  const raw = localStorage.getItem(STORAGE_KEYS.ACCOUNT_SETTINGS);
   if (!raw) return null;
 
   try {
     const parsed = JSON.parse(raw) as { notifications?: { schedule?: unknown } };
     const schedule = parsed?.notifications?.schedule;
-    if (schedule === 'Daily' || schedule === 'Weekly' || schedule === 'Monthly' || schedule === 'Never') {
-      return schedule;
+    if (VALID_SCHEDULES.includes(schedule as NotificationSchedule)) {
+      return schedule as NotificationSchedule;
     }
   } catch {
     return null;
@@ -29,9 +30,9 @@ const readScheduleFromAccountSettings = (): NotificationSchedule | null => {
 };
 
 const readScheduleFromLocalStorage = (): NotificationSchedule | null => {
-  const schedule = localStorage.getItem(NOTIFICATION_SCHEDULE_STORAGE_KEY);
-  if (schedule === 'Daily' || schedule === 'Weekly' || schedule === 'Monthly' || schedule === 'Never') {
-    return schedule;
+  const schedule = localStorage.getItem(STORAGE_KEYS.NOTIFICATION_SCHEDULE);
+  if (VALID_SCHEDULES.includes(schedule as NotificationSchedule)) {
+    return schedule as NotificationSchedule;
   }
   return null;
 };
@@ -50,7 +51,7 @@ export const preferencesSlice = createSlice({
   reducers: {
     setNotificationSchedule: (state, action: PayloadAction<NotificationSchedule>) => {
       state.notificationSchedule = action.payload;
-      localStorage.setItem(NOTIFICATION_SCHEDULE_STORAGE_KEY, action.payload);
+      localStorage.setItem(STORAGE_KEYS.NOTIFICATION_SCHEDULE, action.payload);
     },
     resetPreferences: (state) => {
       state.notificationSchedule = DEFAULT_NOTIFICATION_SCHEDULE;

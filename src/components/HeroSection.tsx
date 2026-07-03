@@ -12,8 +12,8 @@ const HeroSection = () => {
       {/* Background-image  */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none bg-cover bg-center"
-        style={{ backgroundImage: `url(${laptop})` }}
-        aria-hidden="true"
+        style={{ backgroundImage: `url(${laptop})`, backgroundColor: 'transparent' }}
+        role="presentation"
       ></div>
 
       {/* content-container */}

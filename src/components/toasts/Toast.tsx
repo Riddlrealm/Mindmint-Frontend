@@ -20,6 +20,7 @@ export default function Toast({ notification, onDismiss }: ToastProps) {
     <div
       role={notification.type === 'error' ? 'alert' : 'status'}
       aria-live={notification.type === 'error' ? 'assertive' : 'polite'}
+      aria-atomic="true"
       className={`w-[min(420px,calc(100vw-2rem))] bg-[#1B1C1D] text-white shadow-xl rounded-lg ${styles.border}`}
     >
       <div className="p-4 flex gap-3 items-start">

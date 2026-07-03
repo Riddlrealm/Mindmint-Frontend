@@ -32,8 +32,8 @@ const NavBar = () => {
           >
             <img src="/logo.svg" alt="" className="object-contain" />
             <h1 className="font-prompt font-bold text-[#CFFDED] text-[31px]">
-              <span className="sr-only">LogiQuest home</span>
-              <span aria-hidden="true">LogiQuest</span>
+              <span className="sr-only">Mindmint home</span>
+              <span aria-hidden="true">Mindmint</span>
             </h1>
           </Link>
 

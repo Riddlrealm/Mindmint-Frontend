@@ -1,8 +1,8 @@
-import logiquest from "../assets/logiquest.png";
+import mindmintLogo from "../assets/mindmint.png";
 import { Linkedin, Twitter, Github } from "lucide-react";
 
-export default function LogiQuestFooter() {
-    // Placeholder for logo - replace with: import logiquest from '../assets/logiquest.png'; height='100'%3E%3Crect fill='%2306b6d4' width='100' height='100'/%3E%3Ctext x='50' y='50' font-size='40' text-anchor='middle' dy='.3em' fill='white'%3ELQ%3C/text%3E%3C/svg%3E";
+export default function MindmintFooter() {
+    // Mindmint logo
 
     return (
         <footer className="bg-black text-white">
@@ -14,8 +14,8 @@ export default function LogiQuestFooter() {
                         <div className="flex items-center space-x-3">
                             {/* Logo Image */}
                             <img
-                                src={logiquest}
-                                alt="LogiQuest Logo"
+                                src={mindmintLogo}
+                                alt="Mindmint Logo"
                                 className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain"
                             />
                         </div>
@@ -79,7 +79,7 @@ export default function LogiQuestFooter() {
                                     href="#"
                                     className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
                                 >
-                                    Themed Quests
+                                    Themed Challenges
                                 </a>
                             </li>
                             <li className="flex items-start">
@@ -299,7 +299,7 @@ export default function LogiQuestFooter() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                         <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left order-2 sm:order-1">
-                            Copyright © 2025 LogiQuest All Rights Reserved
+                            Copyright © 2025 Mindmint All Rights Reserved
                         </p>
                         <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6 order-1 sm:order-2">
                             <a

@@ -12,6 +12,18 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 const navItemClass =
   'hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]';
 
+interface GroupProps {
+  icon: string;
+  label: string;
+}
+
+const Group = ({ icon, label }: GroupProps) => (
+  <div className="flex items-center gap-2">
+    <span className="text-sm font-medium">{label}</span>
+    <img src={icon} alt="" className="w-10 h-10" aria-hidden="true" />
+  </div>
+);
+
 const GameHeader = () => {
   const navigate = useNavigate();
   return (
@@ -42,25 +54,10 @@ const GameHeader = () => {
       </nav>
 
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2" aria-hidden="true">
-          <span className="text-[#d4af37] text-sm font-medium">Coins</span>
-          <img src={coinsIcon} alt="" className="w-10 h-10" />
-        </div>
-
-        <div className="flex items-center gap-2" aria-hidden="true">
-          <span className="text-[#d4af37] text-sm font-medium whitespace-nowrap">Call a friend</span>
-          <img src={callAFriend} alt="" className="w-10 h-10" />
-        </div>
-
-        <div className="flex items-center gap-2" aria-hidden="true">
-          <span className="text-sm font-medium">50 : 50</span>
-          <img src={fiftyFifty} alt="" className="w-10 h-10" />
-        </div>
-
-        <div className="flex items-center gap-2" aria-hidden="true">
-          <span className="text-[#d4af37] text-sm font-medium">Audience</span>
-          <img src={audience} alt="" className="w-10 h-10" />
-        </div>
+        <Group label="Coins" icon={coinsIcon} />
+        <Group label="Call a friend" icon={callAFriend} />
+        <Group label="50 : 50" icon={fiftyFifty} />
+        <Group label="Audience" icon={audience} />
 
         <div className="flex items-center gap-4 ml-4 border-l border-gray-700 pl-4">
           <button

@@ -1,4 +1,5 @@
 import type { AuthUser } from '../services/AuthService';
+import { STORAGE_KEYS } from './storageKeys';
 
 export interface SessionPayload {
   token: string;
@@ -7,6 +8,6 @@ export interface SessionPayload {
 
 export function setSession({ token, user }: SessionPayload): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem('mindmint_token', token);
-  localStorage.setItem('mindmint_user', JSON.stringify(user));
+  window.localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+  window.localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
 }

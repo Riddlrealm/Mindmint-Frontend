@@ -2,14 +2,9 @@ import { clearNotifications } from '../features/notifications/notificationsSlice
 import { resetPreferences } from '../features/preferences/preferencesSlice';
 import { queryClient } from '../lib/queryClient';
 import { store } from '../store';
+import { STORAGE_KEYS } from './storageKeys';
 
-const LOCAL_STORAGE_KEYS = [
-  'mindmint_token',
-  'mindmint_user',
-  'mindmint_user_profile',
-  'mindmint_account_settings',
-  'mindmint_notification_schedule',
-] as const;
+const SESSION_KEYS: readonly string[] = Object.values(STORAGE_KEYS);
 
 const removeKeys = (
   storage: Pick<Storage, 'removeItem'> | undefined,
@@ -24,11 +19,18 @@ const removeKeys = (
   }
 };
 
+/**
+ * Clears every cached Mindmint session artifact:
+ * - auth token and user record from localStorage
+ * - stored profile and account settings
+ * - in-memory notification queue and preferences
+ * - in-memory react-query cache
+ */
 export function clearSession() {
   const localStorageRef =
     typeof window !== 'undefined' ? window.localStorage : undefined;
 
-  removeKeys(localStorageRef, LOCAL_STORAGE_KEYS);
+  removeKeys(localStorageRef, SESSION_KEYS);
 
   queryClient.clear();
   store.dispatch(resetPreferences());

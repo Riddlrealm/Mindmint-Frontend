@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Check } from "lucide-react";
+import { STORAGE_KEYS } from "../session/storageKeys";
 
 interface ProfileData {
   fullname: string;
@@ -12,7 +13,7 @@ interface ProfileData {
 
 type FieldErrors = Partial<Record<keyof ProfileData, string>>;
 
-const STORAGE_KEY = "mindmint_user_profile";
+const STORAGE_KEY = STORAGE_KEYS.USER_PROFILE;
 
 function loadPersistedProfile(): ProfileData {
   const defaults: ProfileData = {
@@ -35,7 +36,7 @@ function loadPersistedProfile(): ProfileData {
   }
 
   try {
-    const authUser = localStorage.getItem("mindmint_user");
+    const authUser = localStorage.getItem(STORAGE_KEYS.USER);
     if (authUser) {
       const user = JSON.parse(authUser) as { name?: string; email?: string };
       return {

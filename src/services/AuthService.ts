@@ -1,5 +1,6 @@
 import { clearSession } from "../session/clearSession";
 import { setSession } from "../session/setSession";
+import { STORAGE_KEYS } from "../session/storageKeys";
 
 const API_BASE = import.meta.env.VITE_BACKEND_API_URL || "";
 
@@ -78,7 +79,7 @@ export const AuthService = {
 
   async deleteAccount(): Promise<{ success: boolean; error?: string }> {
     try {
-      const token = localStorage.getItem("mindmint_token");
+      const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
       if (!token) {
         return { success: false, error: "No token found." };
       }

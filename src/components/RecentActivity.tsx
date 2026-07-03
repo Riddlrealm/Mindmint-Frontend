@@ -102,7 +102,7 @@ export const RecentActivity = ({ activities }: Props) => {
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.groupSize}</span>
-                  <span className="text-yellow-500">🏆</span>
+                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
                 </div>
 
                 {/* Row 2: Participants */}
@@ -111,7 +111,7 @@ export const RecentActivity = ({ activities }: Props) => {
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.participants}</span>
-                  <span className="text-yellow-500">🏆</span>
+                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
                 </div>
 
                 {/* Row 3: Coins & Earnings */}
@@ -120,7 +120,7 @@ export const RecentActivity = ({ activities }: Props) => {
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.earnings}</span>
-                  <span className="text-yellow-500">🏆</span>
+                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
                 </div>
               </div>
             </div>

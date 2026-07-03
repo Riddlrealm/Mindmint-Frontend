@@ -24,7 +24,6 @@ const GameModesList = ({ allModes, selectedModeId, onModeSelect }: GameModesList
               <button
                 type='button'
                 aria-current={isActive ? 'page' : undefined}
-                aria-pressed={isActive}
                 onClick={() => onModeSelect(mode.id)}
                 className={`w-full border rounded-sm px-3 py-2 text-left leading-tight cursor-pointer transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#43AD6C]/70 ${
                   isActive

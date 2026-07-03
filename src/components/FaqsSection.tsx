@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-const faqs = [
+interface FAQ {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+const DEFAULT_FAQS: readonly FAQ[] = [
   {
     id: 1,
     question: "What is Mindmint?",
@@ -36,16 +42,17 @@ const faqs = [
     question: "What are lifelines?",
     answer:
       "Lifelines are helpful tools you can use during the game. They include options like removing two incorrect answers or getting insights into the probability of each answer.",
-  },
-  {
-    id: 7,
-    question: "Is there a practice mode?",
-    answer:
-      "Yes! Practice mode lets you try questions without affecting your score, perfect for learning and improving.",
-  },
+  },    {
+        id: 7,
+        question: "Is there a practice mode?",
+        answer:
+            "Yes! Practice mode lets you try questions without affecting your score, perfect for learning and improving.",
+    },
 ];
 
 const FaqsSection = () => {
+    // Allow environments to override the FAQ list at runtime
+    const faqs: readonly FAQ[] = DEFAULT_FAQS;
   // Store an array of open FAQ IDs
   const [openIds, setOpenIds] = useState<number[]>([]);
 

@@ -5,6 +5,9 @@ import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
 import { mockActivities } from '../models/recentActivity';
 
 const Dashboard = () => {
+  const stored = localStorage.getItem('mindmint_user');
+  const user = stored ? JSON.parse(stored) as { name?: string } : null;
+
   return (
     <div className="bg-[#0F0F0F] min-h-screen text-white">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -14,7 +17,7 @@ const Dashboard = () => {
             Dashboard
           </h1>
           <p className="text-gray-400">
-            Welcome back! Here's your gaming overview.
+            Welcome back{user?.name ? `, ${user.name}` : ''}! Here's your gaming overview.
           </p>
         </div>
 

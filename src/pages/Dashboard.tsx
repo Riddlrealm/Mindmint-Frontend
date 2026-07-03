@@ -1,3 +1,4 @@
+import { Trophy, Gamepad2, TrendingUp, Star } from 'lucide-react';
 import { RecentActivity } from '../components/RecentActivity';
 import Leaderboard from '../components/Leaderboard';
 import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
@@ -26,7 +27,7 @@ const Dashboard = () => {
                 <p className="text-2xl font-bold text-[#CFFDED]">1,250</p>
               </div>
               <div className="w-12 h-12 bg-[#F9BC07] rounded-full flex items-center justify-center">
-                <span className="text-black font-bold">P</span>
+                <Trophy className="w-6 h-6 text-black" />
               </div>
             </div>
           </div>
@@ -38,7 +39,7 @@ const Dashboard = () => {
                 <p className="text-2xl font-bold text-[#CFFDED]">42</p>
               </div>
               <div className="w-12 h-12 bg-[#F9BC07] rounded-full flex items-center justify-center">
-                <span className="text-black font-bold">G</span>
+                <Gamepad2 className="w-6 h-6 text-black" />
               </div>
             </div>
           </div>
@@ -50,7 +51,7 @@ const Dashboard = () => {
                 <p className="text-2xl font-bold text-[#CFFDED]">15</p>
               </div>
               <div className="w-12 h-12 bg-[#F9BC07] rounded-full flex items-center justify-center">
-                <span className="text-black font-bold">L</span>
+                <TrendingUp className="w-6 h-6 text-black" />
               </div>
             </div>
           </div>
@@ -62,7 +63,7 @@ const Dashboard = () => {
                 <p className="text-2xl font-bold text-[#CFFDED]">8</p>
               </div>
               <div className="w-12 h-12 bg-[#F9BC07] rounded-full flex items-center justify-center">
-                <span className="text-black font-bold">A</span>
+                <Star className="w-6 h-6 text-black" />
               </div>
             </div>
           </div>

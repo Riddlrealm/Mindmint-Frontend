@@ -24,7 +24,6 @@ const Question: React.FC<QuestionProps> = ({
         <span
           className="text-xl font-bold text-yellow-400 font-mono"
           aria-live="polite"
-          aria-label={`Time remaining: ${formatTime(timeLeft)}`}
         >
           {formatTime(timeLeft)}
         </span>

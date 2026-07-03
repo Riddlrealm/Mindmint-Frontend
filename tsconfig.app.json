@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    /* Pass the exact string your TypeScript compiler requested */
-    "ignoreDeprecations": "5.0",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
@@ -26,7 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    /* Path mapping - Clean & Modern, No baseUrl needed! */
+    /* Path mapping */
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

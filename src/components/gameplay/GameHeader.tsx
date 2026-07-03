@@ -2,7 +2,7 @@ import coinsIcon from '../../assets/images/pngs/coins.png';
 import callAFriend from '../../assets/images/pngs/call_a_friend.png';
 import fiftyFifty from '../../assets/images/pngs/fifty_fifty.png';
 import door from '../../assets/images/pngs/door.png';
-import logiQuest from '../../assets/images/pngs/logiquest_logo.png';
+import mindmintLogo from '../../assets/images/pngs/mindmint_logo.png';
 import audience from '../../assets/images/pngs/audience.png';
 import bell from '../../assets/images/pngs/bell.png';
 import avatar from '../../assets/images/pngs/avatar.png';
@@ -20,11 +20,11 @@ const GameHeader = () => {
         className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
       >
         <div className="w-10 h-10">
-          <img src={logiQuest} alt="" className="w-full h-full" />
+          <img src={mindmintLogo} alt="" className="w-full h-full" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white group-hover:text-yellow-500 transition-colors">
-          <span className="sr-only">LogiQuest home</span>
-          <span aria-hidden="true">LogiQuest</span>
+          <span className="sr-only">Mindmint home</span>
+          <span aria-hidden="true">Mindmint</span>
         </h1>
       </Link>
 

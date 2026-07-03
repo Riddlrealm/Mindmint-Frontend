@@ -15,11 +15,10 @@ const Gameplay: React.FC = () => {
     return MOCK_GAME_DATA.find(q => q.level === currentLevel) || MOCK_GAME_DATA[0];
   }, [currentLevel]);
 
-  const handleLevelSelection = (level: number) => {
-    console.log(`Level selected: ${level}`);
+  const handleLevelSelection = (_level: number) => {
   };
 
-  const handleAnswerSubmit = (_letter: string, isCorrect: boolean, timeUsed: number) => {
+  const handleAnswerSubmit = (_letter: string, isCorrect: boolean, _timeUsed: number) => {
     if (isCorrect) {
       if (currentLevel < 15) {
         setCurrentLevel(prev => prev + 1);
@@ -34,7 +33,6 @@ const Gameplay: React.FC = () => {
       }
     } else {
       setIsGameOver(true);
-      console.log(`Game Over at Level ${currentLevel}. Time used: ${timeUsed}s`);
     }
   };
 

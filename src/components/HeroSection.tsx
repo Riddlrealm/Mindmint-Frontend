@@ -22,10 +22,10 @@ const HeroSection = () => {
         <div className="text-white space-y-8 text-center lg:text-left lg:w-[45%] z-20">
           <div className="space-y-4">
             <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-tight tracking-tight">
-              Welcome to LogiQuest!
+              Welcome to Mindmint!
             </h1>
             <p className="text-md md:text-xl text-gray-200 font-normal max-w-sm mx-auto lg:mx-0 leading-relaxed">
-              Are you ready to challenge your logical thinking and reasoning
+              Are you ready to challenge your mind and reasoning
               skills?
               <br />
               Join the Adventure!
@@ -40,8 +40,8 @@ const HeroSection = () => {
           </Link>
 
           <p className="text-sm text-gray-300 font-normal max-w-md mx-auto lg:mx-0">
-            Dive into a fun and engaging world of cause-and-effect puzzles and
-            logical challenges!
+            Dive into a fun and engaging world of puzzles and
+            challenges!
           </p>
 
         </div>
@@ -51,7 +51,7 @@ const HeroSection = () => {
           <div className="relative w-[130%] h-auto transform rotate-[-10deg] scale-110 drop-shadow-[0_50px_50px_rgba(0,0,0,0.5)]">
             <img
               src={hero}
-              alt="LogiQuest Gameplay on Laptop"
+              alt="Mindmint Gameplay on Laptop"
               className="w-full h-auto object-contain"
             />
           </div>

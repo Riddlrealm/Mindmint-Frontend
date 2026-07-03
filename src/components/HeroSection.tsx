@@ -24,7 +24,7 @@ const HeroSection = () => {
             <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-tight tracking-tight">
               Welcome to Mindmint!
             </h1>
-            <p className="text-md md:text-xl text-gray-200 font-normal max-w-sm mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-base md:text-xl text-gray-200 font-normal max-w-sm mx-auto lg:mx-0 leading-relaxed">
               Are you ready to challenge your mind and reasoning
               skills?
               <br />

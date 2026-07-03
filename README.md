@@ -2,11 +2,6 @@
 
 The frontend application for **Mindmint**, a thought-provoking logic puzzle game built on the Stellar blockchain. This React-based interface provides an engaging and intuitive user experience for players to solve puzzles and earn on-chain rewards.
 
-## 🎨 Design
-
-View the complete design system and UI mockups on Figma:
-[Mindmint Design - Figma](https://www.figma.com/design/c2pahgpn5ZQX0UHXD9q9Ot/Mindmint?node-id=358-997&p=f&t=0HEwchnHZ2n7Dt8L-0)
-
 ## 🚀 Features
 
 * **Interactive Puzzle Interface**: Smooth, responsive UI for solving logic puzzles

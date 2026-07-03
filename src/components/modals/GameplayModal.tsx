@@ -37,8 +37,8 @@ export function GameplayModal({
   useDialogFocusTrap(modalRef, dialogOpen, () => setCloseModal(true));
 
   const titleId = "gameplay-modal-title";
-  const titleText = isExit
-    ? "Do you want to quite?"
+  const titleText =    isExit
+    ? "Do you want to quit?"
     : isCongratulation
       ? "Congratulation"
       : "Time out";

@@ -47,6 +47,7 @@ export default function Store() {
                 <p className="text-gray-500 text-sm mb-4">coins</p>
                 <button
                   type="button"
+                  aria-label={`Buy ${pack.name} — ${pack.coins} coins for ${pack.price}`}
                   className="w-full py-2.5 bg-[#ca8a04] hover:bg-[#b07803] text-white font-bold rounded-lg transition-colors"
                 >
                   {pack.price}
@@ -72,6 +73,7 @@ export default function Store() {
                 <p className="text-gray-400 text-sm mb-4">{item.description}</p>
                 <button
                   type="button"
+                  aria-label={`Buy ${item.name} lifeline for ${item.price}`}
                   className="w-full py-2.5 border border-[#F9BC07] text-[#F9BC07] hover:bg-[#F9BC07] hover:text-black font-bold rounded-lg transition-colors"
                 >
                   {item.price}

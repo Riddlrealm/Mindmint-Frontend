@@ -29,7 +29,7 @@ const WhyShouldYouPlaySection = () => {
               &nbsp; &bull; Flexible Play Options:
             </strong>
             Whether you want to practice at your own pace or compete against
-            others, LogiQuest has a mode for you.
+            others, Mindmint has a mode for you.
           </p>
         </div>
       </div>

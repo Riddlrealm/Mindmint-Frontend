@@ -97,30 +97,30 @@ export const RecentActivity = ({ activities }: Props) => {
               {/* Stats Grid */}
               <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm text-gray-400">
                 {/* Row 1: Group Size */}
-                <div className="flex items-center gap-2" role="img" aria-label="Group size">
-                  <img src="/call.svg" alt="call" className="w-4" />
+                <div className="flex items-center gap-2" role="img" aria-label={`${activity.groupSize} players in the group`}>
+                  <img src="/call.svg" alt="" aria-hidden="true" className="w-4" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.groupSize}</span>
-                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
+                  <img src="/coins.svg" alt="" aria-hidden="true" className="w-4 h-4 opacity-70" />
                 </div>
 
                 {/* Row 2: Participants */}
-                <div className="flex items-center gap-2" role="img" aria-label="Participants">
-                  <img src="/audience.svg" alt="audience" className="w-4" />
+                <div className="flex items-center gap-2" role="img" aria-label={`${activity.participants} total participants`}>
+                  <img src="/audience.svg" alt="" aria-hidden="true" className="w-4" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.participants}</span>
-                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
+                  <img src="/coins.svg" alt="" aria-hidden="true" className="w-4 h-4 opacity-70" />
                 </div>
 
                 {/* Row 3: Coins & Earnings */}
-                <div className="flex items-center gap-1" role="img" aria-label="Earnings">
-                  <img src="/50-50.svg" alt="50:50" className="w-10" />
+                <div className="flex items-center gap-1" role="img" aria-label={`Earnings total ${activity.earnings}`}>
+                  <img src="/50-50.svg" alt="" aria-hidden="true" className="w-10" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">
                   <span>{activity.earnings}</span>
-                  <img src="/coins.svg" alt="coins" className="w-4 h-4 opacity-70" />
+                  <img src="/coins.svg" alt="" aria-hidden="true" className="w-4 h-4 opacity-70" />
                 </div>
               </div>
             </div>

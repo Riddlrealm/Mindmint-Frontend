@@ -6,7 +6,7 @@ interface FAQ {
   answer: string;
 }
 
-const DEFAULT_FAQS: readonly FAQ[] = [
+const FAQS: readonly FAQ[] = [
   {
     id: 1,
     question: "What is Mindmint?",
@@ -51,8 +51,6 @@ const DEFAULT_FAQS: readonly FAQ[] = [
 ];
 
 const FaqsSection = () => {
-    // Allow environments to override the FAQ list at runtime
-    const faqs: readonly FAQ[] = DEFAULT_FAQS;
   // Store an array of open FAQ IDs
   const [openIds, setOpenIds] = useState<number[]>([]);
 
@@ -76,7 +74,7 @@ const FaqsSection = () => {
         </h2>
 
         <div className="mt-2 md:mt-4 space-y-2 md:space-y-3">
-          {faqs.map((faq) => (
+          {FAQS.map((faq) => (
             <div key={faq.id} className="overflow-hidden border-b border-white/10 last:border-b-0">
               {/* Questions */}
               <button

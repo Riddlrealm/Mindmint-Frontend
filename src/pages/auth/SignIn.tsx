@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "../../services/AuthService";
 import type { SignInCredentials } from "../../services/AuthService";
-import logiquestLogo from "../../assets/logiquest (2).png";
+import mindmintLogo from "../../assets/mindmint.png";
 import googleIcon from "../../assets/google.png";
 import appleIcon from "../../assets/apple.png";
 import microsoftIcon from "../../assets/microsoft.png";
@@ -70,8 +70,8 @@ export default function SignIn() {
       <header className="flex justify-between items-center px-6 py-5 md:px-10">
         <Link to="/" className="shrink-0">
           <img
-            src={logiquestLogo}
-            alt="LogiQuest"
+            src={mindmintLogo}
+            alt="Mindmint"
             className="h-10 w-auto object-contain"
           />
         </Link>

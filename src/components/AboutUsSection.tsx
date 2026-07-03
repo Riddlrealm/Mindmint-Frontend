@@ -10,7 +10,7 @@ const AboutUsSection = () => {
           id="about-us-title"
           className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-8"
         >
-          About US
+          About Us
         </h2>
         <p className="text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
           Mindmint is an engaging web-based game designed to challenge your mind

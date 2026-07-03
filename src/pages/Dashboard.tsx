@@ -35,18 +35,16 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {DashboardStats.map(({ label, value, Icon }) => (
             <div
               key={label}
-              tabIndex={0}
-              aria-label={`${label}: ${value}`}
-              className="bg-[#141516] border border-[#323336] rounded-lg p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0F0F]"
+              className="bg-[#141516] border border-[#323336] rounded-lg p-6"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">{label}</p>
-                  <p className="text-2xl font-bold text-[#CFFDED]">{value}</p>
+                  <dt className="text-gray-400 text-sm">{label}</dt>
+                  <dd className="text-2xl font-bold text-[#CFFDED]">{value}</dd>
                 </div>
                 <div className="w-12 h-12 bg-[#F9BC07] rounded-full flex items-center justify-center">
                   <Icon className="w-6 h-6 text-black" aria-hidden="true" />
@@ -54,7 +52,7 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
-        </div>
+        </dl>
 
         {/* Progress Section */}
         <div

@@ -97,7 +97,7 @@ export const RecentActivity = ({ activities }: Props) => {
               {/* Stats Grid */}
               <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm text-gray-400">
                 {/* Row 1: Group Size */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" role="img" aria-label="Group size">
                   <img src="/call.svg" alt="call" className="w-4" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">
@@ -106,7 +106,7 @@ export const RecentActivity = ({ activities }: Props) => {
                 </div>
 
                 {/* Row 2: Participants */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" role="img" aria-label="Participants">
                   <img src="/audience.svg" alt="audience" className="w-4" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">
@@ -115,7 +115,7 @@ export const RecentActivity = ({ activities }: Props) => {
                 </div>
 
                 {/* Row 3: Coins & Earnings */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1" role="img" aria-label="Earnings">
                   <img src="/50-50.svg" alt="50:50" className="w-10" />
                 </div>
                 <div className="flex justify-end gap-2 items-center">

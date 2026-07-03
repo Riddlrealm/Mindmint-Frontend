@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen items-center justify-center p-8">
       <div className="w-full max-w-[500px] rounded-xl border border-white/10 p-8 text-center shadow-2xl backdrop-blur-md">
-        <div className="animate-pulse text-6xl mb-4">
+        <div className="animate-pulse text-6xl mb-4" aria-hidden="true">
           <span>🧭</span>
         </div>
 

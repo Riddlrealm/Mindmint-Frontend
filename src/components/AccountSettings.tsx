@@ -41,6 +41,7 @@ const Toggle = ({ label, checked, onChange=() => {}, id }: ToggleProps) => (
 
 type ThemeOption = 'dark' | 'light' | 'system';
 type TabOption = 'Profile' | 'Account' | 'Game setting';
+const TABS: readonly TabOption[] = ['Profile', 'Account', 'Game setting'] as const;
 
 interface NotificationState {
     schedule: string;
@@ -182,7 +183,7 @@ const AccountSettings = () => {
                         <h1 className="text-3xl md:text-4xl text-[#0A746D]">Setting</h1>
 
                         <nav className="flex items-center gap-8 text-lg text-[#9CA3AF]">
-                            {(['Profile', 'Account', 'Game setting'] as TabOption[]).map((tab) => (
+                            {TABS.map((tab) => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
@@ -404,18 +405,23 @@ const AccountSettings = () => {
                                         type="range"
                                         min="0"
                                         max="100"
+                                        step="1"
                                         value={state.volume}
                                         onChange={handleVolumeChange}
                                         className="absolute w-full h-full opacity-0 cursor-pointer"
                                         aria-label="Volume Control"
+                                        aria-valuemin={0}
+                                        aria-valuemax={100}
+                                        aria-valuenow={state.volume}
+                                        aria-valuetext={`${state.volume} percent`}
                                     />
                                     <div
                                         className="absolute top-1/2 -translate-y-1/2 h-4 w-1 bg-[#9CA3AF] group-hover:bg-[#F9BC07] transition-colors pointer-events-none"
-                                        style={{ left: `${state.volume}%` }}
+                                        style={{ left: `calc(${state.volume}% - 2px)` }}
                                     />
                                 </div>
 
-                                <span className="text-[#9CA3AF] text-lg w-12 text-right tabular-nums">
+                                <span className="text-[#9CA3AF] text-lg w-12 text-right tabular-nums" aria-hidden="true">
                                     {state.volume}%
                                 </span>
                             </div>

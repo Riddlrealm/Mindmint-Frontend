@@ -4,6 +4,17 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import { AuthService } from "../services/AuthService";
 
+interface ScrollMenuItem {
+  link: string;
+  name: string;
+}
+
+const SCROLL_MENU: readonly ScrollMenuItem[] = [
+  { name: "How to Play", link: "#how-to-play" },
+  { name: "About", link: "#about" },
+  { name: "Contributors", link: "#contributors" },
+  { name: "FAQs", link: "#faqs" },
+];
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,13 +25,6 @@ const NavBar = () => {
     AuthService.logout();
     navigate("/sign-in");
   };
-
-  const scrollMenu = [
-    { name: "How to Play", link: "#how-to-play" },
-    { name: "About", link: "#about" },
-    { name: "Contributors", link: "#contributors" },
-    { name: "FAQs", link: "#faqs" },
-  ];
 
   return (
     <nav className="relative" aria-label="Primary">
@@ -39,7 +43,7 @@ const NavBar = () => {
 
           <div className="hidden xl:flex items-center">
             <div className="flex justify-center text-base items-center gap-4">
-              {scrollMenu.map((item) => (
+              {SCROLL_MENU.map((item) => (
                 <ScrollLink
                   key={item.link}
                   to={item.link.substring(1)}
@@ -115,7 +119,7 @@ const NavBar = () => {
           role="presentation"
         >
           <div className="flex flex-col text-base gap-6 pt-5">
-            {scrollMenu.map((item) => (
+            {SCROLL_MENU.map((item) => (
               <ScrollLink
                 onClick={() => setIsOpen(false)}
                 key={item.link}

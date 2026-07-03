@@ -23,8 +23,8 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="relative " aria-label="Primary">
-      <div className=" px-5 md:px-10 py-5 w-full">
+    <nav className="relative" aria-label="Primary">
+      <div className="px-5 md:px-10 py-5 w-full">
         <div className="flex justify-between items-center">
           <Link
             to="/"
@@ -37,7 +37,7 @@ const NavBar = () => {
             </h1>
           </Link>
 
-          <div className="hidden xl:flex items-center ">
+          <div className="hidden xl:flex items-center">
             <div className="flex justify-center text-base items-center gap-4">
               {scrollMenu.map((item) => (
                 <ScrollLink
@@ -63,36 +63,7 @@ const NavBar = () => {
                 <p>Coins</p>
                 <img src="/coins.svg" alt="Store coins" className="h-6 w-auto" />
               </Link>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Call a friend unavailable"
-                title="Call a friend — unavailable outside gameplay"
-              >
-                <p>Call a friend</p>
-                <img src="/call.svg" alt="Call a friend icon" className="h-6 w-auto" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="50:50 unavailable"
-                title="50:50 — unavailable outside gameplay"
-              >
-                <p>50:50</p>
-                <img src="/fiftyfifty.svg" alt="50:50 icon" className="h-6 w-auto" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Audience unavailable"
-                title="Audience — unavailable outside gameplay"
-              >
-                <p>Audience</p>
-                <img src="/audience.svg" alt="Audience icon" className="h-6 w-auto" />
-              </button>
+
               <button
                 type="button"
                 disabled
@@ -117,7 +88,7 @@ const NavBar = () => {
                 aria-label="Account settings"
                 title="Account settings"
               >
-                <img src="/manfists.png" alt="Account settings" className="w-11 h-11 ml-2 object-cover" />
+                <img src="/avatar.svg" alt="Account settings" className="w-11 h-11 ml-2 object-cover" />
               </Link>
             </div>
           </div>
@@ -160,48 +131,16 @@ const NavBar = () => {
               </ScrollLink>
             ))}
 
-            <div className="flex flex-col gap-6">
-              <Link
-                to="/store"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 rounded-sm px-2 py-1 text-[#F9BC07] hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
-                aria-label="Open store"
-                title="Open store"
-              >
-                <p>Coins</p>
-                <img src="/coins.png" className="h-6 w-auto" alt="Store coins" />
-              </Link>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Call a friend unavailable"
-                title="Call a friend — unavailable outside gameplay"
-              >
-                <p>Call</p>
-                <img src="/call.png" className="h-6 w-auto" alt="Call a friend icon" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="50:50 unavailable"
-                title="50:50 — unavailable outside gameplay"
-              >
-                <p>50:50</p>
-                <img src="/5050.png" className="h-6 w-auto" alt="50:50 icon" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Audience unavailable"
-                title="Audience — unavailable outside gameplay"
-              >
-                <p>Audience</p>
-                <img src="/audience.png" className="h-6 w-auto" alt="Audience icon" />
-              </button>
-            </div>
+            <Link
+              to="/store"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 rounded-sm px-2 py-1 text-[#F9BC07] hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
+              aria-label="Open store"
+              title="Open store"
+            >
+              <p>Coins</p>
+              <img src="/coins.svg" className="h-6 w-auto" alt="Store coins" />
+            </Link>
 
             <div className="flex items-center gap-6 mt-2">
               <button
@@ -211,7 +150,7 @@ const NavBar = () => {
                 aria-label="Notifications unavailable"
                 title="Notifications unavailable"
               >
-                <img src="/bell.png" className="h-8 w-auto" alt="Notifications" />
+                <img src="/bell.svg" className="h-8 w-auto" alt="Notifications" />
               </button>
               <button
                 type="button"
@@ -223,7 +162,7 @@ const NavBar = () => {
                 aria-label="Log out"
                 title="Log out"
               >
-                <img src="/logout.png" className="h-8 w-auto" alt="Log out" />
+                <img src="/logout.svg" className="h-8 w-auto" alt="Log out" />
               </button>
               <Link
                 to="/settings"
@@ -233,7 +172,7 @@ const NavBar = () => {
                 title="Account settings"
               >
                 <img
-                  src="/manfists.png"
+                  src="/avatar.svg"
                   className="w-10 h-10 object-cover rounded-full border border-[#F9BC07]"
                   alt="Account settings"
                 />

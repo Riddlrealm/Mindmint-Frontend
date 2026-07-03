@@ -7,12 +7,13 @@ import audience from '../../assets/images/pngs/audience.png';
 import bell from '../../assets/images/pngs/bell.png';
 import avatar from '../../assets/images/pngs/avatar.png';
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const navItemClass =
   'hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]';
 
 const GameHeader = () => {
+  const navigate = useNavigate();
   return (
     <header className="flex items-center justify-between bg-[#0a0a0a] px-8 py-4 text-white border-b border-gray-800">
       <Link
@@ -71,8 +72,9 @@ const GameHeader = () => {
           </button>
           <button
             type="button"
+            onClick={() => navigate('/')}
             className="p-0 border-0 bg-transparent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
-            aria-label="Exit"
+            aria-label="Exit game"
           >
             <img src={door} alt="" className="w-10 h-10" />
           </button>

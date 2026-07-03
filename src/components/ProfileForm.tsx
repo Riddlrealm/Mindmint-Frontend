@@ -12,7 +12,7 @@ interface ProfileData {
 
 type FieldErrors = Partial<Record<keyof ProfileData, string>>;
 
-const STORAGE_KEY = "quest_user_profile";
+const STORAGE_KEY = "mindmint_user_profile";
 
 function loadPersistedProfile(): ProfileData {
   const defaults: ProfileData = {
@@ -35,7 +35,7 @@ function loadPersistedProfile(): ProfileData {
   }
 
   try {
-    const authUser = localStorage.getItem("quest_user");
+    const authUser = localStorage.getItem("mindmint_user");
     if (authUser) {
       const user = JSON.parse(authUser) as { name?: string; email?: string };
       return {

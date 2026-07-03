@@ -4,11 +4,11 @@ import { queryClient } from '../lib/queryClient';
 import { store } from '../store';
 
 const LOCAL_STORAGE_KEYS = [
-  'quest_token',
-  'quest_user',
-  'quest_user_profile',
-  'quest_account_settings',
-  'quest_notification_schedule',
+  'mindmint_token',
+  'mindmint_user',
+  'mindmint_user_profile',
+  'mindmint_account_settings',
+  'mindmint_notification_schedule',
 ] as const;
 
 const removeKeys = (

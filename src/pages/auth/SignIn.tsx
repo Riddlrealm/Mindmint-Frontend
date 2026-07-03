@@ -102,7 +102,7 @@ export default function SignIn() {
               className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
               style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
             >
-              <span>Google an account</span>
+              <span>Sign in with Google</span>
               <img src={googleIcon} alt="" className="w-6 h-6" />
             </button>
             <button
@@ -110,7 +110,7 @@ export default function SignIn() {
               className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
               style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
             >
-              <span>Apple an account</span>
+              <span>Sign in with Apple</span>
               <img src={appleIcon} alt="" className="w-6 h-6" />
             </button>
             <button
@@ -118,7 +118,7 @@ export default function SignIn() {
               className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
               style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
             >
-              <span>Microsoft an account</span>
+              <span>Sign in with Microsoft</span>
               <img src={microsoftIcon} alt="" className="w-6 h-6" />
             </button>
           </div>

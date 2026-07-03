@@ -76,7 +76,7 @@ export const AuthService = {
 
   async deleteAccount(): Promise<{ success: boolean; error?: string }> {
     try {
-      const token = localStorage.getItem("quest_token");
+      const token = localStorage.getItem("mindmint_token");
       if (!token) {
         return { success: false, error: "No token found." };
       }

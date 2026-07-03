@@ -1,5 +1,6 @@
 import type { LeaderboardPlayer } from "@/types";
 
+// Players are ordered highest score first (rank 1 = best score).
 export const mockLeaderboardPlayers: LeaderboardPlayer[] = [
   {
     id: 1,
@@ -18,14 +19,6 @@ export const mockLeaderboardPlayers: LeaderboardPlayer[] = [
     scoreIcon: "/bag-coins-2.svg",
   },
   {
-    id: 3,
-    name: "Robert",
-    avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=200&h=200&fit=crop",
-    level: 47,
-    score: 39000,
-    scoreIcon: "/bag-coins-2.svg",
-  },
-  {
     id: 4,
     name: "Duncan",
     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=200&h=200&fit=crop",
@@ -34,27 +27,35 @@ export const mockLeaderboardPlayers: LeaderboardPlayer[] = [
     scoreIcon: "/coins.svg",
   },
   {
+    id: 3,
+    name: "Robert",
+    avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?w=200&h=200&fit=crop",
+    level: 47,
+    score: 39000,
+    scoreIcon: "/bag-coins-2.svg",
+  },
+  {
     id: 5,
     name: "Sam",
     avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=200&h=200&fit=crop",
     level: 44,
-    score: 39000,
+    score: 38500,
     scoreIcon: "/coins.svg",
   },
   {
     id: 6,
-    name: "John",
+    name: "Maria",
     avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop",
     level: 40,
-    score: 39000,
+    score: 36000,
     scoreIcon: "/coins-rocks.svg",
   },
   {
     id: 7,
-    name: "Duncan",
+    name: "Alex",
     avatar: "https://images.unsplash.com/photo-1545996124-0501ebae84d0?w=200&h=200&fit=crop",
     level: 38,
-    score: 39000,
+    score: 33000,
     scoreIcon: "/coins.svg",
   },
 ];

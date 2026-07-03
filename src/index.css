@@ -50,7 +50,6 @@ body,
   background-color: #01100f;
 }
 
-@import "tailwindcss";
 /* Hide scrollbar but keep scrolling */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE & Edge */

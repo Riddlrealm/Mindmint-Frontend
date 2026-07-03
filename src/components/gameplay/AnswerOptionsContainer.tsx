@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AnswerOption from './AnswerOption';
 
 export type AnswerState = {
@@ -8,7 +8,7 @@ export type AnswerState = {
 };
 
 interface AnswerOptionsContainerProps {
-  answers: Array<{ letter: string; text: string }>; 
+  answers: AnswerState[];
   onAnswerSelect?: (index: number) => void;
   disabled?: boolean;
 }
@@ -18,43 +18,26 @@ const AnswerOptionsContainer: React.FC<AnswerOptionsContainerProps> = ({
   onAnswerSelect,
   disabled = false,
 }) => {
-
-  const [localSelectedIndex, setLocalSelectedIndex] = useState<number | null>(null);
-
   const handlePress = (index: number) => {
-    if (disabled || localSelectedIndex !== null) return;
-    
-    setLocalSelectedIndex(index);
-    
-    setTimeout(() => {
-      onAnswerSelect?.(index);
-    }, 100); 
+    if (disabled) return;
+    onAnswerSelect?.(index);
   };
 
   return (
     <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-3 md:gap-4 min-h-0">
-      {answers.map((answer, index) => {
-        let visualState: 'default' | 'selected' | 'correct' | 'incorrect' = 'default';
-        
-        if (localSelectedIndex === index) {
-          visualState = 'selected';
-        }
-
-        return (
-          <div key={answer.letter} className="w-full h-full min-h-0">
-            <AnswerOption
-              letter={answer.letter}
-              text={answer.text}
-              state={visualState} 
-              onClick={() => handlePress(index)}
-              disabled={disabled || localSelectedIndex !== null}
-            />
-          </div>
-        );
-      })}
+      {answers.map((answer, index) => (
+        <div key={answer.letter} className="w-full h-full min-h-0">
+          <AnswerOption
+            letter={answer.letter}
+            text={answer.text}
+            state={answer.state}
+            onClick={() => handlePress(index)}
+            disabled={disabled}
+          />
+        </div>
+      ))}
     </div>
   );
 };
 
 export default AnswerOptionsContainer;
-

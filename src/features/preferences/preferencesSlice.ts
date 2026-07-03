@@ -7,8 +7,8 @@ interface PreferencesState {
   notificationSchedule: NotificationSchedule;
 }
 
-const ACCOUNT_SETTINGS_STORAGE_KEY = 'quest_account_settings';
-const NOTIFICATION_SCHEDULE_STORAGE_KEY = 'quest_notification_schedule';
+const ACCOUNT_SETTINGS_STORAGE_KEY = 'mindmint_account_settings';
+const NOTIFICATION_SCHEDULE_STORAGE_KEY = 'mindmint_notification_schedule';
 const DEFAULT_NOTIFICATION_SCHEDULE: NotificationSchedule = 'Daily';
 
 const readScheduleFromAccountSettings = (): NotificationSchedule | null => {

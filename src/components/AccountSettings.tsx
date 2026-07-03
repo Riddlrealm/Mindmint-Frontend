@@ -96,18 +96,11 @@ const AccountSettings = () => {
         load: readStoredSettings,
     });
 
-    const [state, setState] = useState<SettingsState>(defaultSettingsState);
+    const [state, setState] = useState<SettingsState>(readStoredSettings);
 
     const [activeTab, setActiveTab] = useState<TabOption>('Account');
-  
-    
-    const [openModal, setOpenModal] = useState(false);
 
-    useEffect(() => {
-        if (preparedState) {
-            setState(preparedState);
-        }
-    }, [preparedState]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         if (preparedState) {
@@ -393,7 +386,7 @@ const AccountSettings = () => {
                                     onChange={() => handleThemeChange('system')}
                                 />
                             </div>
-                        section>
+                        </section>
 
                         <section aria-labelledby="sound-heading">
                             <h2 id="sound-heading" className="text-2xl font-medium mb-8 text-[#CFFDED]">Sound</h2>

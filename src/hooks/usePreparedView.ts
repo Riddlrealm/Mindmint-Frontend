@@ -37,6 +37,10 @@ export function usePreparedView<T>({
     isEmptyRef.current = isEmpty;
   }, [isEmpty]);
 
+  // Stable key derived from deps — avoids spreading into a dep array which
+  // React hooks/eslint can't statically verify.
+  const depsKey = JSON.stringify(deps);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -75,7 +79,7 @@ export function usePreparedView<T>({
     return () => {
       cancelled = true;
     };
-  }, [attempt, delayMs, ...deps]);
+  }, [attempt, delayMs, depsKey]);
 
   const retry = useCallback(() => {
     setAttempt((value) => value + 1);

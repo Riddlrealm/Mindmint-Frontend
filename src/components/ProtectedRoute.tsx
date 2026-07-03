@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 
-const TOKEN_KEY = "quest_token";
+const TOKEN_KEY = "mindmint_token";
 
 const readToken = (): string | null => {
   if (typeof window === "undefined") {

@@ -15,7 +15,7 @@ export const useThemeStore = create<ThemeState>()(
       setPreference: (preference) => set({ preference }),
     }),
     {
-      name: 'quest_theme_preference',
+      name: 'mindmint_theme_preference',
     },
   ),
 );

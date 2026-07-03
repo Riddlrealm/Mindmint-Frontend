@@ -2,7 +2,7 @@ import { useState, useId } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthService } from "../services/AuthService";
-import { getNavItems } from "../config/routes";
+import { getNavItems } from "../config/routeConfig";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,39 +67,6 @@ const NavBar = () => {
               <button
                 type="button"
                 disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Call a friend — unavailable outside gameplay"
-                title="Call a friend — unavailable outside gameplay"
-              >
-                <span>Call a friend</span>
-                <img src="/call.svg" alt="Call a friend icon" className="h-6 w-auto" />
-              </button>
-
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="50:50 lifeline unavailable outside gameplay"
-                title="50:50 — unavailable outside gameplay"
-              >
-                <span>50:50</span>
-                <img src="/fiftyfifty.svg" alt="50:50 icon" className="h-6 w-auto" />
-              </button>
-
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Audience lifeline unavailable outside gameplay"
-                title="Audience — unavailable outside gameplay"
-              >
-                <span>Audience</span>
-                <img src="/audience.svg" alt="Audience icon" className="h-6 w-auto" />
-              </button>
-
-              <button
-                type="button"
-                disabled
                 className="p-0 mx-2 border-0 bg-transparent opacity-50 cursor-not-allowed rounded-sm"
                 aria-label="Notifications unavailable"
                 title="Notifications unavailable"
@@ -122,7 +89,7 @@ const NavBar = () => {
                 className="ml-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01100F]"
               >
                 <img
-                  src="/manfists.png"
+                  src="/avatar.svg"
                   alt="Account settings"
                   className="w-11 h-11 object-cover"
                 />
@@ -167,48 +134,16 @@ const NavBar = () => {
               </NavLink>
             ))}
 
-            <div className="flex flex-col gap-6">
-              <Link
-                to="/store"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 rounded-sm px-2 py-1 text-[#F9BC07] hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
-                aria-label="Open store"
-                title="Open store"
-              >
-                <p>Coins</p>
-                <img src="/coins.svg" className="h-6 w-auto" alt="Store coins" />
-              </Link>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Call a friend unavailable"
-                title="Call a friend — unavailable outside gameplay"
-              >
-                <p>Call</p>
-                <img src="/call.svg" className="h-6 w-auto" alt="Call a friend icon" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="50:50 unavailable"
-                title="50:50 — unavailable outside gameplay"
-              >
-                <p>50:50</p>
-                <img src="/fiftyfifty.svg" className="h-6 w-auto" alt="50:50 icon" />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="flex items-center gap-2 rounded-sm px-2 py-1 border border-white/10 bg-white/5 text-[#9CA3AF] opacity-60 cursor-not-allowed"
-                aria-label="Audience unavailable"
-                title="Audience — unavailable outside gameplay"
-              >
-                <p>Audience</p>
-                <img src="/audience.svg" className="h-6 w-auto" alt="Audience icon" />
-              </button>
-            </div>
+            <Link
+              to="/store"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 rounded-sm px-2 py-1 text-[#F9BC07] hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
+              aria-label="Open store"
+              title="Open store"
+            >
+              <p>Coins</p>
+              <img src="/coins.svg" className="h-6 w-auto" alt="Store coins" />
+            </Link>
 
             <div className="flex items-center gap-6 mt-2">
               <button
@@ -240,7 +175,7 @@ const NavBar = () => {
                 className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
               >
                 <img
-                  src="/manfists.png"
+                  src="/avatar.svg"
                   className="w-10 h-10 object-cover rounded-full border border-[#F9BC07]"
                   alt="Account settings"
                 />

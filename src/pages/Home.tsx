@@ -1,13 +1,4 @@
-import FaqsSection from "../components/FaqsSection"
-import ContributorsSection from "../components/ContributorsSection"
-import HeroSection from "../components/HeroSection"
-
-export default function Home() {
-  return (
-    <>
-      <HeroSection />
-      <ContributorsSection />
-      <FaqsSection />
-    </>
-  )
-}
+// The canonical Home layout is assembled in src/config/routes.tsx and
+// exported as `Home`. This module re-exports it so it can also be imported
+// directly as a page component when needed.
+export { Home as default } from "../config/routes";

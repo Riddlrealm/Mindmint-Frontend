@@ -10,13 +10,17 @@ function App() {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  // Pages that manage their own header / need no outer nav
   const isSignInPage = currentPath === "/sign-in";
+  const isGameplayPage = currentPath === "/gameplay";
+
+  // Home ("/") uses the GameplayNavbar which has section scroll-links
   const isHomePage = currentPath === "/";
 
   return (
     <>
       {/* Navigation Layout dynamically matched from path hooks */}
-      {!isSignInPage && (isHomePage ? <GameplayNavbar /> : <Navbar />)}
+      {!isSignInPage && !isGameplayPage && (isHomePage ? <GameplayNavbar /> : <Navbar />)}
 
       <ToastViewport />
 

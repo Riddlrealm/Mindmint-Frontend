@@ -65,7 +65,9 @@ export const AuthService = {
       console.error("AuthService.signIn error:", err);
       return {
         success: false,
-        error: "Network error. Please check your connection and try again.",
+        error: !navigator.onLine
+          ? "You appear to be offline. Check your connection and try again."
+          : "Unable to reach the server. Please try again in a moment.",
       };
     }
   },
@@ -103,7 +105,9 @@ export const AuthService = {
       console.error("AuthService.deleteAccount error:", err);
       return {
         success: false,
-        error: "Network error. Please check your connection and try again.",
+        error: !navigator.onLine
+          ? "You appear to be offline. Check your connection and try again."
+          : "Unable to reach the server. Please try again in a moment.",
       };
     }
   },

@@ -18,6 +18,7 @@ export default function GameMode() {
             </p>
             <Link
               to="/gameplay"
+              title="Start playing Mindmint — enter gameplay"
               className="inline-block px-8 py-3 bg-[#ca8a04] hover:bg-[#b07803] text-white font-bold rounded-xl transition-all duration-200 shadow-lg"
             >
               Play Now

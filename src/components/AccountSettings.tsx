@@ -64,7 +64,7 @@ const defaultSettingsState: SettingsState = {
 };
 
 const readStoredSettings = (): SettingsState => {
-    const saved = localStorage.getItem('quest_account_settings');
+    const saved = localStorage.getItem('mindmint_account_settings');
 
     if (!saved) {
         return defaultSettingsState;
@@ -126,7 +126,7 @@ const AccountSettings = () => {
 
     useEffect(() => {
         if (status === 'ready') {
-            localStorage.setItem('quest_account_settings', JSON.stringify(state));
+            localStorage.setItem('mindmint_account_settings', JSON.stringify(state));
         }
     }, [state, status]);
 
@@ -445,7 +445,7 @@ const AccountSettings = () => {
                         <section className="space-y-4">
                             <h3 className="text-xl md:text-2xl font-medium">Account Deletion Information</h3>
                             <p className="text-[#9CA3AF] text-sm leading-relaxed">
-                                If you are considering deleting your LogiQuest account, please take a moment to read the following important information:
+                                If you are considering deleting your Mindmint account, please take a moment to read the following important information:
                             </p>
                             <ul className="list-disc pl-5 space-y-2 text-[#9CA3AF] text-sm">
                                 <li>
@@ -460,9 +460,9 @@ const AccountSettings = () => {
                         <section className="space-y-4">
                             <h3 className="text-xl md:text-2xl font-medium">Need Help?</h3>
                             <p className="text-[#9CA3AF] text-sm leading-relaxed">
-                                If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:support@logiquest.com" className="underline hover:text-[#F9BC07] transition-colors">support@logiquest.com</a>. We value your feedback and are here to help!
+                                If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:support@mindmint.com" className="underline hover:text-[#F9BC07] transition-colors">support@mindmint.com</a>. We value your feedback and are here to help!
                                 <br />
-                                Thank you for being a part of the LogiQuest community!
+                                Thank you for being a part of the Mindmint community!
                             </p>
                         </section>
 

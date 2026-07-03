@@ -13,9 +13,9 @@ const AboutUsSection = () => {
           About US
         </h2>
         <p className="text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-          LogiQuest an engaging web-based game designed to challenge your logic
-          and knowledge! Whether you're a trivia master or just looking to have
-          some fun, LogiQuest offers a variety of game modes to suit every
+          Mindmint is an engaging web-based game designed to challenge your mind
+          and knowledge! Whether you're a puzzle master or just looking to have
+          some fun, Mindmint offers a variety of game modes to suit every
           player.
         </p>
       </div>

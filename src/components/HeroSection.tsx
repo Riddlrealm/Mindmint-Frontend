@@ -33,8 +33,7 @@ const HeroSection = () => {
           </div>
           <Link
             to="/get-started"
-            className="bg-[#ca8a04]! hover:bg-[#b07803]! text-white hover:text-white/90! font-bold py-2 px-4 lg:py-3 lg:px-12 rounded-4xl
-             text-lg inline-block transition-all duration-300 shadow-xl cursor-pointer"
+            className="bg-[#ca8a04] hover:bg-[#b07803] text-white hover:text-white/90 font-bold py-2 px-4 lg:py-3 lg:px-12 rounded-4xl text-lg inline-block transition-all duration-300 shadow-xl cursor-pointer"
           >
             Get Started
           </Link>

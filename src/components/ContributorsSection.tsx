@@ -7,6 +7,8 @@ interface Contributor {
   html_url: string;
 }
 
+const DEFAULT_CONTRIBUTORS_REPO = "Riddlrealm/Mindmint-Frontend";
+
 const ContributorsSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInteracting, setIsInteracting] = useState(false);
@@ -17,7 +19,7 @@ const ContributorsSection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const repoUrl =
-    import.meta.env.VITE_CONTRIBUTORS_REPO || "Riddlrealm/Mindmint-Frontend";
+    import.meta.env.VITE_CONTRIBUTORS_REPO || DEFAULT_CONTRIBUTORS_REPO;
 
   useEffect(() => {
     const fetchContributors = async () => {

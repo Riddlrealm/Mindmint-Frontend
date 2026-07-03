@@ -155,14 +155,14 @@ const LeaderboardPage = () => {
 
                     {/* Score */}
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        {player.scoreIcon && (
-                          <img
-                            src={player.scoreIcon}
-                            alt="score icon"
-                            className="w-4 h-4"
-                          />
-                        )}
+                      <div className="flex items-center justify-end gap-1">                        {player.scoreIcon && (
+                            <img
+                              src={player.scoreIcon}
+                              alt=""
+                              aria-hidden="true"
+                              className="w-4 h-4"
+                            />
+                          )}
                         <span className="font-bold text-[#F9BC07]">
                           {player.score.toLocaleString()}
                         </span>

@@ -9,6 +9,7 @@ import { DeleteAccountModal } from './modals/DeleteAccountModal';
 import { useThemeStore } from '../theme/themeStore';
 import { usePreparedView } from '../hooks/usePreparedView';
 import { SurfaceState } from './state/SurfaceState';
+import { STORAGE_KEYS } from '../session/storageKeys';
 
 interface ToggleProps {
     label?: string;
@@ -65,7 +66,7 @@ const defaultSettingsState: SettingsState = {
 };
 
 const readStoredSettings = (): SettingsState => {
-    const saved = localStorage.getItem('mindmint_account_settings');
+    const saved = localStorage.getItem(STORAGE_KEYS.ACCOUNT_SETTINGS);
 
     if (!saved) {
         return defaultSettingsState;
@@ -120,7 +121,7 @@ const AccountSettings = () => {
 
     useEffect(() => {
         if (status === 'ready') {
-            localStorage.setItem('mindmint_account_settings', JSON.stringify(state));
+            localStorage.setItem(STORAGE_KEYS.ACCOUNT_SETTINGS, JSON.stringify(state));
         }
     }, [state, status]);
 

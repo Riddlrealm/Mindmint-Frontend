@@ -3,6 +3,7 @@ import { RecentActivity } from '../components/RecentActivity';
 import Leaderboard from '../components/Leaderboard';
 import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
 import { mockActivities } from '../models/recentActivity';
+import { STORAGE_KEYS } from '../session/storageKeys';
 
 const DashboardStats = [
   { label: 'Total Points', value: '1,250', Icon: Trophy },
@@ -18,7 +19,7 @@ const progressPercent = Math.min(
 );
 
 const Dashboard = () => {
-  const stored = localStorage.getItem('mindmint_user');
+  const stored = localStorage.getItem(STORAGE_KEYS.USER);
   const user = stored ? JSON.parse(stored) as { name?: string } : null;
 
   return (

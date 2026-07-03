@@ -17,7 +17,7 @@ const ContributorsSection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const repoUrl =
-    import.meta.env.VITE_CONTRIBUTORS_REPO || "nnennaokoye/quest-frontend";
+    import.meta.env.VITE_CONTRIBUTORS_REPO || "Riddlrealm/Mindmint-Frontend";
 
   useEffect(() => {
     const fetchContributors = async () => {

@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import { AuthService } from "../services/AuthService";
 
@@ -82,14 +82,14 @@ const NavBar = () => {
               >
                 <img src="/logout.svg" alt="Log out" className="h-7" />
               </button>
-              <Link
+              <NavLink
                 to="/settings"
                 className="ml-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01100F]"
                 aria-label="Account settings"
                 title="Account settings"
               >
                 <img src="/avatar.svg" alt="Account settings" className="w-11 h-11 ml-2 object-cover" />
-              </Link>
+              </NavLink>
             </div>
           </div>
 
@@ -164,7 +164,7 @@ const NavBar = () => {
               >
                 <img src="/logout.svg" className="h-8 w-auto" alt="Log out" />
               </button>
-              <Link
+              <NavLink
                 to="/settings"
                 onClick={() => setIsOpen(false)}
                 className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#323336]"
@@ -176,7 +176,7 @@ const NavBar = () => {
                   className="w-10 h-10 object-cover rounded-full border border-[#F9BC07]"
                   alt="Account settings"
                 />
-              </Link>
+              </NavLink>
             </div>
           </div>
         </div>

@@ -41,7 +41,7 @@ export default function Store() {
                     Most Popular
                   </span>
                 )}
-                <img src={pack.icon} alt="" className="w-16 h-16 mb-4 object-contain" />
+                <img src={pack.icon} alt={`${pack.name} icon`} className="w-16 h-16 mb-4 object-contain" />
                 <h3 className="font-bold text-lg text-[#CFFDED] mb-1">{pack.name}</h3>
                 <p className="text-3xl font-black text-[#F9BC07] mb-1">{pack.coins}</p>
                 <p className="text-gray-500 text-sm mb-4">coins</p>
@@ -68,7 +68,7 @@ export default function Store() {
                 key={item.id}
                 className="bg-[#141516] border border-[#323336] rounded-xl p-6 flex flex-col items-center text-center hover:border-[#F9BC07]/50 transition-colors"
               >
-                <img src={item.icon} alt="" className="w-14 h-14 mb-4 object-contain" />
+                <img src={item.icon} alt={`${item.name} lifeline icon`} className="w-14 h-14 mb-4 object-contain" />
                 <h3 className="font-bold text-lg text-[#CFFDED] mb-1">{item.name}</h3>
                 <p className="text-gray-400 text-sm mb-4">{item.description}</p>
                 <button

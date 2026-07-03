@@ -15,10 +15,11 @@ const Gameplay: React.FC = () => {
     return MOCK_GAME_DATA.find(q => q.level === currentLevel) || MOCK_GAME_DATA[0];
   }, [currentLevel]);
 
-  const handleLevelSelection = (_level: number) => {
+  const handleLevelSelection = () => {
+    // level selection UI — gameplay progression is handled by handleAnswerSubmit
   };
 
-  const handleAnswerSubmit = (_letter: string, isCorrect: boolean, _timeUsed: number) => {
+  const handleAnswerSubmit = (_letter: string, isCorrect: boolean) => {
     if (isCorrect) {
       if (currentLevel < 15) {
         setCurrentLevel(prev => prev + 1);

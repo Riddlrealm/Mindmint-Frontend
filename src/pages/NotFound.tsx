@@ -29,7 +29,7 @@ export default function NotFound() {
 
           <button
             type="button"
-            className="px-6 py-3 text-sm font-semibold rounded-md cursor-pointer transition-colors bg-blue-600 text-white hover:bg-blue-500"
+            className="px-6 py-3 text-sm font-semibold rounded-md cursor-pointer transition-colors bg-[#033330] hover:bg-[#0d4d4a] text-[#CFFDED]"
             onClick={() => navigate("/")}
           >
             Return Home

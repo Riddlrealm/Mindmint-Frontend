@@ -3,15 +3,15 @@ import { useState } from "react";
 const faqs = [
   {
     id: 1,
-    question: "What is LogiGuest?",
+    question: "What is Mindmint?",
     answer:
-      "LogiGuest is an interactive web-based game designed to test your logic and knowledge through various fun and challenging game modes.",
+      "Mindmint is an interactive web-based game designed to test your mind and knowledge through various fun and challenging game modes.",
   },
   {
     id: 2,
     question: "How do I start playing?",
     answer:
-      "To start playing, simply choose a game mode from the homepage, read the instructions and follow the prompts to answer questions.",
+      "To start playing, simply choose a game mode from the homepage, read the instructions and follow the prompts to answer challenges.",
   },
   {
     id: 3,

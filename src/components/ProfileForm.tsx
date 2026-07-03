@@ -122,6 +122,8 @@ interface FieldProps {
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
+const errorId = (name: keyof ProfileData) => `${name}-error`;
+
 const Field = ({
   label,
   name,
@@ -132,32 +134,41 @@ const Field = ({
   touched,
   onChange,
   onBlur,
-}: FieldProps) => (
-  <div>
-    <label htmlFor={name} className="text-[22px] text-[#717171] ml-5">
-      {label}
-    </label>
-    <br />
-    <input
-      id={name}
-      type={type}
-      name={name}
-      className={`border-2 rounded-md w-full md:w-140.75 h-13.5 pl-3 bg-transparent text-white transition-colors ${
-        touched && error
-          ? "border-red-500 focus:border-red-400"
-          : "border-[#353536] focus:border-[#F9BC07]"
-      }`}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      autoComplete="off"
-    />
-    {touched && error && (
-      <p className="text-red-400 text-sm mt-1 ml-1">{error}</p>
-    )}
-  </div>
-);
+}: FieldProps) => {
+  const describedBy = touched && error ? errorId(name) : undefined;
+  const isInvalid = touched && !!error;
+
+  return (
+    <div>
+      <label htmlFor={name} className="text-[22px] text-[#717171] ml-5">
+        {label}
+      </label>
+      <br />
+      <input
+        id={name}
+        type={type}
+        name={name}
+        aria-invalid={isInvalid}
+        aria-describedby={describedBy}
+        className={`border-2 rounded-md w-full md:w-140.75 h-13.5 pl-3 bg-transparent text-white transition-colors ${
+          touched && error
+            ? "border-red-500 focus:border-red-400"
+            : "border-[#353536] focus:border-[#F9BC07]"
+        }`}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        autoComplete="off"
+      />
+      {touched && error && (
+        <p id={errorId(name)} className="text-red-400 text-sm mt-1 ml-1" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const ProfileForm = () => {
   const [form, setForm] = useState<ProfileData>(loadPersistedProfile);

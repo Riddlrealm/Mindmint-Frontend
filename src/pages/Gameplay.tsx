@@ -28,7 +28,7 @@ const Gameplay: React.FC = () => {
           addNotification({
             type: 'success',
             title: 'Congratulations!',
-            message: 'You are a LogiQuest Millionaire!',
+            message: 'You are a Mindmint Millionaire!',
           }),
         );
       }

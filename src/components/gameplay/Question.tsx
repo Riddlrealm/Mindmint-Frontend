@@ -18,10 +18,11 @@ const Question: React.FC<QuestionProps> = ({
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-4 md:p-6 rounded-xl bg-linear-to-b from-green-900 to-emerald-900 border-2 border-green-800 shadow-lg overflow-hidden">
-      
-      <div className="flex items-center justify-start gap-2 mb-2">
-        <img src={timerIcon} alt="Timer" className="w-6 h-6 object-contain" />
-        <span className="text-xl font-bold text-yellow-400 font-mono">
+
+      <div className="flex items-center justify-start gap-2 mb-2" aria-live="polite">
+        <img src={timerIcon} alt="" className="w-6 h-6 object-contain" />
+        <span className="sr-only">Time remaining:</span>
+        <span className="text-xl font-bold text-yellow-400 font-mono" aria-hidden="true">
           {formatTime(timeLeft)}
         </span>
       </div>

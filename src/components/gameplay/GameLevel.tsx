@@ -5,10 +5,13 @@ export type GameLevelState = 'locked' | 'unlocked' | 'current';
 
 interface GameLevelProps {
   level: number;
-  reward: string; 
-  state: GameLevelState; 
+  reward: string;
+  state: GameLevelState;
   onClick?: (level: number) => void;
 }
+
+const HEX_BUTTON_CLIP_PATH =
+  'polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%)';
 
 const GameLevel: React.FC<GameLevelProps> = ({
   level,
@@ -20,10 +23,11 @@ const GameLevel: React.FC<GameLevelProps> = ({
   const isCurrent = state === 'current';
 
   return (
-    <div className="flex justify-center py-1"> 
+    <div className="flex justify-center py-1">
       <button
         disabled={isLocked}
         aria-disabled={isLocked}
+        aria-label={`Level ${level}, reward ${reward}${isLocked ? ' (locked)' : ''}`}
         onClick={() => onClick?.(level)}
         className={`
           relative flex items-center justify-between
@@ -37,10 +41,7 @@ const GameLevel: React.FC<GameLevelProps> = ({
               : 'bg-linear-to-r from-green-600 to-emerald-500 text-white hover:scale-[1.02]'
           }
         `}
-        style={{
-          clipPath:
-            'polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%)',
-        }}
+        style={{ clipPath: HEX_BUTTON_CLIP_PATH }}
       >
         {/* Level Number & Lock Status */}
         <div className="flex items-center gap-2 text-lg">

@@ -75,8 +75,6 @@ export const Leaderboard = ({ players }: Props) => {
           <div
             key={player.id}
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#252525] transition-colors border-b border-gray-900/50 last:border-b-0"
-            role="row"
-            tabIndex={0}
             aria-label={`Player ${index + 1}: ${player.name}, Level ${player.level}, Score ${player.score.toLocaleString()}`}
           >
             {/* Avatar */}

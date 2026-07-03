@@ -1,15 +1,4 @@
-const COIN_PACKS = [
-  { id: 1, name: "Starter Pack", coins: 100, price: "2 XLM", icon: "/coins.svg", popular: false },
-  { id: 2, name: "Explorer Pack", coins: 500, price: "8 XLM", icon: "/coins.svg", popular: true },
-  { id: 3, name: "Champion Pack", coins: 1500, price: "20 XLM", icon: "/bag-coins.svg", popular: false },
-  { id: 4, name: "Legend Pack", coins: 5000, price: "60 XLM", icon: "/bag-coins.svg", popular: false },
-];
-
-const LIFELINE_ITEMS = [
-  { id: 1, name: "50:50", description: "Remove two wrong answers", price: "10 coins", icon: "/fiftyfifty.svg" },
-  { id: 2, name: "Call a Friend", description: "Get a hint from a virtual expert", price: "15 coins", icon: "/call.svg" },
-  { id: 3, name: "Ask the Audience", description: "See the crowd's vote breakdown", price: "15 coins", icon: "/audience.svg" },
-];
+import { COIN_PACKS, LIFELINE_ITEMS } from "../data/storeItems";
 
 export default function Store() {
   return (
@@ -31,12 +20,12 @@ export default function Store() {
               <div
                 key={pack.id}
                 className={`relative bg-[#141516] border rounded-xl p-6 flex flex-col items-center text-center transition-all hover:scale-105 ${
-                  pack.popular
+                  pack.id === 2
                     ? "border-[#F9BC07] shadow-[0_0_20px_rgba(249,188,7,0.15)]"
                     : "border-[#323336]"
                 }`}
               >
-                {pack.popular && (
+                {pack.id === 2 && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#F9BC07] text-black text-xs font-bold px-3 py-1 rounded-full">
                     Most Popular
                   </span>

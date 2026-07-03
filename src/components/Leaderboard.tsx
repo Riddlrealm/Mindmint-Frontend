@@ -95,20 +95,20 @@ export const Leaderboard = ({ players }: Props) => {
             {/* Player Info */}
             <div className="flex-1 min-w-0 flex items-center justify-between gap-4 sm:gap-6">
               {/* Name */}
-              <h3 className="text-[#717171] font-medium truncate text-sm sm:text-base">
+              <h3 className="text-gray-200 font-medium truncate text-sm sm:text-base">
                 {player.name}
               </h3>
 
               {/* Level and Score Container */}
               <div className="flex items-center gap-4 sm:gap-6 lg:gap-20 shrink-0">
                 {/* Level */}
-                <span className="text-[#717171] text-xs sm:text-sm whitespace-nowrap">
+                <span className="text-gray-300 text-xs sm:text-sm whitespace-nowrap">
                   Level {player.level}
                 </span>
 
                 {/* Score with Icon */}
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <span className="text-[#717171] font-medium text-xs sm:text-sm whitespace-nowrap">
+                  <span className="text-gray-300 font-medium text-xs sm:text-sm whitespace-nowrap">
                     {player.score.toLocaleString()}
                   </span>
                   <img

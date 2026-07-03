@@ -70,7 +70,7 @@ const FaqsSection = () => {
 
         <div className="mt-2 md:mt-4 space-y-2 md:space-y-3">
           {faqs.map((faq) => (
-            <div key={faq.id} className="overflow-hidden">
+            <div key={faq.id} className="overflow-hidden border-b border-white/10 last:border-b-0">
               {/* Questions */}
               <button
                 id={`faq-btn-${faq.id}`}

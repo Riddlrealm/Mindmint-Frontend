@@ -73,7 +73,10 @@ const FaqsSection = () => {
             <div key={faq.id} className="overflow-hidden">
               {/* Questions */}
               <button
+                id={`faq-btn-${faq.id}`}
                 onClick={() => toggle(faq.id)}
+                aria-expanded={openIds.includes(faq.id)}
+                aria-controls={`faq-answer-${faq.id}`}
                 className="w-full flex justify-between items-center py-4 md:py-5 text-left"
               >
                 <span className="text-lg md:text-xl font-semibold text-white pr-4">
@@ -93,6 +96,9 @@ const FaqsSection = () => {
 
               {/* Answers */}
               <div
+                id={`faq-answer-${faq.id}`}
+                role="region"
+                aria-labelledby={`faq-btn-${faq.id}`}
                 className={`overflow-hidden transition-all duration-300 ${openIds.includes(faq.id) ? "max-h-96 py-4" : "max-h-0"
                   }`}
               >

@@ -1,11 +1,11 @@
-# Quest Service - Frontend
+# Mindmint - Frontend
 
-The frontend application for Quest Service, a thought-provoking logic puzzle game built on the Stellar blockchain. This React-based interface provides an engaging and intuitive user experience for players to solve puzzles and earn on-chain rewards.
+The frontend application for **Mindmint**, a thought-provoking logic puzzle game built on the Stellar blockchain. This React-based interface provides an engaging and intuitive user experience for players to solve puzzles and earn on-chain rewards.
 
 ## 🎨 Design
 
 View the complete design system and UI mockups on Figma:
-[Quest Service Design - Figma](https://www.figma.com/design/c2pahgpn5ZQX0UHXD9q9Ot/LogiQuest?node-id=358-997&p=f&t=0HEwchnHZ2n7Dt8L-0)
+[Mindmint Design - Figma](https://www.figma.com/design/c2pahgpn5ZQX0UHXD9q9Ot/Mindmint?node-id=358-997&p=f&t=0HEwchnHZ2n7Dt8L-0)
 
 ## 🚀 Features
 
@@ -20,20 +20,20 @@ View the complete design system and UI mockups on Figma:
 
 * **Framework**: React 18+
 * **Styling**: TailwindCSS
-* **State Management**: React Context API / Redux (if applicable)
+* **State Management**: React Context API / Redux
 * **Blockchain Integration**: Stellar SDK, Soroban RPC
 * **Wallet Connection**: Freighter Wallet API
-* **Build Tool**: Vite / Create React App
-* **Type Safety**: TypeScript (if applicable)
+* **Build Tool**: Vite
+* **Type Safety**: TypeScript
 
 ## 📦 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/quest-service-frontend.git
+git clone https://github.com/Riddlrealm/Mindmint-Frontend.git
 
 # Navigate to the project directory
-cd quest-service-frontend
+cd Mindmint-Frontend
 
 # Install dependencies
 npm install
@@ -68,7 +68,7 @@ VITE_CONTRACT_ADDRESS=your_contract_address
 ## 📁 Project Structure
 
 ```
-quest-service-frontend/
+Mindmint-Frontend/
 ├── public/
 ├── src/
 │   ├── assets/          # Images, icons, and static files
@@ -78,8 +78,8 @@ quest-service-frontend/
 │   ├── utils/           # Helper functions
 │   ├── hooks/           # Custom React hooks
 │   ├── contexts/        # React contexts
-│   ├── App.jsx          # Main application component
-│   └── main.jsx         # Application entry point
+│   ├── App.tsx          # Main application component
+│   └── main.tsx         # Application entry point
 ├── .env.example
 ├── package.json
 └── README.md
@@ -126,8 +126,9 @@ This project is licensed under the **MIT License**.
 
 ## 🔗 Related Repositories
 
-* [Quest Service Backend](https://github.com/MindFlowInteractive/quest-service)
-* [Quest Service Smart Contracts](https://github.com/MindFlowInteractive/quest-contract)
+* [Mindmint Backend](https://github.com/Riddlrealm/Mindmint-Backend)
+* [Mindmint Smart Contracts](https://github.com/Riddlrealm/Mindmint-Contract)
+
 ## 💬 Support
 
 For questions or support, please open an issue or join our community discussions.

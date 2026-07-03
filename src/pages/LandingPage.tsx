@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import FaqsSection from "../components/FaqsSection"
 import ContributorsSection from "../components/ContributorsSection"
+import HeroSection from "../components/HeroSection"
+import Footer from "../components/Footer"
 
 const LandingPage = () => {
   return (
     <div className="bg-black min-h-screen flex flex-col">
+      <HeroSection/>
       <ContributorsSection/>
       <FaqsSection/>
       <section className="bg-black py-24 px-4 border-t border-gray-900">
@@ -25,9 +28,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="py-8 text-center text-gray-600 text-sm border-t border-gray-900">
-        © {new Date().getFullYear()} Mindmint. All rights reserved.
-      </footer>
+      <Footer />
     </div>
   );
 };

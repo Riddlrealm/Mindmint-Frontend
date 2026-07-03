@@ -253,8 +253,8 @@ const ProfileForm = () => {
     placeholder: string;
     type?: string;
   }[] = [
-    { name: "fullname", label: "Display Fullname", placeholder: "Abdulsalam Jabril" },
-    { name: "username", label: "Username", placeholder: "Aj" },
+    { name: "fullname", label: "Display Fullname", placeholder: "Jane Doe" },
+    { name: "username", label: "Username", placeholder: "jane_doe" },
     { name: "email", label: "Email", placeholder: "user@example.com", type: "email" },
     { name: "phoneNumber", label: "Phone Number", placeholder: "+1234567890", type: "tel" },
     { name: "country", label: "Country Residence", placeholder: "Nigeria" },

@@ -29,10 +29,10 @@ const NavBar = () => {
               className="h-16 w-auto object-contain"
             />
             <span className="font-prompt font-bold text-[#CFFDED] text-[31px]">
-              <span className="sr-only">LogiQuest home</span>
+              <span className="sr-only">Mindmint home</span>
               <span aria-hidden="true">
-                <span>Logi</span>
-                <span>Quest</span>
+                <span>Mind</span>
+                <span>mint</span>
               </span>
             </span>
           </Link>

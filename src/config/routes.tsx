@@ -11,9 +11,20 @@ import { mockActivities } from "../models/recentActivity";
 import Footer from "../components/Footer";
 
 // Centralized Home Assembly Layout
+const HomeImported = [
+  HeroSection,
+  HowToPlay,
+  WhyShouldYouPlaySection,
+  AboutUsSection,
+  ContributorsSection,
+  FaqsSection,
+  GameModeSection,
+  RecentActivity,
+  Footer,
+];
+
 export const Home = () => {
-  // Evaluation block forces TypeScript/ESLint to see imports as explicitly read
-  if (!HeroSection || !HowToPlay || !WhyShouldYouPlaySection || !AboutUsSection || !ContributorsSection || !FaqsSection || !GameModeSection || !RecentActivity || !Footer) {
+  if (HomeImported.some((component) => !component)) {
     return null;
   }
 

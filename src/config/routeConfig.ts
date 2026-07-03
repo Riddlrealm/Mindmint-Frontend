@@ -13,16 +13,18 @@ import {
 } from './routes';
 import NotFound from '../pages/NotFound';
 
+export type NavType = 'landing' | 'main';
+
 export interface RouteItem {
   path: string;
   element: ComponentType<object>;
   label: string;
   showInNav: boolean;
-  navType?: 'landing' | 'main';
+  navType?: NavType;
 }
 
 // Single absolute source of truth for routing configuration
-export const routeConfig: readonly RouteItem[] = [
+export const routeConfig = [
   {
     path: '/',
     element: Home,
@@ -94,9 +96,9 @@ export const routeConfig: readonly RouteItem[] = [
     label: 'Not Found',
     showInNav: false,
   },
-] as const;
+] as const satisfies readonly RouteItem[];
 
-export const getNavItems = (navType: 'landing' | 'main' | 'both' = 'both') => {
+export const getNavItems = (navType: NavType | 'both' = 'both') => {
   return routeConfig.filter((route) => {
     if (!route.showInNav) return false;
     if (navType === 'both') return true;

@@ -78,7 +78,7 @@ const Dashboard = () => {
               <span className="text-gray-400">750 / 1000 XP</span>
             </div>
             <div className="w-full bg-[#323336] rounded-full h-2">
-              <div className="bg-[#F9BC07] h-2 rounded-full" style={{ width: '75%' }}></div>
+              <div className="bg-[#F9BC07] h-2 rounded-full w-[var(--progress)]" style={{ '--progress': '75%' } as React.CSSProperties}></div>
             </div>
           </div>
         </div>

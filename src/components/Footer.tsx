@@ -205,12 +205,14 @@ export default function MindmintFooter() {
 
                         <div className="mb-4 sm:mb-6">
                             <div className="flex flex-col sm:flex-row gap-2">
+                                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
                                 <input
+                                    id="newsletter-email"
                                     type="email"
                                     placeholder="Your email"
                                     className="flex-1 px-4 py-3 bg-transparent border border-gray-600 rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors text-sm"
                                 />
-                                <button className="px-6 py-3 bg-teal-800 hover:bg-teal-700 text-white rounded-md transition-colors text-sm font-medium whitespace-nowrap">
+                                <button className="px-6 py-3 bg-teal-800 hover:bg-teal-700 text-white rounded-md transition-colors text-sm font-medium whitespace-nowrap" aria-label="Subscribe to newsletter">
                                     Subscribe now
                                 </button>
                             </div>

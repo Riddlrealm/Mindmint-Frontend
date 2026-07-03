@@ -1,6 +1,26 @@
 import mindmintLogo from "../assets/mindmint.png";
 import { Linkedin, Twitter, Github } from "lucide-react";
 
+const GAME_MODE_LINKS: readonly string[] = [
+    "Classic Mode",
+    "Challenge Mode",
+    "Multiplayer Mode",
+    "Daily Challenge",
+    "Themed Challenges",
+    "Timed Blitz",
+    "Puzzle Mode",
+    "Practice Mode",
+    "Adventure Mode",
+];
+
+const INFO_LINKS: readonly string[] = [
+    "FAQs",
+    "Pricing",
+    "Status",
+    "Blog",
+    "Policy",
+];
+
 export default function MindmintFooter() {
     // Mindmint logo
 
@@ -27,105 +47,19 @@ export default function MindmintFooter() {
                             Game Mode
                         </h3>
                         <ul className="space-y-2 sm:space-y-3">
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Classic Mode
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Challenge Mode
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Multiplayer Mode
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Daily Challenge
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Themed Challenges
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Timed Blitz
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Puzzle Mode
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Practice Mode
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Adventure Mode
-                                </a>
-                            </li>
+                            {GAME_MODE_LINKS.map((label) => (
+                                <li key={label} className="flex items-start">
+                                    <span className="text-white mr-2 mt-1 text-xs" aria-hidden="true">
+                                        •
+                                    </span>
+                                    <a
+                                        href="#"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
+                                    >
+                                        {label}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
@@ -135,61 +69,19 @@ export default function MindmintFooter() {
                             Info
                         </h3>
                         <ul className="space-y-2 sm:space-y-3">
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    FAQs
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Pricing
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Status
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Blog
-                                </a>
-                            </li>
-                            <li className="flex items-start">
-                                <span className="text-white mr-2 mt-1 text-xs">
-                                    •
-                                </span>
-                                <a
-                                    href="#"
-                                    className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                                >
-                                    Policy
-                                </a>
-                            </li>
+                            {INFO_LINKS.map((label) => (
+                                <li key={label} className="flex items-start">
+                                    <span className="text-white mr-2 mt-1 text-xs" aria-hidden="true">
+                                        •
+                                    </span>
+                                    <a
+                                        href="#"
+                                        className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
+                                    >
+                                        {label}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

@@ -48,8 +48,7 @@ export const GoogleAuthService = {
 
       return { success: true, user };
 
-    } catch (error) {
-      console.error("JWT Decode Error:", error);
+    } catch {
       return { success: false, error: "Failed to process the login token. Please try again." };
     }
   },

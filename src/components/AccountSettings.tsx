@@ -10,6 +10,7 @@ import { useThemeStore } from '../theme/themeStore';
 import { usePreparedView } from '../hooks/usePreparedView';
 import { SurfaceState } from './state/SurfaceState';
 import { STORAGE_KEYS } from '../session/storageKeys';
+import { readJson } from '../session/storage';
 
 interface ToggleProps {
     label?: string;
@@ -65,14 +66,37 @@ const defaultSettingsState: SettingsState = {
     volume: 37,
 };
 
-const readStoredSettings = (): SettingsState => {
-    const saved = localStorage.getItem(STORAGE_KEYS.ACCOUNT_SETTINGS);
+const isSettingsState = (value: unknown): value is Partial<SettingsState> => {
+    if (value === null || typeof value !== 'object') return false;
 
-    if (!saved) {
-        return defaultSettingsState;
+    const record = value as Record<string, unknown>;
+
+    if (record.notifications !== undefined) {
+        if (record.notifications === null || typeof record.notifications !== 'object') return false;
+        const notifications = record.notifications as Record<string, unknown>;
+        if (notifications.schedule !== undefined && typeof notifications.schedule !== 'string') return false;
     }
 
-    const parsed = JSON.parse(saved) as Partial<SettingsState>;
+    if (record.reminder !== undefined) {
+        if (record.reminder === null || typeof record.reminder !== 'object') return false;
+        const reminder = record.reminder as Record<string, unknown>;
+        if (reminder.day !== undefined && typeof reminder.day !== 'string') return false;
+        if (reminder.time !== undefined && typeof reminder.time !== 'string') return false;
+    }
+
+    if (record.volume !== undefined && typeof record.volume !== 'number') return false;
+
+    return true;
+};
+
+const readStoredSettings = (): SettingsState => {
+    // Guarded read: malformed or unknown-shaped `mindmint_account_settings`
+    // data degrades to defaults instead of throwing during render.
+    const parsed = readJson(STORAGE_KEYS.ACCOUNT_SETTINGS, isSettingsState);
+
+    if (!parsed) {
+        return defaultSettingsState;
+    }
 
     return {
         notifications: {

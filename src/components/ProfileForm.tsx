@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Check } from "lucide-react";
 import { STORAGE_KEYS } from "../session/storageKeys";
+import { readJson } from "../session/storage";
 
 interface ProfileData {
   fullname: string;
@@ -15,6 +16,22 @@ type FieldErrors = Partial<Record<keyof ProfileData, string>>;
 
 const STORAGE_KEY = STORAGE_KEYS.USER_PROFILE;
 
+const isProfileData = (value: unknown): value is Partial<ProfileData> => {
+  if (value === null || typeof value !== "object") return false;
+  return Object.values(value as Record<string, unknown>).every(
+    (field) => field === undefined || typeof field === "string",
+  );
+};
+
+const isAuthUserData = (value: unknown): value is { name?: string; email?: string } => {
+  if (value === null || typeof value !== "object") return false;
+  const record = value as Record<string, unknown>;
+  return (
+    (record.name === undefined || typeof record.name === "string") &&
+    (record.email === undefined || typeof record.email === "string")
+  );
+};
+
 function loadPersistedProfile(): ProfileData {
   const defaults: ProfileData = {
     fullname: "",
@@ -25,28 +42,19 @@ function loadPersistedProfile(): ProfileData {
     state: "",
   };
 
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved) as Partial<ProfileData>;
-      return { ...defaults, ...parsed };
-    }
-  } catch {
-    /* corrupted data — fall through */
+  // Guarded reads: corrupted or unknown-shaped data degrades to defaults.
+  const saved = readJson(STORAGE_KEY, isProfileData);
+  if (saved) {
+    return { ...defaults, ...saved };
   }
 
-  try {
-    const authUser = localStorage.getItem(STORAGE_KEYS.USER);
-    if (authUser) {
-      const user = JSON.parse(authUser) as { name?: string; email?: string };
-      return {
-        ...defaults,
-        fullname: user.name ?? "",
-        email: user.email ?? "",
-      };
-    }
-  } catch {
-    /* ignore */
+  const authUser = readJson(STORAGE_KEYS.USER, isAuthUserData);
+  if (authUser) {
+    return {
+      ...defaults,
+      fullname: authUser.name ?? "",
+      email: authUser.email ?? "",
+    };
   }
 
   return defaults;

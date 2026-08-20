@@ -1,12 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import GameModeDescription from "./GameModeDescription";
 import GameModesList from "./GameModesList";
 import { gameModes } from "../../data/gameModes";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setGameMode } from "./gameSliceStore";
 
 const GameModeSection = () => {
-    const [selectedModeId, setSelectedModeId] = useState<string>(
-        gameModes[0]?.id ?? "",
-    );
+    // The selection lives in the registered `game` slice (see src/store.ts), so
+    // it survives navigation and can be read by the /game-mode page's
+    // "Play Now" link to hand the mode to /gameplay.
+    const selectedModeId = useAppSelector((state) => state.game.selectedModeId);
+    const dispatch = useAppDispatch();
 
     const currentMode = useMemo(
         () =>
@@ -27,7 +31,7 @@ const GameModeSection = () => {
                     <GameModesList
                         allModes={gameModes}
                         selectedModeId={selectedModeId}
-                        onModeSelect={setSelectedModeId}
+                        onModeSelect={(id) => dispatch(setGameMode(id))}
                     />
                 </div>
             </div>

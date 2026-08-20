@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
@@ -17,10 +17,21 @@ const BORDER_COLOR = "rgba(3, 51, 48, 0.6)";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remindLater, setRemindLater] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  // Destination preserved by <ProtectedRoute> when an unauthenticated visitor
+  // was redirected here; return them to it after a successful sign-in.
+  const rawFrom = (location.state as { from?: unknown } | null)?.from;
+  const redirectAfterSignIn =
+    typeof rawFrom === "string" &&
+    rawFrom.startsWith("/") &&
+    rawFrom !== "/sign-in"
+      ? rawFrom
+      : "/";
 
   const signInMutation = useMutation({
     mutationFn: (credentials: SignInCredentials) =>
@@ -28,7 +39,7 @@ export default function SignIn() {
     onSuccess: (data) => {
       if (data.success) {
         setValidationError(null);
-        navigate("/", { replace: true });
+        navigate(redirectAfterSignIn, { replace: true });
       } else {
         setValidationError(data.error ?? "Sign-in failed.");
       }

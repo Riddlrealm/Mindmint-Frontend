@@ -7,12 +7,11 @@ import { AuthService } from "../../services/AuthService";
 import type { SignInCredentials } from "../../services/AuthService";
 import { GoogleAuthService, GOOGLE_CLIENT_ID } from "../../services/GoogleAuthService";
 import mindmintLogo from "../../assets/mindmint.png";
-import appleIcon from "../../assets/apple.png";
-import microsoftIcon from "../../assets/microsoft.png";
 import arrowLeft from "../../assets/arrow-left.svg";
 
 const ACCENT_COLOR = "#033330";
 const ACCENT_LIGHT = "#0d4d4a";
+const BORDER_COLOR = "rgba(3, 51, 48, 0.6)";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -140,22 +139,6 @@ export default function SignIn() {
                 containerProps={{ className: "w-full flex justify-center" }}
               />
             ) : null}
-            <button
-              type="button"
-              className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
-              style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
-            >
-              <span>Sign in with Apple</span>
-              <img src={appleIcon} alt="" className="w-6 h-6" />
-            </button>
-            <button
-              type="button"
-              className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
-              style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
-            >
-              <span>Sign in with Microsoft</span>
-              <img src={microsoftIcon} alt="" className="w-6 h-6" />
-            </button>
           </div>
 
           {/* Or separator */}

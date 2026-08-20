@@ -1,7 +1,8 @@
 import { Trophy, Gamepad2, TrendingUp, Star } from 'lucide-react';
 import { RecentActivity } from '../components/RecentActivity';
 import Leaderboard from '../components/Leaderboard';
-import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
+import { useLeaderboard } from '../hooks/useLeaderboard';
+import type { LeaderboardView } from '../hooks/useLeaderboard';
 import { mockActivities } from '../models/recentActivity';
 import { STORAGE_KEYS } from '../session/storageKeys';
 import { readJson } from '../session/storage';
@@ -29,6 +30,14 @@ const Dashboard = () => {
   // Guarded read: malformed `mindmint_user` data degrades to a nameless
   // welcome instead of throwing during render.
   const user = readJson(STORAGE_KEYS.USER, isStoredUser);
+
+  // Live, cached leaderboard via the shared queryClient. The dashboard shows
+  // the top five; the full ranking lives on /leaderboard.
+  const leaderboard = useLeaderboard();
+  const leaderboardView: LeaderboardView =
+    leaderboard.status === "ready"
+      ? { status: "ready", players: leaderboard.players.slice(0, 5) }
+      : leaderboard;
 
   return (
     <div className="bg-[#0F0F0F] min-h-screen text-white">
@@ -93,7 +102,7 @@ const Dashboard = () => {
             <RecentActivity activities={mockActivities.slice(0, 4)} />
           </div>
           <div>
-            <Leaderboard players={mockLeaderboardPlayers.slice(0, 5)} />
+            <Leaderboard view={leaderboardView} />
           </div>
         </div>
       </div>

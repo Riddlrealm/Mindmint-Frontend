@@ -1,24 +1,21 @@
-import type { LeaderboardPlayer } from "@/types";
 import { SurfaceState } from "./state/SurfaceState";
-import { usePreparedView } from "../hooks/usePreparedView";
+import type { LeaderboardView } from "../hooks/useLeaderboard";
 
 type Props = {
-  players: LeaderboardPlayer[];
+  view: LeaderboardView;
 };
 
-export const Leaderboard = ({ players }: Props) => {
-  const { data, errorMessage, retry, status } = usePreparedView({
-    deps: [players],
-    isEmpty: (nextPlayers) => nextPlayers.length === 0,
-    load: () => players,
-  });
+const HEADING = (
+  <h2 className="text-xl text-[#CFFDED] font-medium mb-6 uppercase tracking-wide border-b-2 border-[#CFFDED] pb-2 inline-block">
+    PLAYERS
+  </h2>
+);
 
-  if (status === "loading") {
+export const Leaderboard = ({ view }: Props) => {
+  if (view.status === "loading") {
     return (
       <section className="w-full max-w-2xl">
-        <h2 className="text-xl text-[#CFFDED] font-medium mb-6 uppercase tracking-wide border-b-2 border-[#CFFDED] pb-2 inline-block">
-          PLAYERS
-        </h2>
+        {HEADING}
         <SurfaceState
           status="loading"
           title="Loading leaderboard"
@@ -28,32 +25,28 @@ export const Leaderboard = ({ players }: Props) => {
     );
   }
 
-  if (status === "error") {
+  if (view.status === "error") {
     return (
       <section className="w-full max-w-2xl">
-        <h2 className="text-xl text-[#CFFDED] font-medium mb-6 uppercase tracking-wide border-b-2 border-[#CFFDED] pb-2 inline-block">
-          PLAYERS
-        </h2>
+        {HEADING}
         <SurfaceState
           status="error"
           title="Leaderboard unavailable"
           description={
-            errorMessage ??
+            view.errorMessage ??
             "We couldn’t prepare the leaderboard right now. Try again to reload the standings."
           }
           actionLabel="Retry"
-          onAction={retry}
+          onAction={view.retry}
         />
       </section>
     );
   }
 
-  if (status === "empty" || !data) {
+  if (view.status === "empty") {
     return (
       <section className="w-full max-w-2xl">
-        <h2 className="text-xl text-[#CFFDED] font-medium mb-6 uppercase tracking-wide border-b-2 border-[#CFFDED] pb-2 inline-block">
-          PLAYERS
-        </h2>
+        {HEADING}
         <SurfaceState
           status="empty"
           title="No players ranked yet"
@@ -67,15 +60,14 @@ export const Leaderboard = ({ players }: Props) => {
 
   return (
     <section className="w-full max-w-2xl">
-      <h2 className="text-xl text-[#CFFDED] font-medium mb-6 uppercase tracking-wide border-b-2 border-[#CFFDED] pb-2 inline-block">
-        PLAYERS
-      </h2>
+      {HEADING}
       <div className="border-2 border-[#323336] rounded-lg p-4 space-y-2">
-        {data.map((player, index) => (
+        {view.players.map((player, index) => (
           <div
             key={player.id}
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#252525] transition-colors border-b border-gray-900/50 last:border-b-0"
             aria-label={`Player ${index + 1}: ${player.name}, Level ${player.level}, Score ${player.score.toLocaleString()}`}
+            data-testid="leaderboard-row"
           >
             {/* Avatar */}
             <div className="w-12 h-12 shrink-0">

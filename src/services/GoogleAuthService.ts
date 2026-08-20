@@ -12,6 +12,29 @@ const API_BASE = import.meta.env.VITE_BACKEND_API_URL || "";
  */
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
 
+/**
+ * Reads the expiry (`exp`, epoch seconds) out of a Google ID token (a JWT)
+ * without verifying its signature. Signature/issuer/audience verification is
+ * the backend's responsibility; this is only used to mirror the expiry
+ * locally. Returns epoch milliseconds, or null when decoding fails.
+ */
+function decodeGoogleIdTokenExpiry(credential: string): number | null {
+  const segments = credential.split(".");
+  if (segments.length !== 3) return null;
+
+  try {
+    const base64 = segments[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(
+      base64.length + ((4 - (base64.length % 4)) % 4),
+      "=",
+    );
+    const payload = JSON.parse(atob(padded)) as { exp?: unknown };
+    return typeof payload.exp === "number" ? payload.exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
 export interface AuthServiceResponse {
   success: boolean;
   user?: AuthUser;
@@ -63,18 +86,22 @@ export const GoogleAuthService = {
         };
       }
 
-      const user: GoogleUser = {
-        email: decoded.email,
-        name: decoded.name,
-        picture: decoded.picture,
-        id: decoded.sub,
-      };
+      // Fail closed: a 2xx without a session is a backend contract violation,
+      // not a successful sign-in.
+      if (!data.token || !data.user) {
+        return {
+          success: false,
+          error: "Sign-in succeeded but no session was returned.",
+        };
+      }
 
-      // Record the ID token's expiry (epoch seconds -> ms) so the routing
-      // layer can treat a past-expiry session as signed out.
-      setSession({ token: credential, user, expiresAt: decoded.exp * 1000 });
-
-      setSession({ token: data.token, user: data.user });
+      // The backend is the source of truth for the user record; the Google
+      // credential is only decoded locally to mirror its expiry.
+      setSession({
+        token: data.token,
+        user: data.user,
+        expiresAt: decodeGoogleIdTokenExpiry(credential) ?? undefined,
+      });
 
       return { success: true, user: data.user };
     } catch (err) {

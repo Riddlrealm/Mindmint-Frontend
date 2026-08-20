@@ -13,7 +13,9 @@ export interface ActivityItem {
 }
 
 export interface LeaderboardPlayer {
-  id: number;
+  // The backend identifies players by UUID string; the mock fixture uses
+  // numeric ids. Accept both so a single shape serves either source.
+  id: string | number;
   name: string;
   avatar: string;
   level: number;

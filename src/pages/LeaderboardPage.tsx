@@ -1,4 +1,7 @@
-import { mockLeaderboardPlayers } from "../data/mockLeaderboardData";
+import { SurfaceState } from "../components/state/SurfaceState";
+import { useLeaderboard } from "../hooks/useLeaderboard";
+import { readJson } from "../session/storage";
+import { STORAGE_KEYS } from "../session/storageKeys";
 
 const PODIUM_STYLES = [
   // 2nd place (silver) — render left
@@ -33,66 +36,139 @@ const PODIUM_STYLES = [
   },
 ];
 
+const isStoredUser = (
+  value: unknown,
+): value is { id?: string | number } => {
+  if (value === null || typeof value !== "object") return false;
+  const record = value as Record<string, unknown>;
+  return (
+    record.id === undefined ||
+    typeof record.id === "string" ||
+    typeof record.id === "number"
+  );
+};
+
+const PageHeading = () => (
+  <div className="mb-8">
+    <h1 className="text-3xl md:text-4xl font-bold text-[#CFFDED] mb-2">
+      Leaderboard
+    </h1>
+    <p className="text-gray-400">See how you rank against other players</p>
+  </div>
+);
+
 const LeaderboardPage = () => {
-  // podiumOrder: [silver(2nd), gold(1st), bronze(3rd)] for visual layout
-  const podiumOrder = [
-    { style: PODIUM_STYLES[0], player: mockLeaderboardPlayers[1] }, // 2nd
-    { style: PODIUM_STYLES[1], player: mockLeaderboardPlayers[0] }, // 1st
-    { style: PODIUM_STYLES[2], player: mockLeaderboardPlayers[2] }, // 3rd
-  ];
+  const view = useLeaderboard();
+  const user = readJson(STORAGE_KEYS.USER, isStoredUser);
+  const currentPlayerId = user?.id ?? null;
+
+  if (view.status === "loading") {
+    return (
+      <div className="bg-[#0F0F0F] min-h-screen text-white">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <PageHeading />
+          <SurfaceState
+            status="loading"
+            title="Loading leaderboard"
+            description="We’re lining up the latest rankings and score totals for this table."
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (view.status === "error") {
+    return (
+      <div className="bg-[#0F0F0F] min-h-screen text-white">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <PageHeading />
+          <SurfaceState
+            status="error"
+            title="Leaderboard unavailable"
+            description={
+              view.errorMessage ??
+              "We couldn’t load the leaderboard right now. Try again to reload the standings."
+            }
+            actionLabel="Retry"
+            onAction={view.retry}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (view.status === "empty") {
+    return (
+      <div className="bg-[#0F0F0F] min-h-screen text-white">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <PageHeading />
+          <SurfaceState
+            status="empty"
+            title="No players ranked yet"
+            description="The leaderboard will fill in once matches are completed. Play a round to help kick off the rankings."
+            actionLabel="Start playing"
+            onAction={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const players = view.players;
 
   return (
     <div className="bg-[#0F0F0F] min-h-screen text-white">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Page heading */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#CFFDED] mb-2">
-            Leaderboard
-          </h1>
-          <p className="text-gray-400">See how you rank against other players</p>
-        </div>
+        <PageHeading />
 
         {/* ── Top-3 Podium ── */}
         <div className="flex items-end justify-center gap-6 mb-10">
-          {podiumOrder.map(({ style, player }) => (
-            <div
-              key={style.rank}
-              className="flex flex-col items-center gap-2"
-            >
-              {/* Crown / medal indicator */}
-              <span className={`text-2xl font-black ${style.crownColor}`}>
-                {style.rank === 1 ? "👑" : style.label}
-              </span>
+          {PODIUM_STYLES.map((style) => {
+            const player = players[style.rank - 1];
+            if (!player) return null;
 
-              {/* Avatar */}
+            return (
               <div
-                className={`rounded-full border-4 ${style.borderColor} overflow-hidden ${style.rank === 1 ? "w-20 h-20" : "w-16 h-16"}`}
+                key={style.rank}
+                className="flex flex-col items-center gap-2"
               >
-                <img
-                  src={player.avatar}
-                  alt={player.name}
-                  className="w-full h-full object-cover"
-                />
+                {/* Crown / medal indicator */}
+                <span className={`text-2xl font-black ${style.crownColor}`}>
+                  {style.rank === 1 ? "👑" : style.label}
+                </span>
+
+                {/* Avatar */}
+                <div
+                  className={`rounded-full border-4 ${style.borderColor} overflow-hidden ${style.rank === 1 ? "w-20 h-20" : "w-16 h-16"}`}
+                >
+                  <img
+                    src={player.avatar}
+                    alt={player.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Name */}
+                <span className="font-semibold text-[#CFFDED] text-sm">
+                  {player.name}
+                </span>
+
+                {/* Score */}
+                <span className="text-xs text-gray-400">
+                  {player.score.toLocaleString()} pts
+                </span>
+
+                {/* Podium block */}
+                <div
+                  className={`w-28 ${style.heightClass} ${style.badgeBg} rounded-t-lg flex items-center justify-center`}
+                >
+                  <span className="text-black font-black text-xl">
+                    {style.rank}
+                  </span>
+                </div>
               </div>
-
-              {/* Name */}
-              <span className="font-semibold text-[#CFFDED] text-sm">
-                {player.name}
-              </span>
-
-              {/* Score */}
-              <span className="text-xs text-gray-400">
-                {player.score.toLocaleString()} pts
-              </span>
-
-              {/* Podium block */}
-              <div
-                className={`w-28 ${style.heightClass} ${style.badgeBg} rounded-t-lg flex items-center justify-center`}
-              >
-                <span className="text-black font-black text-xl">{style.rank}</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* ── Full Ranked Table ── */}
@@ -111,7 +187,7 @@ const LeaderboardPage = () => {
               </tr>
             </thead>
             <tbody>
-              {mockLeaderboardPlayers.map((player, index) => {
+              {players.map((player, index) => {
                 const rank = index + 1;
                 const rankColors: Record<number, string> = {
                   1: "text-[#F9BC07]",
@@ -119,11 +195,17 @@ const LeaderboardPage = () => {
                   3: "text-[#CD7F32]",
                 };
                 const rankColor = rankColors[rank] ?? "text-gray-400";
+                const isCurrentPlayer =
+                  currentPlayerId !== null && player.id === currentPlayerId;
 
                 return (
                   <tr
                     key={player.id}
-                    className="border-t border-[#2A2A2A] hover:bg-[#222222] transition-colors"
+                    className={`border-t border-[#2A2A2A] transition-colors ${
+                      isCurrentPlayer
+                        ? "bg-[#F9BC07]/10 hover:bg-[#F9BC07]/15"
+                        : "hover:bg-[#222222]"
+                    }`}
                   >
                     {/* Rank */}
                     <td className="px-6 py-4">
@@ -143,6 +225,11 @@ const LeaderboardPage = () => {
                         <span className="font-medium text-white">
                           {player.name}
                         </span>
+                        {isCurrentPlayer && (
+                          <span className="rounded-full bg-[#F9BC07] px-2 py-0.5 text-xs font-semibold text-black">
+                            You
+                          </span>
+                        )}
                       </div>
                     </td>
 
@@ -155,14 +242,15 @@ const LeaderboardPage = () => {
 
                     {/* Score */}
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-1">                        {player.scoreIcon && (
-                            <img
-                              src={player.scoreIcon}
-                              alt=""
-                              aria-hidden="true"
-                              className="w-4 h-4"
-                            />
-                          )}
+                      <div className="flex items-center justify-end gap-1">
+                        {player.scoreIcon && (
+                          <img
+                            src={player.scoreIcon}
+                            alt=""
+                            aria-hidden="true"
+                            className="w-4 h-4"
+                          />
+                        )}
                         <span className="font-bold text-[#F9BC07]">
                           {player.score.toLocaleString()}
                         </span>

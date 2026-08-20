@@ -6,6 +6,7 @@
 
 export const STORAGE_KEYS = {
   TOKEN: 'mindmint_token',
+  TOKEN_EXPIRES_AT: 'mindmint_token_expires_at',
   USER: 'mindmint_user',
   USER_PROFILE: 'mindmint_user_profile',
   ACCOUNT_SETTINGS: 'mindmint_account_settings',

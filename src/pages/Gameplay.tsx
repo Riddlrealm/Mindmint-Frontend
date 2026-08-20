@@ -1,15 +1,36 @@
 import React, { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import GameHeader from '../components/gameplay/GameHeader';
 import GameLevelContainer from '../components/gameplay/GameLevelContainer';
 import QuestionContainer from '../components/gameplay/QuestionContainer';
 import { MOCK_GAME_DATA } from '../data/mockGameData';
+import { gameModes } from '../data/gameModes';
 import { useAppDispatch } from '../hooks';
 import { addNotification } from '../features/notifications/notificationsSlice';
 
 const Gameplay: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const [currentLevel, setCurrentLevel] = useState(1);
   const [isGameOver, setIsGameOver] = useState(false);
+
+  // Mode handoff contract: `/gameplay?mode=<id>`, written by the /game-mode
+  // page's "Play Now" link (and readable by the registered game slice).
+  // The id is validated against `gameModes`; an unknown or missing id falls
+  // back to the first mode so a tampered or stale URL never crashes gameplay.
+  const modeId = searchParams.get('mode');
+  const mode = useMemo(
+    () => gameModes.find((m) => m.id === modeId) ?? gameModes[0],
+    [modeId],
+  );
+
+  // The mode's `questionCount` defines the run length; capped at the number of
+  // available mock levels. `duration` and `maxScore` are display metadata for
+  // now — gameplay does not currently read them (no real run/scoring engine).
+  const maxLevel = Math.min(
+    mode.questionCount > 0 ? mode.questionCount : MOCK_GAME_DATA.length,
+    MOCK_GAME_DATA.length,
+  );
 
   const currentQuestionData = useMemo(() => {
     return MOCK_GAME_DATA.find(q => q.level === currentLevel) || MOCK_GAME_DATA[0];
@@ -21,7 +42,7 @@ const Gameplay: React.FC = () => {
 
   const handleAnswerSubmit = (_letter: string, isCorrect: boolean) => {
     if (isCorrect) {
-      if (currentLevel < 15) {
+      if (currentLevel < maxLevel) {
         setCurrentLevel(prev => prev + 1);
       } else {
         dispatch(
@@ -55,6 +76,10 @@ const Gameplay: React.FC = () => {
           
           <div className="w-full h-1/2 flex flex-col"> 
           
+            <p className="text-[#9CA3AF] text-sm mb-2" aria-live="polite">
+              {mode.name}
+            </p>
+
             <QuestionContainer 
               key={currentLevel} 
               questionText={currentQuestionData.text}

@@ -4,6 +4,7 @@ import Leaderboard from '../components/Leaderboard';
 import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
 import { mockActivities } from '../models/recentActivity';
 import { STORAGE_KEYS } from '../session/storageKeys';
+import { readJson } from '../session/storage';
 
 const DashboardStats = [
   { label: 'Total Points', value: '1,250', Icon: Trophy },
@@ -18,9 +19,16 @@ const progressPercent = Math.min(
   Math.round((PROGRESS.currentXp / PROGRESS.targetXp) * 100),
 );
 
+const isStoredUser = (value: unknown): value is { name?: string } => {
+  if (value === null || typeof value !== 'object') return false;
+  const record = value as Record<string, unknown>;
+  return record.name === undefined || typeof record.name === 'string';
+};
+
 const Dashboard = () => {
-  const stored = localStorage.getItem(STORAGE_KEYS.USER);
-  const user = stored ? JSON.parse(stored) as { name?: string } : null;
+  // Guarded read: malformed `mindmint_user` data degrades to a nameless
+  // welcome instead of throwing during render.
+  const user = readJson(STORAGE_KEYS.USER, isStoredUser);
 
   return (
     <div className="bg-[#0F0F0F] min-h-screen text-white">

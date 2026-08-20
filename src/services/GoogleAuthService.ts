@@ -63,14 +63,16 @@ export const GoogleAuthService = {
         };
       }
 
-      // Fail closed: a 2xx without a session is a backend contract violation,
-      // not a successful sign-in.
-      if (!data.token || !data.user) {
-        return {
-          success: false,
-          error: "Sign-in succeeded but no session was returned.",
-        };
-      }
+      const user: GoogleUser = {
+        email: decoded.email,
+        name: decoded.name,
+        picture: decoded.picture,
+        id: decoded.sub,
+      };
+
+      // Record the ID token's expiry (epoch seconds -> ms) so the routing
+      // layer can treat a past-expiry session as signed out.
+      setSession({ token: credential, user, expiresAt: decoded.exp * 1000 });
 
       setSession({ token: data.token, user: data.user });
 

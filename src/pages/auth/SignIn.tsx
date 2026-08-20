@@ -23,13 +23,14 @@ export default function SignIn() {
   const [remindLater, setRemindLater] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Destination preserved by <ProtectedRoute> when an unauthenticated visitor
-  // was redirected here; return them to it after a successful sign-in.
-  const rawFrom = (location.state as { from?: unknown } | null)?.from;
+  // Destination preserved when the visitor was redirected here — either by
+  // <ProtectedRoute> (navigation state) or by the centralized 401 handler
+  // (`handleUnauthorized`, query param). Return them to it after sign-in.
+  const stateFrom = (location.state as { from?: unknown } | null)?.from;
+  const queryFrom = new URLSearchParams(location.search).get("from");
+  const rawFrom = typeof stateFrom === "string" ? stateFrom : queryFrom;
   const redirectAfterSignIn =
-    typeof rawFrom === "string" &&
-    rawFrom.startsWith("/") &&
-    rawFrom !== "/sign-in"
+    rawFrom && rawFrom.startsWith("/") && rawFrom !== "/sign-in"
       ? rawFrom
       : "/";
 

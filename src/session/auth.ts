@@ -1,4 +1,13 @@
-import { STORAGE_KEYS } from "./storageKeys";
+import { clearSession } from './clearSession';
+import { STORAGE_KEYS } from './storageKeys';
+
+/**
+ * Error message returned by authenticated calls when the server rejects the
+ * session with HTTP 401. Distinct from a generic operation failure so the UI
+ * never reports an expired session as e.g. "Failed to delete account."
+ */
+export const SESSION_EXPIRED_ERROR =
+  'Your session has expired. Please sign in again.';
 
 /**
  * Reads the persisted auth token from localStorage, falling back to
@@ -6,7 +15,7 @@ import { STORAGE_KEYS } from "./storageKeys";
  * storage is unavailable (e.g. server-side rendering).
  */
 export const readToken = (): string | null => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return null;
   }
 
@@ -17,10 +26,52 @@ export const readToken = (): string | null => {
 };
 
 /**
- * Centralized "is the visitor authenticated" rule used by the routing layer
- * (`ProtectedRoute`) and available to any header/user-menu rendering that
- * needs the same decision. Presence-based: a token exists. Token expiry and
- * 401 handling are enforced separately (see the session-expiry work); this
- * module is the single place the app asks "is there a session at all?".
+ * Reads the recorded session expiry (epoch ms). Returns null when no expiry
+ * was recorded — the session then has no client-side expiry.
  */
-export const isAuthenticated = (): boolean => readToken() !== null;
+export const readSessionExpiry = (): number | null => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const raw = window.localStorage.getItem(STORAGE_KEYS.TOKEN_EXPIRES_AT);
+  if (!raw) {
+    return null;
+  }
+
+  const expiresAt = Number(raw);
+  return Number.isFinite(expiresAt) ? expiresAt : null;
+};
+
+/**
+ * Centralized "is the visitor authenticated" rule: a token must exist and,
+ * when an expiry was recorded, must not have passed. A token past its expiry
+ * is treated as signed out. The server's 401 remains the authoritative
+ * signal; the client-side expiry is an optimization.
+ */
+export const isAuthenticated = (): boolean => {
+  if (!readToken()) {
+    return false;
+  }
+
+  const expiresAt = readSessionExpiry();
+  if (expiresAt !== null && expiresAt <= Date.now()) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Centralized reaction to an expired/revoked session (HTTP 401): clears every
+ * session artifact and redirects to /sign-in, preserving the current
+ * destination in a `from` query parameter so sign-in can return the user to
+ * it after re-authentication.
+ */
+export function handleUnauthorized(): void {
+  clearSession();
+
+  const current = `${window.location.pathname}${window.location.search}`;
+  const from = current !== '/sign-in' ? `?from=${encodeURIComponent(current)}` : '';
+  window.location.assign(`/sign-in${from}`);
+}

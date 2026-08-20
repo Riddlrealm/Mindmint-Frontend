@@ -8,9 +8,9 @@ interface ProtectedRouteProps {
 }
 
 /**
- * Route guard: renders `children` only when a session token exists, otherwise
- * redirects to `redirectTo` preserving the requested destination (pathname +
- * search) in navigation state so the sign-in page can return the user to it.
+ * Route guard: renders `children` only when an authenticated (non-expired)
+ * session exists, otherwise redirects to `redirectTo` preserving the
+ * requested path in navigation state.
  */
 const ProtectedRoute = ({
   children,

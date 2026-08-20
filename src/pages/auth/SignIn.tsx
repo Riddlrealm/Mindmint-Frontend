@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { GoogleLogin } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
 import { AuthService } from "../../services/AuthService";
 import type { SignInCredentials } from "../../services/AuthService";
+import { GoogleAuthService, GOOGLE_CLIENT_ID } from "../../services/GoogleAuthService";
 import mindmintLogo from "../../assets/mindmint.png";
-import googleIcon from "../../assets/google.png";
 import appleIcon from "../../assets/apple.png";
 import microsoftIcon from "../../assets/microsoft.png";
 import arrowLeft from "../../assets/arrow-left.svg";
@@ -35,6 +37,26 @@ export default function SignIn() {
       setValidationError("Something went wrong. Please try again.");
     },
   });
+
+  const handleGoogleSuccess = async (response: CredentialResponse) => {
+    if (!response.credential) {
+      setValidationError("Google sign-in failed. Please try again.");
+      return;
+    }
+
+    const result = await GoogleAuthService.handleSignIn(response.credential);
+
+    if (result.success) {
+      setValidationError(null);
+      navigate("/", { replace: true });
+    } else {
+      setValidationError(result.error ?? "Google sign-in failed. Please try again.");
+    }
+  };
+
+  const handleGoogleError = () => {
+    setValidationError("Google sign-in failed. Please try again.");
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,14 +119,16 @@ export default function SignIn() {
 
           {/* Social login buttons */}
           <div className="flex flex-col gap-3 mb-6 w-[85%] max-w-sm mx-auto">
-            <button
-              type="button"
-              className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"
-              style={{ borderColor: BORDER_COLOR, color: "#0A746D" }}
-            >
-              <span>Sign in with Google</span>
-              <img src={googleIcon} alt="" className="w-6 h-6" />
-            </button>
+            {GOOGLE_CLIENT_ID ? (
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                theme="outline"
+                shape="pill"
+                text="signin_with"
+                containerProps={{ className: "w-full flex justify-center" }}
+              />
+            ) : null}
             <button
               type="button"
               className="w-full flex items-center justify-between px-4 py-3 rounded-[100px] border-4 bg-transparent transition-colors hover:bg-white/5"

@@ -44,7 +44,9 @@ export const GoogleAuthService = {
         id: decoded.sub,
       };
 
-      setSession({ token: credential, user });
+      // Record the ID token's expiry (epoch seconds -> ms) so the routing
+      // layer can treat a past-expiry session as signed out.
+      setSession({ token: credential, user, expiresAt: decoded.exp * 1000 });
 
       return { success: true, user };
 

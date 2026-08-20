@@ -13,7 +13,6 @@ import arrowLeft from "../../assets/arrow-left.svg";
 
 const ACCENT_COLOR = "#033330";
 const ACCENT_LIGHT = "#0d4d4a";
-const BORDER_COLOR = "rgba(3, 51, 48, 0.6)";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -126,7 +125,7 @@ export default function SignIn() {
             className="text-center text-2xl font-medium mb-8"
             style={{ color: ACCENT_LIGHT }}
           >
-            Sign in with
+            Sign in
           </h1>
 
           {/* Social login buttons */}
@@ -200,27 +199,18 @@ export default function SignIn() {
               autoComplete="current-password"
             />
 
-            {/* Checkbox + Forgot link */}
-            <div className="flex items-center justify-between gap-4 flex-wrap">
-              <label className="flex items-center gap-2 cursor-pointer" style={{ color: "#D1D1D1" }}>
-                <input
-                  type="checkbox"
-                  checked={remindLater}
-                  onChange={(e) => setRemindLater(e.target.checked)}
-                  disabled={isLoading}
-                  className="w-4 h-4 rounded border-2 bg-transparent"
-                  style={{ borderColor: "#0A746D", accentColor: ACCENT_COLOR }}
-                />
-                <span className="text-sm">Remind me later</span>
-              </label>
-              <Link
-                to="/forgot-password"
-                className="text-sm font-medium hover:underline"
-                style={{ color: ACCENT_LIGHT }}
-              >
-                forgot my login details?
-              </Link>
-            </div>
+            {/* Remind me later */}
+            <label className="flex items-center gap-2 cursor-pointer w-fit" style={{ color: "#D1D1D1" }}>
+              <input
+                type="checkbox"
+                checked={remindLater}
+                onChange={(e) => setRemindLater(e.target.checked)}
+                disabled={isLoading}
+                className="w-4 h-4 rounded border-2 bg-transparent"
+                style={{ borderColor: "#0A746D", accentColor: ACCENT_COLOR }}
+              />
+              <span className="text-sm">Remind me later</span>
+            </label>
 
             {errorMessage && (
               <div
@@ -244,18 +234,6 @@ export default function SignIn() {
               {isLoading ? "Signing in…" : "Continue"}
             </button>
           </form>
-
-          {/* Sign up link */}
-          <p className="text-left mt-2 text-sm" style={{ color: "#6D7485" }}>
-            Do you already have an existing{" "}
-            <Link
-              to="/sign-up"
-              className="font-medium hover:underline"
-              style={{ color: ACCENT_LIGHT }}
-            >
-              account?
-            </Link>
-          </p>
         </div>
       </main>
     </div>

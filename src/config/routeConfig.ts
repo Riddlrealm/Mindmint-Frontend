@@ -21,6 +21,13 @@ export interface RouteItem {
   label: string;
   showInNav: boolean;
   navType?: NavType;
+  /**
+   * When true, the route renders inside `<ProtectedRoute>`: a visitor with no
+   * auth token is redirected to `/sign-in` with the requested destination
+   * preserved in navigation state, and is returned there after a successful
+   * sign-in. Add `isProtected: true` to any route that must require a session.
+   */
+  isProtected?: boolean;
 }
 
 // Single absolute source of truth for routing configuration
@@ -43,6 +50,7 @@ export const routeConfig = [
     element: AccountSettings,
     label: 'Settings',
     showInNav: false,
+    isProtected: true,
   },
   {
     path: '/leaderboard',
@@ -50,6 +58,7 @@ export const routeConfig = [
     label: 'Leaderboard',
     showInNav: true,
     navType: 'main',
+    isProtected: true,
   },
   {
     path: '/dashboard',
@@ -57,6 +66,7 @@ export const routeConfig = [
     label: 'Dashboard',
     showInNav: true,
     navType: 'main',
+    isProtected: true,
   },
   {
     path: '/get-started',
@@ -70,6 +80,7 @@ export const routeConfig = [
     label: 'Store',
     showInNav: true,
     navType: 'main',
+    isProtected: true,
   },
   {
     path: '/game-mode',
@@ -83,6 +94,7 @@ export const routeConfig = [
     element: Gameplay,
     label: 'Play',
     showInNav: false,
+    isProtected: true,
   },
   {
     path: '/landing',

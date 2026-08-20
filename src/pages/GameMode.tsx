@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import GameModeSection from "../components/GameMode/GameModeSection";
 import gameModeCategories from "../assets/game-mode-categories.png";
+import { useAppSelector } from "../hooks";
 
 export default function GameMode() {
+  // The selected mode is shared state (game slice); hand it to /gameplay as a
+  // validated query param so the run survives refresh and deep links.
+  const selectedModeId = useAppSelector((state) => state.game.selectedModeId);
+
   return (
     <div className="min-h-screen bg-[#0F0F0F] text-white">
       {/* Hero Banner */}
@@ -17,7 +22,7 @@ export default function GameMode() {
               every kind of player. Pick one and start playing.
             </p>
             <Link
-              to="/gameplay"
+              to={{ pathname: "/gameplay", search: `?mode=${encodeURIComponent(selectedModeId)}` }}
               title="Start playing Mindmint — enter gameplay"
               className="inline-block px-8 py-3 bg-[#ca8a04] hover:bg-[#b07803] text-white font-bold rounded-xl transition-all duration-200 shadow-lg"
             >

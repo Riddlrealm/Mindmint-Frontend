@@ -20,7 +20,11 @@ const ProtectedRoute = ({
 
   if (!isAuthenticated()) {
     return (
-      <Navigate to={redirectTo} replace state={{ from: location.pathname }} />
+      <Navigate
+        to={redirectTo}
+        replace
+        state={{ from: location.pathname + location.search }}
+      />
     );
   }
 

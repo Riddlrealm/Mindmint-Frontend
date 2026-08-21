@@ -33,4 +33,11 @@ describe('clearSession', () => {
     expect(state.preferences.notificationSchedule).toBe('Daily');
     expect(state.notifications.items).toEqual([]);
   });
+
+  it('resets Zustand theme preference to system and clears storage', () => {
+    localStorage.setItem(STORAGE_KEYS.THEME_PREFERENCE, '{"state":{"preference":"dark"},"version":0}');
+    clearSession();
+
+    expect(localStorage.getItem(STORAGE_KEYS.THEME_PREFERENCE)).toBeNull();
+  });
 });

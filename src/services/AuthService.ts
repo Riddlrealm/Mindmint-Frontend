@@ -54,6 +54,7 @@ const readErrorMessage = (data: unknown, fallback: string): string => {
 
 interface ApiFetchResult {
   ok: boolean;
+  status: number;
   data: unknown;
 }
 
@@ -94,7 +95,7 @@ async function apiFetch(
   const isJson = contentType.includes("application/json");
   const data = isJson ? await res.json().catch(() => ({})) : null;
 
-  return { ok: res.ok && isJson, data };
+  return { ok: res.ok && isJson, status: res.status, data };
 }
 
 export const AuthService = {
@@ -120,33 +121,34 @@ export const AuthService = {
 
       // Fail closed: a 2xx without a session is a backend contract violation,
       // not a successful sign-in. Never navigate the user away in that case.
-      const session = data as { token?: string; user?: AuthUser } | null;
-      if (!session?.token || !session?.user) {
+      const session = data as {
+        token?: string;
+        user?: AuthUser;
+        expiresAt?: number;
+      } | null;
+
+      const { token, user } = session ?? {};
+      if (!token || !user) {
         return {
           success: false,
           error: "Sign-in succeeded but no session was returned.",
         };
       }
 
-      if (data.token && data.user) {
-        // Record an expiry so the routing layer can treat a past-expiry token
-        // as signed out. `expiresAt` from the backend is epoch seconds (JWT
-        // convention); when absent, fall back to the documented TTL.
-        const backendExpiresAt =
-          typeof data.expiresAt === "number" ? data.expiresAt * 1000 : undefined;
+      // Record an expiry so the routing layer can treat a past-expiry token
+      // as signed out. `expiresAt` from the backend is epoch seconds (JWT
+      // convention); when absent, fall back to the documented TTL.
+      const expiresAt = session?.expiresAt;
+      const backendExpiresAt =
+        typeof expiresAt === "number" ? expiresAt * 1000 : undefined;
 
-        setSession({
-          token: data.token,
-          user: data.user,
-          expiresAt: backendExpiresAt ?? Date.now() + DEFAULT_SESSION_TTL_MS,
-        });
-      }
+      setSession({
+        token,
+        user,
+        expiresAt: backendExpiresAt ?? Date.now() + DEFAULT_SESSION_TTL_MS,
+      });
 
-      return {
-        success: true,
-        user: session.user,
-        token: session.token,
-      };
+      return { success: true, user, token };
     } catch (err) {
       console.error("AuthService.signIn error:", err);
       if (err instanceof ApiConfigError) {
@@ -172,19 +174,18 @@ export const AuthService = {
         return { success: false, error: "No token found." };
       }
 
-      const { ok, data } = await apiFetch("/auth/delete", {
+      const { ok, status, data } = await apiFetch("/auth/delete", {
         method: "DELETE",
       });
 
       // A 401 means the session expired or was revoked — that is the
       // centralized expiry path, not a generic deletion failure.
-      if (res.status === 401) {
+      if (status === 401) {
         handleUnauthorized();
         return { success: false, error: SESSION_EXPIRED_ERROR };
       }
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
+      if (!ok) {
         return {
           success: false,
           error: data

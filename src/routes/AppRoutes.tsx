@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import { routeConfig } from "../config/routeConfig";
+import type { RouteItem } from "../config/routeConfig";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => (
   <Routes>
-    {routeConfig.map(({ path, element: Component, isProtected }) => (
+    {routeConfig.map(({ path, element: Component, isProtected }: RouteItem) => (
       <Route
         key={path}
         path={path}

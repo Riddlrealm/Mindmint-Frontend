@@ -7,7 +7,7 @@ import ContributorsSection from "../components/ContributorsSection";
 import FaqsSection from "../components/FaqsSection";
 import GameModeSection from "../components/GameMode/GameModeSection";
 import { RecentActivity } from "../components/RecentActivity";
-import { mockActivities } from "../models/recentActivity";
+import { useRecentActivity } from "../hooks/useRecentActivity";
 import Footer from "../components/Footer";
 
 // Centralized Home Assembly Layout
@@ -24,6 +24,10 @@ const HomeImported = [
 ];
 
 export const Home = () => {
+  // Signed-in visitors see their own recent activity; signed-out visitors get
+  // the empty feed (no unauthenticated request is fired).
+  const activityView = useRecentActivity();
+
   if (HomeImported.some((component) => !component)) {
     return null;
   }
@@ -37,7 +41,7 @@ export const Home = () => {
       <ContributorsSection />
       <FaqsSection />
       <GameModeSection />
-      <RecentActivity activities={mockActivities} />
+      <RecentActivity view={activityView} />
       <Footer />
     </>
   );

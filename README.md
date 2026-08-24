@@ -85,15 +85,47 @@ Mindmint-Frontend/
 The test suite runs with [Vitest](https://vitest.dev/) (jsdom + React Testing Library) and covers the session, auth, and Redux state modules.
 
 ```bash
-# Run the unit tests once (also used by CI)
-npm test
+# Run the Vitest unit/component tests once
+npm run test
 
-# Run tests in watch mode during development
+# Watch mode for local development
 npm run test:watch
-
-# Run tests and emit a coverage report
-npm run test:coverage
 ```
+
+## 🏆 Leaderboard API
+
+The leaderboard (on `/leaderboard` and the Dashboard) is served through the
+shared React Query client (`src/lib/queryClient.ts`), which caches and retries
+requests per its defaults. Data is fetched from `src/services/LeaderboardService.ts`.
+
+**Endpoint contract (agreed with Mindmint-Backend):**
+
+```
+GET {VITE_BACKEND_API_URL}/api/leaderboard?category=score&timePeriod=all_time&limit=100
+Authorization: Bearer <session token>
+```
+
+**Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
+the frontend attaches the persisted session token (`STORAGE_KEYS.TOKEN`) as a
+bearer token whenever one is available.
+
+**Response shape:**
+
+```json
+{
+  "data": [
+    { "playerId": "uuid", "rank": 1, "score": 50000, "name": "Abbas", "avatar": "...", "level": 56, "scoreIcon": "..." }
+  ],
+  "total": 1
+}
+```
+
+`playerId` matches the signed-in user's id and is used to highlight the
+current player's row. `name`, `avatar`, `level`, and `scoreIcon` may be omitted
+while the backend enrichment lands; missing fields degrade to safe defaults
+rather than crashing the view. When `VITE_BACKEND_API_URL` is unset (local dev),
+the leaderboard falls back to the bundled mock fixture in
+`src/data/mockLeaderboardData.ts`.
 
 ## 🚢 Deployment
 

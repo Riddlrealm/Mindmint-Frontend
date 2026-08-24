@@ -82,6 +82,8 @@ Mindmint-Frontend/
 
 ## 🧪 Testing
 
+The test suite runs with [Vitest](https://vitest.dev/) (jsdom + React Testing Library) and covers the session, auth, and Redux state modules.
+
 ```bash
 # Run the Vitest unit/component tests once
 npm run test

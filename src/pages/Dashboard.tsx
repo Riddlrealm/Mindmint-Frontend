@@ -161,7 +161,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <RecentActivity view={activityView} />
           <div>
-            <Leaderboard players={mockLeaderboardPlayers.slice(0, 5)} />
+            <Leaderboard view={leaderboardView} />
           </div>
         </div>
       </div>

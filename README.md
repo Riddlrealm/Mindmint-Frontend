@@ -82,6 +82,8 @@ Mindmint-Frontend/
 
 ## 🧪 Testing
 
+The test suite runs with [Vitest](https://vitest.dev/) (jsdom + React Testing Library) and covers the session, auth, and Redux state modules.
+
 ```bash
 # Run the Vitest unit/component tests once
 npm run test
@@ -148,6 +150,28 @@ degraded to safe defaults rather than crashing the view. When
 `VITE_BACKEND_API_URL` is unset (local dev), the activity feed falls back to
 the bundled mock fixture in `src/models/recentActivity.ts`; stats have no mock
 and surface the error state instead.
+
+**Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
+the frontend attaches the persisted session token (`STORAGE_KEYS.TOKEN`) as a
+bearer token whenever one is available.
+
+**Response shape:**
+
+```json
+{
+  "data": [
+    { "playerId": "uuid", "rank": 1, "score": 50000, "name": "Abbas", "avatar": "...", "level": 56, "scoreIcon": "..." }
+  ],
+  "total": 1
+}
+```
+
+`playerId` matches the signed-in user's id and is used to highlight the
+current player's row. `name`, `avatar`, `level`, and `scoreIcon` may be omitted
+while the backend enrichment lands; missing fields degrade to safe defaults
+rather than crashing the view. When `VITE_BACKEND_API_URL` is unset (local dev),
+the leaderboard falls back to the bundled mock fixture in
+`src/data/mockLeaderboardData.ts`.
 
 ## 🚢 Deployment
 

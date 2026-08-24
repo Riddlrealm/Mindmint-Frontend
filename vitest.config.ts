@@ -13,5 +13,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    env: {
+      // Keeps the queryClient dev warning silent; individual tests override
+      // this per case (including unsetting it for the mock-fallback path).
+      VITE_BACKEND_API_URL: 'http://localhost:3000',
+    },
   },
 });

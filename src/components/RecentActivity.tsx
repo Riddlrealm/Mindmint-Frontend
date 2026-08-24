@@ -1,24 +1,22 @@
 import type { ActivityItem } from "@/types";
-import { usePreparedView } from "../hooks/usePreparedView";
+import type { RecentActivityView } from "../hooks/useRecentActivity";
 import { SurfaceState } from "./state/SurfaceState";
 
 type Props = {
-  activities: ActivityItem[];
+  view: RecentActivityView;
 };
 
-export const RecentActivity = ({ activities }: Props) => {
-  const { data, errorMessage, retry, status } = usePreparedView({
-    deps: [activities],
-    isEmpty: (nextActivities) => nextActivities.length === 0,
-    load: () => activities,
-  });
+const SectionHeader = () => (
+  <h2 className="text-xl font-medium mb-4 uppercase tracking-wide border-b border-gray-700/50 pb-2 inline-block text-[#CFFDED]">
+    Recent
+  </h2>
+);
 
-  if (status === "loading") {
+export const RecentActivity = ({ view }: Props) => {
+  if (view.status === "loading") {
     return (
       <section className="w-full text-white p-4">
-        <h2 className="text-xl font-medium mb-4 uppercase tracking-wide border-b border-gray-700/50 pb-2 inline-block text-[#CFFDED]">
-          Recent
-        </h2>
+        <SectionHeader />
         <SurfaceState
           status="loading"
           title="Loading recent activity"
@@ -28,32 +26,28 @@ export const RecentActivity = ({ activities }: Props) => {
     );
   }
 
-  if (status === "error") {
+  if (view.status === "error") {
     return (
       <section className="w-full text-white p-4">
-        <h2 className="text-xl font-medium mb-4 uppercase tracking-wide border-b border-gray-700/50 pb-2 inline-block text-[#CFFDED]">
-          Recent
-        </h2>
+        <SectionHeader />
         <SurfaceState
           status="error"
           title="Recent activity is unavailable"
           description={
-            errorMessage ??
+            view.errorMessage ??
             "We couldn’t load your latest sessions. Retry to refresh this activity feed."
           }
           actionLabel="Retry"
-          onAction={retry}
+          onAction={view.retry}
         />
       </section>
     );
   }
 
-  if (status === "empty" || !data) {
+  if (view.status === "empty") {
     return (
       <section className="w-full text-white p-4">
-        <h2 className="text-xl font-medium mb-4 uppercase tracking-wide border-b border-gray-700/50 pb-2 inline-block text-[#CFFDED]">
-          Recent
-        </h2>
+        <SectionHeader />
         <SurfaceState
           status="empty"
           title="No activity yet"
@@ -65,13 +59,13 @@ export const RecentActivity = ({ activities }: Props) => {
     );
   }
 
+  const activities: ActivityItem[] = view.items;
+
   return (
     <section className="w-full text-white p-4">
-      <h2 className="text-xl font-medium mb-4 uppercase tracking-wide border-b border-gray-700/50 pb-2 inline-block text-[#CFFDED]">
-        Recent
-      </h2>
+      <SectionHeader />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {data.map((activity) => (
+        {activities.map((activity) => (
           <div
             key={activity.id}
             className="flex items-center gap-4 bg-[#141516] border border-[#323336] rounded-lg p-4 hover:bg-[#1a1b1c] transition-colors"

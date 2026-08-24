@@ -92,18 +92,64 @@ npm run test
 npm run test:watch
 ```
 
-## 🏆 Leaderboard API
+## 📊 Dashboard API
 
-The leaderboard (on `/leaderboard` and the Dashboard) is served through the
-shared React Query client (`src/lib/queryClient.ts`), which caches and retries
-requests per its defaults. Data is fetched from `src/services/LeaderboardService.ts`.
+The Dashboard (and the Recent Activity feed on the landing page) is served
+through the shared React Query client (`src/lib/queryClient.ts`), which caches
+and retries requests per its defaults. Data is fetched from
+`src/services/DashboardService.ts`.
 
-**Endpoint contract (agreed with Mindmint-Backend):**
+**Endpoint contracts (agreed with Mindmint-Backend):**
 
 ```
-GET {VITE_BACKEND_API_URL}/api/leaderboard?category=score&timePeriod=all_time&limit=100
+GET {VITE_BACKEND_API_URL}/api/dashboard/stats
+GET {VITE_BACKEND_API_URL}/api/dashboard/activity?limit=8
 Authorization: Bearer <session token>
 ```
+
+**Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
+requests are only fired when a session token (`STORAGE_KEYS.TOKEN`) exists and
+has not expired. A signed-out or missing-token visitor sees the empty surface
+and never triggers an unauthenticated request.
+
+**Response shapes:**
+
+```json
+// GET /api/dashboard/stats
+{
+  "data": {
+    "totalPoints": 1250,
+    "gamesPlayed": 42,
+    "level": 15,
+    "achievements": 8,
+    "currentXp": 750,
+    "targetXp": 1000
+  }
+}
+
+// GET /api/dashboard/activity?limit=8
+{
+  "data": [
+    {
+      "id": 1,
+      "mode": "Puzzle Game Mode",
+      "level": 22,
+      "groupSize": 10,
+      "participants": 12,
+      "coins": { "gold": 50, "red": 50 },
+      "earnings": 8,
+      "image": "/bag-coins.svg"
+    }
+  ]
+}
+```
+
+Both mappers also accept the bare object/array (no `data` wrapper) and tolerate
+string numbers (Postgres `bigint` columns). Malformed entries are dropped or
+degraded to safe defaults rather than crashing the view. When
+`VITE_BACKEND_API_URL` is unset (local dev), the activity feed falls back to
+the bundled mock fixture in `src/models/recentActivity.ts`; stats have no mock
+and surface the error state instead.
 
 **Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
 the frontend attaches the persisted session token (`STORAGE_KEYS.TOKEN`) as a

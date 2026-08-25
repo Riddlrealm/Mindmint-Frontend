@@ -1,33 +1,105 @@
-# Mindmint - Frontend
+# Mindmint — Frontend
 
-The frontend application for **Mindmint**, a thought-provoking logic puzzle game built on the Stellar blockchain. This React-based interface provides an engaging and intuitive user experience for players to solve puzzles and earn on-chain rewards.
+The frontend application for **Mindmint**, a thought-provoking logic puzzle game. This
+React + TypeScript SPA provides an engaging user experience for solving puzzles and
+tracking progress, backed by the Mindmint REST API.
 
-## 🚀 Features
+## ✨ Features
 
-* **Interactive Puzzle Interface**: Smooth, responsive UI for solving logic puzzles
-* **Stellar Wallet Integration**: Connect with Freighter and other Stellar wallets
-* **Real-time Progress Tracking**: Visual feedback on puzzle completion and achievements
-* **NFT Gallery**: Display earned achievement NFTs from completed puzzles
-* **Token Management**: View and manage XLM and custom tokens for unlocking content
-* **Responsive Design**: Optimized for desktop and mobile gameplay
+### Implemented
 
-## 🛠️ Tech Stack
+- **Puzzle gameplay** — interactive UI for answering logic-puzzle questions across
+  multiple game modes, with Redux-managed game state.
+- **Authentication** — email/password sign-in and "Sign in with Google" (OAuth 2.0)
+  wired to the backend. Sessions are persisted to `localStorage` with JWT expiry.
+- **Dashboard** — personal stats (points, games played, level, achievements, XP
+  progress bar) and a recent-activity feed. Both are fetched from the backend via
+  TanStack React Query; the activity feed falls back to a bundled mock fixture in
+  local dev when the backend URL is not configured.
+- **Leaderboard** — a podium + ranked-table leaderboard backed by the backend
+  (with category/time-period params in the API contract); falls back to mock
+  data in local dev.
+- **Store** — a styled catalog of coin packs and lifelines (static data — see
+  _Not yet implemented_ below).
+- **Account settings** — profile form, account deletion, notification preferences.
+- **Theming** — light/dark mode toggle persisted via Zustand.
+- **Protected routes** — unauthenticated visitors are redirected to `/sign-in` and
+  returned after login.
+- **Responsive design** — optimized for desktop and mobile.
 
-* **Framework**: React 18+
-* **Styling**: TailwindCSS
-* **State Management**: React Context API / Redux
-* **Blockchain Integration**: Stellar SDK, Soroban RPC
-* **Wallet Connection**: Freighter Wallet API
-* **Build Tool**: Vite
-* **Type Safety**: TypeScript
+### Not yet implemented
 
-## 📦 Installation
+- **Wallet integration** — no Stellar, Soroban, or Freighter code exists in the
+  frontend. On-chain rewards are _not_ currently available.
+- **Store checkout / purchases** — the `/store` page renders a catalog, but the
+  buy buttons are not wired to a backend or wallet.
+- **NFT gallery** — achievement NFTs are not yet integrated.
+- **Token management** — no XLM or custom-token balance display.
+
+---
+
+## 🛠 Tech Stack
+
+| Layer               | Technology                                       |
+| -------------------- | ------------------------------------------------ |
+| UI framework         | React 19 + TypeScript                            |
+| Build tool           | Vite 7                                           |
+| Styling              | Tailwind CSS 4 (`@tailwindcss/vite`)             |
+| State management     | Redux Toolkit, Zustand                           |
+| Server state / cache | TanStack React Query (v5)                        |
+| Routing              | React Router 7                                   |
+| OAuth                | `@react-oauth/google` (Google sign-in)           |
+| Icons                | Lucide React                                     |
+| Testing              | Vitest 4 + Testing Library + jsdom               |
+| Linting              | ESLint 9 + typescript-eslint                     |
+| CI                   | GitHub Actions — `npm ci && npm test`            |
+
+---
+
+## 📁 Project Structure
+
+```
+Mindmint-Frontend/
+├── public/               # Static assets (favicon, etc.)
+├── src/
+│   ├── assets/           # Images, icons
+│   ├── components/       # Reusable UI (Navbar, Footer, toasts, game UI, modals, …)
+│   ├── config/           # Route definitions — the single source of truth for paths
+│   ├── data/             # Mock fixtures (game modes, store items, leaderboard, …)
+│   ├── features/         # Redux slices grouped by domain (preferences, notifications)
+│   ├── hooks/            # Custom hooks (dashboard, leaderboard, recent activity, …)
+│   ├── lib/              # Shared clients (React Query client)
+│   ├── models/           # TypeScript interfaces and mock-fixture objects
+│   ├── pages/            # Route-level page components
+│   ├── routes/           # `<AppRoutes />` component
+│   ├── services/         # API services (auth, dashboard, leaderboard)
+│   ├── session/          # Session persistence, expiry, and auth guards
+│   ├── test/             # Vitest setup (Testing Library matchers, jsdom)
+│   ├── theme/            # Dark/light mode store and hook (Zustand)
+│   ├── App.tsx           # Layout shell (nav, toasts, Suspense)
+│   ├── AppProviders.tsx  # Wraps the tree with Google OAuth provider when configured
+│   ├── main.tsx          # Application entry point (React DOM + providers)
+│   ├── store.ts          # Redux store (preferences, notifications, game state)
+│   └── types.ts          # Shared types (UserStats, ActivityItem, LeaderboardPlayer)
+├── .env.example
+├── package.json
+├── vitest.config.ts
+├── tsconfig.json
+├── vite.config.ts
+├── eslint.config.js
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+**Prerequisites:** Node.js 20.19+ / 22.12+ / 24+ (Vite 7 minimum; the CI runs
+Node 24).
 
 ```bash
 # Clone the repository
 git clone https://github.com/Riddlrealm/Mindmint-Frontend.git
-
-# Navigate to the project directory
 cd Mindmint-Frontend
 
 # Install dependencies
@@ -35,87 +107,97 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-# Edit .env with your Stellar network configuration
+# Edit .env with your backend URL and (optionally) Google OAuth client id
 
 # Start the development server
 npm run dev
 ```
 
-## 🔧 Configuration
+The dev server starts at `http://localhost:5173` by default.
 
-Create a `.env` file in the root directory with the following variables:
+---
 
-```env
-VITE_STELLAR_NETWORK=testnet
-VITE_SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
-VITE_BACKEND_API_URL=http://localhost:3000
-VITE_CONTRACT_ADDRESS=your_contract_address
-```
+## 🔧 Environment Variables
 
-## 🎮 Usage
+| Variable                  | Required | Description                                                        |
+| ------------------------- | -------- | ------------------------------------------------------------------ |
+| `VITE_BACKEND_API_URL`    | yes      | Backend REST API base URL (no trailing slash). Auth, dashboard, and leaderboard calls fail closed when this is unset. |
+| `VITE_GOOGLE_CLIENT_ID`   | no       | Google OAuth 2.0 client id. The "Sign in with Google" button is only mounted when this is set. |
+| `VITE_CONTRIBUTORS_REPO`  | no       | GitHub repo in `owner/repo` format for the contributors carousel. Defaults to `Riddlrealm/Mindmint-Frontend`. |
 
-1. **Connect Wallet**: Click "Connect Wallet" to link your Freighter wallet
-2. **Browse Puzzles**: Explore available puzzles organized by difficulty
-3. **Solve Challenges**: Complete logic puzzles to earn points and rewards
-4. **Claim NFTs**: Mint achievement NFTs for completing puzzle milestones
-5. **Unlock Content**: Use tokens to access hints and special levels
+Variables that existed in earlier versions (`VITE_STELLAR_NETWORK`,
+`VITE_SOROBAN_RPC_URL`, `VITE_CONTRACT_ADDRESS`) are **not read** by any
+source file — they were removed when the Stellar/Soroban integration was
+de-scoped.
 
-## 📁 Project Structure
+---
 
-```
-Mindmint-Frontend/
-├── public/
-├── src/
-│   ├── assets/          # Images, icons, and static files
-│   ├── components/      # Reusable UI components
-│   ├── pages/           # Page components
-│   ├── services/        # API and blockchain services
-│   ├── utils/           # Helper functions
-│   ├── hooks/           # Custom React hooks
-│   ├── contexts/        # React contexts
-│   ├── App.tsx          # Main application component
-│   └── main.tsx         # Application entry point
-├── .env.example
-├── package.json
-└── README.md
-```
+## 📜 Scripts
+
+| Command            | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| `npm run dev`      | Start the Vite dev server with HMR                      |
+| `npm run build`    | Type-check (`tsc -b`) then production bundle (`vite build`) |
+| `npm run lint`     | Lint the project with ESLint                            |
+| `npm test`         | Run the Vitest test suite once (used by CI)             |
+| `npm run test:watch` | Run tests in watch mode for development              |
+| `npm run preview`  | Preview the production build locally                    |
+
+---
 
 ## 🧪 Testing
 
-The test suite runs with [Vitest](https://vitest.dev/) (jsdom + React Testing Library) and covers the session, auth, and Redux state modules.
+The test suite uses **Vitest** with the **jsdom** environment and **Testing
+Library** (React, DOM, jest-dom). Tests live alongside the modules they
+exercise (e.g., `src/session/setSession.test.ts`,
+`src/services/DashboardService.test.ts`).
+
+Coverage is collected with `@vitest/coverage-v8`:
 
 ```bash
-# Run the Vitest unit/component tests once
-npm run test
+# Single run (used in CI)
+npm test
 
-# Watch mode for local development
+# Watch mode
 npm run test:watch
 ```
 
-## 📊 Dashboard API
+---
 
-The Dashboard (and the Recent Activity feed on the landing page) is served
-through the shared React Query client (`src/lib/queryClient.ts`), which caches
-and retries requests per its defaults. Data is fetched from
-`src/services/DashboardService.ts`.
+## 🔌 Backend API
 
-**Endpoint contracts (agreed with Mindmint-Backend):**
+All data-fetching goes through the React Query client (`src/lib/queryClient.ts`)
+with caching, automatic retries, and stale-time management.
+
+### Authentication
+
+| Endpoint                            | Method | Authenticated | Description                 |
+| ----------------------------------- | ------ | ------------- | --------------------------- |
+| `{VITE_BACKEND_API_URL}/auth/signin` | POST   | no            | Email/password sign-in      |
+| `{VITE_BACKEND_API_URL}/auth/google` | POST   | no            | Google sign-in (ID token)   |
+| `{VITE_BACKEND_API_URL}/auth/delete` | DELETE | yes           | Delete the current account  |
+
+**Sign-in response** (`POST /auth/signin`, `POST /auth/google`):
+```json
+{
+  "token": "<jwt>",
+  "user": { "id": "…", "email": "…", "name": "…", "picture": "…" }
+}
+```
+The token and user are persisted to `localStorage` (keys defined in
+`src/session/storageKeys.ts`). Expiry is tracked so the routing layer can
+redirect expired sessions to `/sign-in`.
+
+### Dashboard
 
 ```
 GET {VITE_BACKEND_API_URL}/api/dashboard/stats
 GET {VITE_BACKEND_API_URL}/api/dashboard/activity?limit=8
-Authorization: Bearer <session token>
+Authorization: Bearer <token>
 ```
 
-**Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
-requests are only fired when a session token (`STORAGE_KEYS.TOKEN`) exists and
-has not expired. A signed-out or missing-token visitor sees the empty surface
-and never triggers an unauthenticated request.
-
-**Response shapes:**
-
+**Stats** (`/api/dashboard/stats`):
 ```json
-// GET /api/dashboard/stats
 {
   "data": {
     "totalPoints": 1250,
@@ -126,8 +208,10 @@ and never triggers an unauthenticated request.
     "targetXp": 1000
   }
 }
+```
 
-// GET /api/dashboard/activity?limit=8
+**Activity** (`/api/dashboard/activity?limit=8`):
+```json
 {
   "data": [
     {
@@ -144,66 +228,77 @@ and never triggers an unauthenticated request.
 }
 ```
 
-Both mappers also accept the bare object/array (no `data` wrapper) and tolerate
-string numbers (Postgres `bigint` columns). Malformed entries are dropped or
-degraded to safe defaults rather than crashing the view. When
-`VITE_BACKEND_API_URL` is unset (local dev), the activity feed falls back to
-the bundled mock fixture in `src/models/recentActivity.ts`; stats have no mock
-and surface the error state instead.
+When `VITE_BACKEND_API_URL` is unset (local dev), the activity feed falls back
+to the mock fixture in `src/models/recentActivity.ts`; stats surface an error
+state instead.
 
-**Auth requirement:** the API gateway's `JwtAuthGuard` protects every route, so
-the frontend attaches the persisted session token (`STORAGE_KEYS.TOKEN`) as a
-bearer token whenever one is available.
+### Leaderboard
+
+```
+GET {VITE_BACKEND_API_URL}/api/leaderboard?category=score&timePeriod=all_time&limit=100
+Authorization: Bearer <token>
+```
 
 **Response shape:**
-
 ```json
 {
   "data": [
-    { "playerId": "uuid", "rank": 1, "score": 50000, "name": "Abbas", "avatar": "...", "level": 56, "scoreIcon": "..." }
+    {
+      "playerId": "uuid",
+      "rank": 1,
+      "score": 50000,
+      "name": "Abbas",
+      "avatar": "…",
+      "level": 56,
+      "scoreIcon": "…"
+    }
   ],
   "total": 1
 }
 ```
 
-`playerId` matches the signed-in user's id and is used to highlight the
-current player's row. `name`, `avatar`, `level`, and `scoreIcon` may be omitted
-while the backend enrichment lands; missing fields degrade to safe defaults
-rather than crashing the view. When `VITE_BACKEND_API_URL` is unset (local dev),
-the leaderboard falls back to the bundled mock fixture in
-`src/data/mockLeaderboardData.ts`.
+The current player's row is highlighted by matching `playerId`. When
+`VITE_BACKEND_API_URL` is unset (local dev), the leaderboard falls back to the
+mock fixture in `src/data/mockLeaderboardData.ts`.
+
+---
 
 ## 🚢 Deployment
 
 ```bash
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm run build     # type-check + production bundle
+npm run preview   # preview the production build locally
 ```
+
+The `dist/` directory is the deployable artifact (static files served by any
+web server or CDN).
+
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for a guide
+to setting up the project, understanding the codebase, and submitting pull
+requests.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+---
 
-Please ensure your code follows the project's coding standards and includes appropriate tests.
+## 🔗 Related Repositories
+
+| Repository                                                       | Relationship |
+| ---------------------------------------------------------------- | ------------ |
+| [Mindmint Backend](https://github.com/Riddlrealm/Mindmint-Backend) | REST API backing auth, dashboard, leaderboard, and activity endpoints. |
+| [Mindmint Smart Contracts](https://github.com/Riddlrealm/Mindmint-Contract) | Smart contracts reserved for the future on-chain wallet/rewards features — **not yet integrated** in the frontend. |
+
+---
 
 ## 📄 License
 
 This project is licensed under the **MIT License**.
 
-## 🔗 Related Repositories
-
-* [Mindmint Backend](https://github.com/Riddlrealm/Mindmint-Backend)
-* [Mindmint Smart Contracts](https://github.com/Riddlrealm/Mindmint-Contract)
+---
 
 ## 💬 Support
 
-For questions or support, please open an issue or join our community discussions.
+For questions or support, please open an issue or join our community
+discussions.

@@ -28,6 +28,8 @@ describe('AuthService.signIn', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    window.localStorage.clear();
+    window.sessionStorage.clear();
   });
 
   it('returns the session and persists it on success', async () => {

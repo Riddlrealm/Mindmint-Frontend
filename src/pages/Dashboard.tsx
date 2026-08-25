@@ -2,8 +2,8 @@ import { Trophy, Gamepad2, TrendingUp, Star } from 'lucide-react';
 import { RecentActivity } from '../components/RecentActivity';
 import Leaderboard from '../components/Leaderboard';
 import { SurfaceState } from '../components/state/SurfaceState';
-import { mockLeaderboardPlayers } from '../data/mockLeaderboardData';
 import { useDashboardStats } from '../hooks/useDashboardStats';
+import { useLeaderboard } from '../hooks/useLeaderboard';
 import type { DashboardStatsView } from '../hooks/useDashboardStats';
 import { useRecentActivity } from '../hooks/useRecentActivity';
 import { STORAGE_KEYS } from '../session/storageKeys';
@@ -140,6 +140,7 @@ const Dashboard = () => {
   // without credentials.
   const statsView = useDashboardStats();
   const activityView = useRecentActivity();
+  const leaderboardView = useLeaderboard();
 
   return (
     <div className="bg-[#0F0F0F] min-h-screen text-white">

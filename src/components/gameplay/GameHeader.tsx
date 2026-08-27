@@ -1,11 +1,11 @@
-import coinsIcon from '../../assets/images/pngs/coins.png';
-import callAFriend from '../../assets/images/pngs/call_a_friend.png';
-import fiftyFifty from '../../assets/images/pngs/fifty_fifty.png';
-import door from '../../assets/images/pngs/door.png';
-import mindmintLogo from '../../assets/images/pngs/mindmint_logo.png';
-import audience from '../../assets/images/pngs/audience.png';
-import bell from '../../assets/images/pngs/bell.png';
-import avatar from '../../assets/images/pngs/avatar.png';
+import coinsIcon from '../../assets/images/pngs/coins.webp';
+import callAFriend from '../../assets/images/pngs/call_a_friend.webp';
+import fiftyFifty from '../../assets/images/pngs/fifty_fifty.webp';
+import door from '../../assets/images/pngs/door.webp';
+import mindmintLogo from '../../assets/images/pngs/mindmint_logo.webp';
+import audience from '../../assets/images/pngs/audience.webp';
+import bell from '../../assets/images/pngs/bell.webp';
+import avatar from '../../assets/images/pngs/avatar.webp';
 
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
@@ -44,7 +44,7 @@ const GameHeader = () => {
         className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
       >
         <div className="w-10 h-10">
-          <img src={mindmintLogo} alt="" className="w-full h-full" />
+          <img src={mindmintLogo} alt="" className="w-full h-full" decoding="async" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white group-hover:text-yellow-500 transition-colors">
           <span className="sr-only">Mindmint home</span>
@@ -76,7 +76,7 @@ const GameHeader = () => {
             className="p-0 border-0 bg-transparent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
             aria-label="Notifications"
           >
-            <img src={bell} alt="" className="w-10 h-10" />
+            <img src={bell} alt="" className="w-10 h-10" decoding="async" />
           </button>
           <button
             type="button"
@@ -84,14 +84,14 @@ const GameHeader = () => {
             className="p-0 border-0 bg-transparent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
             aria-label="Exit game"
           >
-            <img src={door} alt="" className="w-10 h-10" />
+            <img src={door} alt="" className="w-10 h-10" decoding="async" />
           </button>
           <NavLink
             to="/settings"
             aria-label="Account settings"
             className="block w-8 h-8 rounded-full bg-cyan-200 overflow-hidden border border-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
           >
-            <img src={avatar} alt="" className="w-full h-full object-cover" />
+            <img src={avatar} alt="" className="w-full h-full object-cover" decoding="async" />
           </NavLink>
         </div>
       </div>

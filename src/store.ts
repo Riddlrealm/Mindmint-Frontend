@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import preferencesReducer from './features/preferences/preferencesSlice';
 import notificationsReducer from './features/notifications/notificationsSlice';
+import storeReducer from './features/store/storeSlice';
 import gameReducer from './components/GameMode/gameSliceStore';
 import gameplayReducer from './features/gameplay/gameplaySlice';
 
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     preferences: preferencesReducer,
     notifications: notificationsReducer,
+    store: storeReducer,
     game: gameReducer,
     gameplay: gameplayReducer,
   },

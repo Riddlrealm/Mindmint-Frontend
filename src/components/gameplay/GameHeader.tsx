@@ -1,13 +1,14 @@
-import coinsIcon from '../../assets/images/pngs/coins.png';
-import callAFriend from '../../assets/images/pngs/call_a_friend.png';
-import fiftyFifty from '../../assets/images/pngs/fifty_fifty.png';
-import door from '../../assets/images/pngs/door.png';
-import mindmintLogo from '../../assets/images/pngs/mindmint_logo.png';
-import audience from '../../assets/images/pngs/audience.png';
-import bell from '../../assets/images/pngs/bell.png';
-import avatar from '../../assets/images/pngs/avatar.png';
+import coinsIcon from '../../assets/images/pngs/coins.webp';
+import callAFriend from '../../assets/images/pngs/call_a_friend.webp';
+import fiftyFifty from '../../assets/images/pngs/fifty_fifty.webp';
+import door from '../../assets/images/pngs/door.webp';
+import mindmintLogo from '../../assets/images/pngs/mindmint_logo.webp';
+import audience from '../../assets/images/pngs/audience.webp';
+import bell from '../../assets/images/pngs/bell.webp';
+import avatar from '../../assets/images/pngs/avatar.webp';
 
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 
 const navItemClass =
   'hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]';
@@ -15,17 +16,27 @@ const navItemClass =
 interface GroupProps {
   icon: string;
   label: string;
+  /** Live count from the signed-in user's wallet; omitted until loaded. */
+  count?: number;
 }
 
-const Group = ({ icon, label }: GroupProps) => (
+const Group = ({ icon, label, count }: GroupProps) => (
   <div className="flex items-center gap-2">
     <span className="text-sm font-medium">{label}</span>
-    <img src={icon} alt="" className="w-10 h-10" aria-hidden="true" />
+    <span className="relative">
+      <img src={icon} alt="" className="w-10 h-10" aria-hidden="true" />
+      {count !== undefined && (
+        <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#F9BC07] text-black text-[11px] font-bold flex items-center justify-center">
+          {count}
+        </span>
+      )}
+    </span>
   </div>
 );
 
 const GameHeader = () => {
   const navigate = useNavigate();
+  const wallet = useAppSelector((s) => s.store.wallet);
   return (
     <header className="flex items-center justify-between bg-[#0a0a0a] px-8 py-4 text-white border-b border-gray-800">
       <Link
@@ -33,7 +44,7 @@ const GameHeader = () => {
         className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
       >
         <div className="w-10 h-10">
-          <img src={mindmintLogo} alt="" className="w-full h-full" />
+          <img src={mindmintLogo} alt="" className="w-full h-full" decoding="async" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white group-hover:text-yellow-500 transition-colors">
           <span className="sr-only">Mindmint home</span>
@@ -54,10 +65,10 @@ const GameHeader = () => {
       </nav>
 
       <div className="flex items-center gap-6">
-        <Group label="Coins" icon={coinsIcon} />
-        <Group label="Call a friend" icon={callAFriend} />
-        <Group label="50 : 50" icon={fiftyFifty} />
-        <Group label="Audience" icon={audience} />
+        <Group label="Coins" icon={coinsIcon} count={wallet?.coins} />
+        <Group label="Call a friend" icon={callAFriend} count={wallet?.lifelines.callAFriend} />
+        <Group label="50 : 50" icon={fiftyFifty} count={wallet?.lifelines.fiftyFifty} />
+        <Group label="Audience" icon={audience} count={wallet?.lifelines.audience} />
 
         <div className="flex items-center gap-4 ml-4 border-l border-gray-700 pl-4">
           <button
@@ -65,7 +76,7 @@ const GameHeader = () => {
             className="p-0 border-0 bg-transparent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
             aria-label="Notifications"
           >
-            <img src={bell} alt="" className="w-10 h-10" />
+            <img src={bell} alt="" className="w-10 h-10" decoding="async" />
           </button>
           <button
             type="button"
@@ -73,14 +84,14 @@ const GameHeader = () => {
             className="p-0 border-0 bg-transparent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
             aria-label="Exit game"
           >
-            <img src={door} alt="" className="w-10 h-10" />
+            <img src={door} alt="" className="w-10 h-10" decoding="async" />
           </button>
           <NavLink
             to="/settings"
             aria-label="Account settings"
             className="block w-8 h-8 rounded-full bg-cyan-200 overflow-hidden border border-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
           >
-            <img src={avatar} alt="" className="w-full h-full object-cover" />
+            <img src={avatar} alt="" className="w-full h-full object-cover" decoding="async" />
           </NavLink>
         </div>
       </div>

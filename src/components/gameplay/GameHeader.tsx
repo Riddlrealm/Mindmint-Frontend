@@ -8,6 +8,7 @@ import bell from '../../assets/images/pngs/bell.webp';
 import avatar from '../../assets/images/pngs/avatar.webp';
 
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 
 const navItemClass =
   'hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F9BC07] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]';
@@ -15,17 +16,27 @@ const navItemClass =
 interface GroupProps {
   icon: string;
   label: string;
+  /** Live count from the signed-in user's wallet; omitted until loaded. */
+  count?: number;
 }
 
-const Group = ({ icon, label }: GroupProps) => (
+const Group = ({ icon, label, count }: GroupProps) => (
   <div className="flex items-center gap-2">
     <span className="text-sm font-medium">{label}</span>
-    <img src={icon} alt="" className="w-10 h-10" aria-hidden="true" decoding="async" />
+    <span className="relative">
+      <img src={icon} alt="" className="w-10 h-10" aria-hidden="true" />
+      {count !== undefined && (
+        <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#F9BC07] text-black text-[11px] font-bold flex items-center justify-center">
+          {count}
+        </span>
+      )}
+    </span>
   </div>
 );
 
 const GameHeader = () => {
   const navigate = useNavigate();
+  const wallet = useAppSelector((s) => s.store.wallet);
   return (
     <header className="flex items-center justify-between bg-[#0a0a0a] px-8 py-4 text-white border-b border-gray-800">
       <Link
@@ -54,10 +65,10 @@ const GameHeader = () => {
       </nav>
 
       <div className="flex items-center gap-6">
-        <Group label="Coins" icon={coinsIcon} />
-        <Group label="Call a friend" icon={callAFriend} />
-        <Group label="50 : 50" icon={fiftyFifty} />
-        <Group label="Audience" icon={audience} />
+        <Group label="Coins" icon={coinsIcon} count={wallet?.coins} />
+        <Group label="Call a friend" icon={callAFriend} count={wallet?.lifelines.callAFriend} />
+        <Group label="50 : 50" icon={fiftyFifty} count={wallet?.lifelines.fiftyFifty} />
+        <Group label="Audience" icon={audience} count={wallet?.lifelines.audience} />
 
         <div className="flex items-center gap-4 ml-4 border-l border-gray-700 pl-4">
           <button

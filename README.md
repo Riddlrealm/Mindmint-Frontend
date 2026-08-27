@@ -263,6 +263,52 @@ mock fixture in `src/data/mockLeaderboardData.ts`.
 
 ---
 
+## 🛒 Store Purchase Flow
+
+The Store (`src/pages/Store.tsx`) is a real purchase flow backed by the
+Mindmint backend. **Trust boundary:** the backend is the sole authority on
+pricing, deduction, and balances — the client never sends a price and only
+renders a wallet the server confirmed. A purchase is complete only when the
+`POST` returns the authoritative post-purchase wallet.
+
+**Endpoint contracts (agreed with Mindmint-Backend):**
+
+```
+GET  {VITE_BACKEND_API_URL}/api/store/wallet
+POST {VITE_BACKEND_API_URL}/api/store/purchase   body: { "itemType": "coin-pack" | "lifeline", "itemId": number }
+Authorization: Bearer <session token>
+```
+
+**Response shapes (both endpoints):**
+
+```json
+{
+  "data": {
+    "coins": 500,
+    "lifelines": { "fiftyFifty": 1, "callAFriend": 2, "audience": 0 }
+  }
+}
+```
+
+`coins` is the spendable balance; `lifelines` are owned counts per lifeline.
+The mapper (`mapWalletResponse` in `src/services/StoreService.ts`) also accepts
+the bare object (no `data` wrapper), coerces string numbers (Postgres `bigint`
+columns), and degrades malformed responses to a null wallet that fails closed
+rather than fabricating a balance.
+
+**Client behavior:**
+
+- Buy buttons show a loading state while the purchase is in flight and are
+disabled during it, so a double-click can never fire two purchases.
+- A failed or unconfirmed purchase surfaces the server's message through the
+toast system (`src/components/toasts/`) and an inline error banner, and never
+increments the displayed balance.
+- The confirmed wallet is cached in localStorage keyed to the signed-in user
+(`STORAGE_KEYS.WALLET_STATE`, cleared on logout) for instant render and dev
+mode; the backend stays the source of truth.
+- The gameplay header (`src/components/gameplay/GameHeader.tsx`) shows the
+live coin balance and owned lifeline counts from the same wallet state.
+
 ## 🚢 Deployment
 
 ```bash

@@ -1,5 +1,6 @@
 import { clearNotifications } from '../features/notifications/notificationsSlice';
 import { resetPreferences } from '../features/preferences/preferencesSlice';
+import { resetStore } from '../features/store/storeSlice';
 import { queryClient } from '../lib/queryClient';
 import { store } from '../store';
 import { STORAGE_KEYS } from './storageKeys';
@@ -35,4 +36,5 @@ export function clearSession() {
   queryClient.clear();
   store.dispatch(resetPreferences());
   store.dispatch(clearNotifications());
+  store.dispatch(resetStore());
 }

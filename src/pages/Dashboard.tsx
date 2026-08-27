@@ -7,6 +7,7 @@ import { useLeaderboard } from '../hooks/useLeaderboard';
 import type { DashboardStatsView } from '../hooks/useDashboardStats';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 import { useRecentActivity } from '../hooks/useRecentActivity';
+import { useLeaderboard } from '../hooks/useLeaderboard';
 import { STORAGE_KEYS } from '../session/storageKeys';
 import { readJson } from '../session/storage';
 import type { UserStats } from '../types';

@@ -23,6 +23,9 @@ function jsonResponse(status: number, body: unknown) {
 
 describe('AuthService.signIn', () => {
   beforeEach(() => {
+    // Tests in this file write real session entries (token/user/expiry);
+    // clear them so cases stay order-independent.
+    localStorage.clear();
     vi.spyOn(console, 'error').mockImplementation(() => {});
     // Each case starts with a clean session so a token persisted by an
     // earlier test can never mask a fail-closed assertion.

@@ -195,6 +195,8 @@ We welcome contributions! Please follow these steps:
 
 Please ensure your code follows the project's coding standards and includes appropriate tests.
 
+When adding or changing images, follow the [Asset Policy](ASSET_POLICY.md) (WebP, ≤ 250 KB per asset, sized to ~2× rendered size, lazy-load offscreen images).
+
 ## 📄 License
 
 This project is licensed under the **MIT License**.

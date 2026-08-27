@@ -24,10 +24,14 @@ function jsonResponse(status: number, body: unknown) {
 describe('AuthService.signIn', () => {
   beforeEach(() => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
+    // Each case starts with a clean session so a token persisted by an
+    // earlier test can never mask a fail-closed assertion.
+    window.localStorage.clear();
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    window.localStorage.clear();
   });
 
   it('returns the session and persists it on success', async () => {

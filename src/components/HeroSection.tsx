@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import hero from "../assets/hero-image.png";
+import hero from "../assets/hero-image.webp";
 import laptop from "../assets/hero-bg.jpg";
 
 const HeroSection = () => {
@@ -52,6 +52,8 @@ const HeroSection = () => {
               src={hero}
               alt="Mindmint Gameplay on Laptop"
               className="w-full h-auto object-contain"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

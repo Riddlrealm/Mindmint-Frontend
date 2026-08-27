@@ -3,6 +3,7 @@ import { RecentActivity } from '../components/RecentActivity';
 import Leaderboard from '../components/Leaderboard';
 import { SurfaceState } from '../components/state/SurfaceState';
 import { useDashboardStats } from '../hooks/useDashboardStats';
+import { useLeaderboard } from '../hooks/useLeaderboard';
 import type { DashboardStatsView } from '../hooks/useDashboardStats';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 import { useRecentActivity } from '../hooks/useRecentActivity';

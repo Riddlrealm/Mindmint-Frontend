@@ -1,5 +1,6 @@
 import { clearNotifications } from '../features/notifications/notificationsSlice';
 import { resetPreferences } from '../features/preferences/preferencesSlice';
+import { resetStore } from '../features/store/storeSlice';
 import { queryClient } from '../lib/queryClient';
 import { store } from '../store';
 import { useThemeStore } from '../theme/themeStore';

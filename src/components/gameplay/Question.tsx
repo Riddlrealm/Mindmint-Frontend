@@ -1,5 +1,5 @@
 import React from 'react';
-import timerIcon from '../../assets/images/pngs/clock.png'; 
+import timerIcon from '../../assets/images/pngs/clock.webp'; 
 
 interface QuestionProps {
   questionText: string;

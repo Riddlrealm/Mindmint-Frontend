@@ -39,3 +39,30 @@ export interface LeaderboardPlayer {
   score: number;
   scoreIcon: string;
 }
+
+/**
+ * The three purchasable lifelines. The key doubles as the inventory bucket
+ * name in `WalletState.lifelines` and as the `inventoryKey` on each
+ * `LifelineItem` in `src/data/storeItems.ts`.
+ */
+export type LifelineId = "fiftyFifty" | "callAFriend" | "audience";
+
+export interface LifelineInventory {
+  fiftyFifty: number;
+  callAFriend: number;
+  audience: number;
+}
+
+/**
+ * A user's store wallet: spendable coin balance plus owned lifeline counts.
+ *
+ * The backend is the source of truth — the client never prices or deducts on
+ * its own. The wallet returned by a confirmed purchase (or by the wallet
+ * fetch) is what the UI renders, and a snapshot is cached in localStorage
+ * keyed to the signed-in user (`STORAGE_KEYS.WALLET_STATE`) purely for offline
+ * display and dev-mode fallback.
+ */
+export interface WalletState {
+  coins: number;
+  lifelines: LifelineInventory;
+}

@@ -13,6 +13,8 @@ export const STORAGE_KEYS = {
   NOTIFICATION_SCHEDULE: 'mindmint_notification_schedule',
   GAMEPLAY_RUN: 'mindmint_gameplay_run',
   COMPLETED_RUNS: 'mindmint_completed_runs',
+  WALLET_STATE: 'mindmint_wallet_state',
+  THEME_PREFERENCE: 'mindmint_theme_preference',
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

@@ -36,6 +36,7 @@ export function clearSession() {
   queryClient.clear();
   store.dispatch(resetPreferences());
   store.dispatch(clearNotifications());
+  store.dispatch(resetStore());
   useThemeStore.getState().resetTheme();
   useThemeStore.persist?.clearStorage();
 

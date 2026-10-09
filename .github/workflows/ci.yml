@@ -21,8 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Asset size budget
-        run: npm run check:assets
+      - name: Lint
+        run: npm run lint
 
       - name: Test
         run: npm test
+
+      - name: Build
+        # `npm run build` runs `tsc -b`, the asset-size budget
+        # (check:assets) and `vite build`, so this covers type-checking and
+        # the production bundle in one step.
+        run: npm run build

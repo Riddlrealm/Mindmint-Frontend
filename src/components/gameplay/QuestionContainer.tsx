@@ -26,12 +26,18 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // 1. Reset state when the question changes (New Level)
-  useEffect(() => {
+  // 1. Reset state when the question changes (New Level). Adjusting state
+  // during render (rather than in an effect) avoids a redundant render pass and
+  // is React's recommended pattern for "reset state when a prop changes":
+  // https://react.dev/reference/react/useState#storing-information-from-previous-renders
+  const [questionKey, setQuestionKey] = useState(`${questionText}\u0000${timeLimit}`);
+  const currentQuestionKey = `${questionText}\u0000${timeLimit}`;
+  if (questionKey !== currentQuestionKey) {
+    setQuestionKey(currentQuestionKey);
     setSelectedAnswerIndex(null);
     setIsSubmitted(false);
     setTimeLeft(timeLimit);
-  }, [questionText, timeLimit]);
+  }
 
   // 2. Logic: Evaluation Sequence
   useEffect(() => {
